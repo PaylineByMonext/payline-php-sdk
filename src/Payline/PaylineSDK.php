@@ -12,9 +12,9 @@ namespace Payline;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use SoapClient;
-$rootPath = realpath(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR;
-$classesPath = $rootPath . 'src' . DIRECTORY_SEPARATOR . 'Payline' . DIRECTORY_SEPARATOR;
-require_once $rootPath . 'vendor/autoload.php';
+$vendorPath = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR;
+$classesPath = $vendorPath . 'monext' . DIRECTORY_SEPARATOR . 'payline-sdk' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Payline' . DIRECTORY_SEPARATOR;
+require_once $vendorPath . 'autoload.php';
 require_once $classesPath . 'Payment.class.php';
 require_once $classesPath . 'Order.class.php';
 require_once $classesPath . 'OrderDetail.class.php';
@@ -1837,7 +1837,8 @@ class PaylineSDK
      * Custom base64 url encoding.
      * Replace unsafe url chars
      *
-     * @param string $input message to encode           
+     * @param string $input
+     *            message to encode
      * @return string
      */
     public function base64_url_encode($input)
@@ -1850,7 +1851,8 @@ class PaylineSDK
      * Replace custom url safe values with normal
      * base64 characters before decoding.
      *
-     * @param string $input message to decode            
+     * @param string $input
+     *            message to decode
      * @return string
      */
     public function base64_url_decode($input)
