@@ -1,5 +1,5 @@
 {
-	"name" : "payline/payline",
+	"name" : "payline/sdk",
 	"description" : "Payline library for PHP",
 	"keywords" : [
 		"Monext",
@@ -16,7 +16,7 @@
 	],
 	"require" : {
 		"php" : ">=5.3.0",
-		"monolog/monolog": "1.0.*"
+		"monolog/monolog" : "1.0.*"
 	},
 	"support" : {
 		"email" : "support@payline.com",
