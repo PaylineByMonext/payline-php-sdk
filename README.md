@@ -1,3 +1,7 @@
+[![Latest Stable Version](https://poser.pugx.org/monext/payline-sdk/v/stable)](https://packagist.org/packages/monext/payline-sdk)
+[![Total Downloads](https://poser.pugx.org/monext/payline-sdk/downloads)](https://packagist.org/packages/monext/payline-sdk)
+[![License](https://poser.pugx.org/monext/payline-sdk/license)](https://packagist.org/packages/monext/payline-sdk)
+
 PaylineSDK - Payline library for PHP
 ====================================
 
