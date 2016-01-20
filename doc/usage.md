@@ -4,43 +4,26 @@ Using Payline
 Installation
 ------------
 
-To install Monolog, simply get the code (from github or through Composer) and
+To install PaylineSDK, simply get the code (from github or through Composer) and
 configure an autoloader for the Payline namespace.
 
 
 Create a PaylineSDK instance
 ----------------------------
 
-Here is a basic setup to log to a file and to firephp on the DEBUG level:
+Here is a basic setup to create a PaylineSDK instance
 
 ```php
-<?php
+ use Payline\PaylineSDK;
 
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\FirePHPHandler;
-
-// Create the logger
-$logger = new Logger('my_logger');
-// Now add some handlers
-$logger->pushHandler(new StreamHandler(__DIR__.'/my_app.log', Logger::DEBUG));
-$logger->pushHandler(new FirePHPHandler());
-
-// You can now use your logger
-$logger->addInfo('My logger is now ready');
+    // create an instance
+    $paylineSDK = new PaylineSDK($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment[, $pathLog]);
+    /*
+    $environment determines in which Payline environment your request are targeted.
+    It should be filled with either PaylineSDK::ENV_HOMO (for testing purpose) or PaylineSDK::ENV_PROD (real life)
+    If $pathLog is null, log files will be written under default logs directory. Set to 0 if you don't want any log, or fill with your custom log files path
+    */
 ```
-
-Let's explain it. The first step is to create the logger instance which will
-be used in your code. The argument is a channel name, which is useful when
-you use several loggers (see below for more details about it).
-
-The logger itself does not know how to handle a record. It delegates it to
-some handlers. The code above registers two handlers in the stack to allow
-handling records in two different ways.
-
-Note that the FirePHPHandler is called first as it is added on top of the
-stack. This allows you to temporarily add a logger with bubbling disabled if
-you want to override other configured loggers.
 
 Call a Payline web service
 --------------------------

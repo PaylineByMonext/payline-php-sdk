@@ -3,7 +3,7 @@ PaylineSDK - Payline library for PHP
 
 Usage
 -----
-
+```php
     use Payline\PaylineSDK;
 
     // create an instance
@@ -32,12 +32,12 @@ Usage
 	$doWebPaymentRequest['payment']['contractNumber'] = '1234567';
 	
 	$doWebPaymentResponse = $paylineSDK->doWebPayment($doWebPaymentRequest);
-    
+```    
 
 Docs
 ====
 
-**See the doc/ directory for more detailed documentation. More information available on http://support.payline.com.**
+See the doc/ directory for more detailed documentation. More information available on http://support.payline.com.
 
 
 About
@@ -46,7 +46,7 @@ About
 Requirements
 ------------
 
-- Compliant with PHP 5.3 and over
+Compliant with PHP 5.3 and over
 
 
 Author
@@ -57,4 +57,4 @@ Fabien SUAREZ - <fabien.suarez@payline.com>
 License
 -------
 
-Payline is licensed under the LGPL-2.0+ License - see the LICENSE file for details
+Payline is licensed under the LGPL-3.0+ License - see the LICENSE file for details
