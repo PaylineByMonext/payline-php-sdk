@@ -1,5 +1,5 @@
 {
-	"name" : "payline/sdk",
+	"name" : "monext/payline-sdk",
 	"description" : "Payline library for PHP",
 	"keywords" : [
 		"Monext",
