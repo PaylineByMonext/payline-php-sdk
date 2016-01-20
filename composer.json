@@ -1,0 +1,33 @@
+{
+	"name" : "payline/payline",
+	"description" : "Payline library for PHP",
+	"keywords" : [
+		"Monext",
+		"Payline",
+		"payment"
+	],
+	"type" : "library",
+	"license" : "LGPL-3.0",
+	"authors" : [{
+			"name" : "Fabien SUAREZ",
+			"email" : "fabien.suarez@payline.com",
+			"homepage" : "http://www.payline.com"
+		}
+	],
+	"require" : {
+		"php" : ">=5.3.0",
+		"monolog/monolog": "1.0.*"
+	},
+	"support" : {
+		"email" : "support@payline.com",
+		"docs" : "http://support.payline.com"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Payline\\" : "src/Payline"
+		},
+		"psr-0" : {
+			"Payline\\" : "src/Payline"
+		}
+	}
+}
