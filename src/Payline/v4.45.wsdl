@@ -1617,9 +1617,10 @@
 					<element minOccurs="0" name="fraudResultDetails" nillable="true" type="tns1:fraudResultDetails"/>
 					<element minOccurs="0" name="explanation" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="threeDSecure" nillable="true" type="xsd:string"/>
+					<element minOccurs="0" name="softDescriptor" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="score" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="externalWalletType" nillable="true" type="xsd:string"/>
-					<element minOccurs="0" name="externalWalletContractNumber" nillable="true" type="xsd:string"/>
+					<element minOccurs="0" name="externalWalletContractNumber" nillable="true" type="xsd:string"/>					
 
 				</sequence>
 			</complexType>
@@ -1652,6 +1653,7 @@
 					<element name="contractNumber" nillable="false" type="xsd:string"/>
 					<element minOccurs="0" name="differedActionDate" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="method" nillable="true" type="xsd:string"/>
+					<element name="softDescriptor" nillable="true" type="xsd:string"/>
 				</sequence>
 			</complexType>
 			<complexType name="authorization">

@@ -25,4 +25,6 @@ class Payment
     public $contractNumber;
 
     public $differedActionDate;
+
+    public $softDescriptor;
 }

@@ -38,12 +38,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const PAYLINE_RELEASE = '4.44.1';
+    const SDK_RELEASE = 'PHP SDK 4.45';
 
     /**
      * path to WSDL file
      */
-    const WSDL = 'v4.44.1.wsdl';
+    const WSDL = 'v4.45.wsdl';
 
     /**
      * homologation environment flag
@@ -170,9 +170,14 @@ class PaylineSDK
      */
     const PROD_GET_TOKEN_SERVLET = "https://webpayment.payline.com/webpayment/getToken";
     
-    // Administration center
+    /**
+     * homologation administration center URL
+     */
     const HOMO_CA = 'https://homologation-admin.payline.com';
 
+    /**
+     * administration center URL 
+     */
     const PROD_CA = 'https://admin.payline.com';
 
     /**
@@ -249,7 +254,6 @@ class PaylineSDK
             $this->header_soap['proxy_login'] = $proxy_login;
             $this->header_soap['proxy_password'] = $proxy_password;
         }
-        $this->environment = $environment;
         if (strcmp($environment, PaylineSDK::ENV_HOMO) == 0) {
             $this->webServicesEndpoint = PaylineSDK::HOMO_ENDPOINT;
         } elseif (strcmp($environment, PaylineSDK::ENV_PROD) == 0) {
@@ -260,7 +264,7 @@ class PaylineSDK
         $this->orderDetails = array();
         $this->privateData = array();
         
-        ini_set('user_agent', "PHP\r\nversion: PHP SDK " . PaylineSDK::PAYLINE_RELEASE);
+        ini_set('user_agent', "PHP\r\nversion: " . PaylineSDK::SDK_RELEASE);
     }
 
     /**
@@ -1019,7 +1023,7 @@ class PaylineSDK
     public function usedBy($toolName)
     {
         $this->usedBy = $toolName;
-        ini_set('user_agent', "PHP\r\nversion: " . $toolName . " - PHP SDK " . PaylineSDK::PAYLINE_RELEASE);
+        ini_set('user_agent', "PHP\r\nversion: " . $toolName . ' - ' . PaylineSDK::SDK_RELEASE);
     }
 
     /**

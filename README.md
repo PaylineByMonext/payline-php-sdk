@@ -11,11 +11,11 @@ Usage
     use Payline\PaylineSDK;
 
     // create an instance
-    $paylineSDK = new PaylineSDK($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment[, $pathLog]);
+    $paylineSDK = new PaylineSDK($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment[, $pathLog= null[, $logLevel = Logger::INFO]]);
     /*
     $environment determines in which Payline environment your request are targeted.
     It should be filled with either PaylineSDK::ENV_HOMO (for testing purpose) or PaylineSDK::ENV_PROD (real life)
-    If $pathLog is null, log files will be written under default logs directory. Set to 0 if you don't want any log, or fill with your custom log files path
+    If $pathLog is null, log files will be written under default logs directory. Fill with your custom log files path
     */
 
     // call a web service, for example doWebPayment
@@ -51,6 +51,7 @@ Requirements
 ------------
 
 Compliant with PHP 5.3 and over
+Requires monolog/monolog, just let Composer do the job
 
 
 Author
