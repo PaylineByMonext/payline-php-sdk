@@ -12,6 +12,8 @@ namespace Payline;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use SoapClient;
+use SoapVar;
+
 $vendorPath = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR;
 $classesPath = $vendorPath . 'monext' . DIRECTORY_SEPARATOR . 'payline-sdk' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Payline' . DIRECTORY_SEPARATOR;
 require_once $vendorPath . 'autoload.php';
@@ -31,6 +33,7 @@ require_once $classesPath . 'Wallet.class.php';
 require_once $classesPath . 'Authorization.class.php';
 require_once $classesPath . 'Creditor.class.php';
 require_once $classesPath . 'Cheque.class.php';
+require_once $classesPath . 'Recurring.class.php';
 
 class PaylineSDK
 {
@@ -38,12 +41,22 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.45';
+    const SDK_RELEASE = 'PHP SDK 4.45.1';
 
     /**
-     * path to WSDL file
+     * WSDL file name
      */
-    const WSDL = 'v4.45.wsdl';
+    const WSDL = 'v4.45.1.wsdl';
+
+    /**
+     * development environment flag
+     */
+    const ENV_DEV = "DEV";
+    
+    /**
+     * integration environment flag
+     */
+    const ENV_INT = "INT";
 
     /**
      * homologation environment flag
@@ -148,7 +161,22 @@ class PaylineSDK
     /**
      * SOAP name of billingRecordForUpdate object
      */
-    const BILLING_RECORD_FOR_UPDATE = 'billingRecordForUpdate';
+    const SOAP_BILLING_RECORD_FOR_UPDATE = 'billingRecordForUpdate';
+
+    /**
+     * SOAP name of recurring object
+     */
+    const SOAP_RECURRING = 'recurring';
+
+    /**
+     * web services endpoint in development environment
+     */
+    const DEV_ENDPOINT = 'https://ws.dev.payline.com/V4/services/';
+
+    /**
+     * web services endpoint in integration environment
+     */
+    const INT_ENDPOINT = 'https://ws.int.payline.com/V4/services/';
 
     /**
      * web services endpoint in homologation environment
@@ -159,6 +187,16 @@ class PaylineSDK
      * web services endpoint in production environment
      */
     const PROD_ENDPOINT = 'https://services.payline.com/V4/services/';
+    
+    /**
+     * URL of getToken servlet, used by AJAX API, in development environment
+     */
+    const DEV_GET_TOKEN_SERVLET = "https://webpayment.dev.payline.com/webpayment/getToken";
+    
+    /**
+     * URL of getToken servlet, used by AJAX API, in integration environment
+     */
+    const INT_GET_TOKEN_SERVLET = "https://webpayment.int.payline.com/webpayment/getToken";
 
     /**
      * URL of getToken servlet, used by AJAX API, in homologation environment
@@ -169,6 +207,36 @@ class PaylineSDK
      * URL of getToken servlet, used by AJAX API, in production environment
      */
     const PROD_GET_TOKEN_SERVLET = "https://webpayment.payline.com/webpayment/getToken";
+    
+    /**
+     * Widget JavaScript in development environment
+     */
+    const DEV_WDGT_JS = "https://webpayment.dev.payline.com/payline-widget/scripts/widget-min.js";
+    
+    /**
+     * Widget JavaScript in homologation environment
+     */
+    const HOMO_WDGT_JS = "https://homologation-payment.payline.com/scripts/widget-min.js";
+    
+    /**
+     * Widget JavaScript in production environment
+     */
+    const PROD_WDGT_JS = "https://payment.payline.com/scripts/widget-min.js";
+    
+    /**
+     * Widget css in development environment
+     */
+    const DEV_WDGT_CSS = "https://webpayment.dev.payline.com/payline-widget/styles/widget-min.css";  
+    
+    /**
+     * Widget css in homologation environment
+     */
+    const HOMO_WDGT_CSS = "https://homologation-payment.payline.com/styles/widget-min.css";    
+    
+    /**
+     * Widget css in production environment
+     */
+    const PROD_WDGT_CSS = "https://payment.payline.com/styles/widget-min.css";
     
     /**
      * homologation administration center URL
@@ -229,6 +297,7 @@ class PaylineSDK
      */
     function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO)
     {
+        date_default_timezone_set("Europe/Paris");
         $this->logger = new Logger('PaylineSDK');
         if (is_null($pathLog)) {
             $this->logger->pushHandler(new StreamHandler(realpath(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . date('Y-m-d') . '.log', $logLevel)); // set default log folder
@@ -258,6 +327,10 @@ class PaylineSDK
             $this->webServicesEndpoint = PaylineSDK::HOMO_ENDPOINT;
         } elseif (strcmp($environment, PaylineSDK::ENV_PROD) == 0) {
             $this->webServicesEndpoint = PaylineSDK::PROD_ENDPOINT;
+        } elseif (strcmp($environment, PaylineSDK::ENV_DEV) == 0) {
+            $this->webServicesEndpoint = PaylineSDK::DEV_ENDPOINT;
+        } elseif (strcmp($environment, PaylineSDK::ENV_INT) == 0) {
+            $this->webServicesEndpoint = PaylineSDK::INT_ENDPOINT;
         }
         $this->header_soap['style'] = SOAP_DOCUMENT;
         $this->header_soap['use'] = SOAP_LITERAL;
@@ -475,7 +548,7 @@ class PaylineSDK
                     $billingRecordForUpdate->$k = $v;
             }
         }
-        return new \SoapVar($billingRecordForUpdate, SOAP_ENC_OBJECT, PaylineSDK::BILLING_RECORD_FOR_UPDATE, PaylineSDK::PAYLINE_NAMESPACE);
+        return new \SoapVar($billingRecordForUpdate, SOAP_ENC_OBJECT, PaylineSDK::SOAP_BILLING_RECORD_FOR_UPDATE, PaylineSDK::PAYLINE_NAMESPACE);
     }
 
     /**
@@ -563,6 +636,26 @@ class PaylineSDK
             }
         }
         return new \SoapVar($cheque, SOAP_ENC_OBJECT, PaylineSDK::SOAP_CHEQUE, PaylineSDK::PAYLINE_NAMESPACE);
+    }
+    
+    /**
+     * build Recurring instance from $array and make SoapVar object for recurring
+     *
+     * @param array $array
+     *            the array keys are listed in Recurring CLASS.
+     * @return SoapVar representation of Recurring instance
+     */
+    protected function recurring($array)
+    {
+        $recurring = new Recurring();
+        if ($array && is_array($array)) {
+            foreach ($array as $k => $v) {
+                if (array_key_exists($k, $recurring) && (strlen($v))) {
+                    $recurring->$k = $v;
+                }
+            }
+        }
+        return new \SoapVar($recurring, SOAP_ENC_OBJECT, PaylineSDK::SOAP_RECURRING, PaylineSDK::PAYLINE_NAMESPACE);
     }
 
     /**
@@ -1003,7 +1096,8 @@ class PaylineSDK
             $this->logger->addInfo($Method . 'Request', $logRequest);
             $this->logger->addError('Exception occured at ' . $Method . ' call', array(
                 'code' => $e->getCode(),
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'endpoint' => $this->webServicesEndpoint . $PaylineAPI
             ));
             $ERROR = array();
             $ERROR['result']['code'] = PaylineSDK::ERR_CODE;
