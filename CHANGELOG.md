@@ -1,3 +1,28 @@
+* 4.46.1 (2016-06-06)
+  * contractNumberWalletList can have 99 contractNumberWallet elements
+
+* 4.46 (2016-05-10)
+
+  * add of PaResStatus and VeResStatus (Authentication3DSecure class)
+  * response format : child nodes of cardinality higher to 1 are sent in an integer-indexed array, in any cases (1 element of index 0 if node has only 1 child).
+  This applies to nodes :
+	- cards (son of cardsList)
+	- billingRecord (son of billingRecordList)
+	- walletId (son of walletIdList)
+	- transaction (son of transactionList)
+	- pointOfSell (son of listPointOfSell)
+	- contract (son of contracts)
+	- customPaymentPageCode (son of customPaymentPageCodeList)
+	- function (son of functions)
+	- details (son of details)
+	- privateData (son of privateDataList)
+	- associatedTransactions (son of associatedTransactionsList)
+	- statusHistory (son of statusHistoryList)
+	- paymentAdditional (son of paymentAdditionalList)
+	- CustomerTrans (son of CustomerTransHist)
+	- PaymentMeansTrans (son of PaymentMeansTransHist)
+	- AlertsTrans (son of AlertsTransHist) 
+
 * 4.45.1 (2016-03-10)
 
   * add of Recurring class

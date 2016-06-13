@@ -1498,6 +1498,8 @@
 					<element name="code" nillable="false" type="xsd:string"/>
 					<element minOccurs="0" name="shortMessage" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="longMessage" nillable="true" type="xsd:string"/>
+					<element minOccurs="0" name="partnerCode" nillable="true" type="xsd:string"/>
+					<element minOccurs="0" name="partnerCodeLabel" nillable="true" type="xsd:string"/>
 				</sequence>
 			</complexType>
 			<complexType name="cardOut">
@@ -1620,7 +1622,8 @@
 					<element minOccurs="0" name="softDescriptor" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="score" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="externalWalletType" nillable="true" type="xsd:string"/>
-					<element minOccurs="0" name="externalWalletContractNumber" nillable="true" type="xsd:string"/>					
+					<element minOccurs="0" name="externalWalletContractNumber" nillable="true" type="xsd:string"/>
+					
 
 				</sequence>
 			</complexType>
@@ -1821,7 +1824,7 @@
 					</documentation>
 				</annotation>
 				<sequence>
-					<element maxOccurs="10" minOccurs="0" name="contractNumberWallet" type="xsd:string"/>
+					<element maxOccurs="99" minOccurs="0" name="contractNumberWallet" type="xsd:string"/>
 				</sequence>
 			</complexType>
 			<complexType name="cardsList">
@@ -1832,36 +1835,6 @@
 				</annotation>
 				<sequence>
 					<element maxOccurs="99" minOccurs="0" name="cards" type="tns1:cards"/>
-				</sequence>
-			</complexType>
-			<complexType name="captureAuthorizationList">
-				<annotation>
-					<documentation>
-						An array of authorization to capture
-					</documentation>
-				</annotation>
-				<sequence>
-					<element maxOccurs="5000" minOccurs="1" name="capture" type="tns1:capture"/>
-				</sequence>
-			</complexType>
-			<complexType name="refundAuthorizationList">
-				<annotation>
-					<documentation>
-						An array of authorization to refund
-					</documentation>
-				</annotation>
-				<sequence>
-					<element maxOccurs="5000" minOccurs="1" name="refund" type="tns1:refund"/>
-				</sequence>
-			</complexType>
-			<complexType name="resetAuthorizationList">
-				<annotation>
-					<documentation>
-						An array of authorization to reset
-					</documentation>
-				</annotation>
-				<sequence>
-					<element maxOccurs="5000" minOccurs="1" name="transactionID" type="xsd:string"/>
 				</sequence>
 			</complexType>
 			<complexType name="recurring">
@@ -2017,6 +1990,8 @@
 					<element minOccurs="0" name="cavvAlgorithm" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="vadsResult" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="typeSecurisation" nillable="true" type="xsd:string"/>
+					<element minOccurs="0" name="PaResStatus" nillable="true" type="xsd:string"/>
+					<element minOccurs="0" name="VeResStatus" nillable="true" type="xsd:string"/>
 				</sequence>
 			</complexType>
 			<complexType name="connectionData">

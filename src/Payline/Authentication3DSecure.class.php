@@ -27,4 +27,8 @@ class Authentication3DSecure
     public $vadsResult;
 
     public $typeSecurisation;
+
+    public $PaResStatus;
+
+    public $VeResStatus;
 }

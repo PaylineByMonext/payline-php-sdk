@@ -41,12 +41,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.45.1';
+    const SDK_RELEASE = 'PHP SDK 4.46.1';
 
     /**
      * WSDL file name
      */
-    const WSDL = 'v4.45.1.wsdl';
+    const WSDL = 'v4.46.1.wsdl';
 
     /**
      * development environment flag
@@ -272,7 +272,29 @@ class PaylineSDK
      * array containing private data
      */
     private $privateData;
-
+    
+    /**
+     * array containing parent-child nodes associations
+     */
+    private $parentNode = array(
+        'cards'                    => 'cardsList',
+        'billingRecord'            => 'billingRecordList',
+        'walletId'                 => 'walletIdList',
+        'transaction'              => 'transactionList',
+        'pointOfSell'              => 'listPointOfSell',
+        'contract'                 => 'contracts',
+        'customPaymentPageCode'    => 'customPaymentPageCodeList',
+        'function'                 => 'functions',
+        'details'                  => 'details',
+        'privateData'              => 'privateDataList',
+        'associatedTransactions'   => 'associatedTransactionsList',
+        'statusHistory'            => 'statusHistoryList',
+        'paymentAdditional'        => 'paymentAdditionalList',
+        'CustomerTrans'            => 'CustomerTransHist',
+        'PaymentMeansTrans'        => 'PaymentMeansTransHist',
+        'AlertsTrans'              => 'AlertsTransHist'
+    );
+    
     /**
      * PaylineSDK class constructor
      *
@@ -314,14 +336,14 @@ class PaylineSDK
             'proxy_password' => $this->hideChars($proxy_password, 1, 1),
             'environment' => $environment
         ));
-        $this->header_soap = array();
-        $this->header_soap['login'] = $merchant_id;
-        $this->header_soap['password'] = $access_key;
+        $this->soapclient_options = array();
+        $this->soapclient_options['login'] = $merchant_id;
+        $this->soapclient_options['password'] = $access_key;
         if ($proxy_host != '') {
-            $this->header_soap['proxy_host'] = $proxy_host;
-            $this->header_soap['proxy_port'] = $proxy_port;
-            $this->header_soap['proxy_login'] = $proxy_login;
-            $this->header_soap['proxy_password'] = $proxy_password;
+            $this->soapclient_options['proxy_host'] = $proxy_host;
+            $this->soapclient_options['proxy_port'] = $proxy_port;
+            $this->soapclient_options['proxy_login'] = $proxy_login;
+            $this->soapclient_options['proxy_password'] = $proxy_password;
         }
         if (strcmp($environment, PaylineSDK::ENV_HOMO) == 0) {
             $this->webServicesEndpoint = PaylineSDK::HOMO_ENDPOINT;
@@ -332,8 +354,9 @@ class PaylineSDK
         } elseif (strcmp($environment, PaylineSDK::ENV_INT) == 0) {
             $this->webServicesEndpoint = PaylineSDK::INT_ENDPOINT;
         }
-        $this->header_soap['style'] = SOAP_DOCUMENT;
-        $this->header_soap['use'] = SOAP_LITERAL;
+        $this->soapclient_options['style'] = defined(SOAP_DOCUMENT) ? SOAP_DOCUMENT : 2;
+        $this->soapclient_options['use'] = defined(SOAP_LITERAL) ? SOAP_LITERAL : 2;
+        $this->soapclient_options['connection_timeout'] = 5;
         $this->orderDetails = array();
         $this->privateData = array();
         
@@ -679,27 +702,54 @@ class PaylineSDK
         $outString .= substr($inString, - ($n2));
         return $outString;
     }
-
+    
+    /**
+     *
+     * @param String $nodeName name of a node in a web service response
+     * @param String $parentName name of its parent
+     * @return boolean whether $nodeName is child from a list or not
+     */
+    private function isChildFromList($nodeName,$parentName){
+        if(array_key_exists($nodeName, $this->parentNode)){
+            if(strcmp($this->parentNode[$nodeName],$parentName) == 0){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * make an array from a payline server response object.
      *
-     * @param object $response
-     *            response from payline
+     * @param object $node
+     *            response node from payline web service
+     * @param string $parent
+     *            name of the node's parent
      * @return array representation of the object
      */
-    private static function responseToArray($response)
+    private function responseToArray($node,$parent=null)
     {
         $array = array();
-        foreach ($response as $k => $v) {
-            if (is_object($v) || is_array($v)) {
-                $array[$k] = PaylineSDK::responseToArray($v);
+        foreach ($node as $k => $v) {
+            if ($this->isChildFromList($k, $parent)) { // current value is a list
+                if(count($v) == 1 && $k != '0'){ // a list with 1 element. It's returned with a 0-index
+                    $array[$k][0] = PaylineSDK::responseToArray($v,$k);
+                }elseif(is_object($v) || is_array($v)){ // a list with more than 1 element
+                    $array[$k] = PaylineSDK::responseToArray($v,$k);
+                }else{
+                    $array[$k] = $v;
+                }
             } else {
-                $array[$k] = $v;
+                if(is_object($v) || is_array($v)){
+                    $array[$k] = PaylineSDK::responseToArray($v,$k);
+                }else{
+                    $array[$k] = $v;
+                }
             }
         }
         return $array;
     }
-
+        
     /**
      * Adds indexes with null values to the web services request array, in order to prevent SOAP format exception
      *
@@ -775,7 +825,7 @@ class PaylineSDK
             'result.code' => null
         );
         try {
-            $client = new SoapClient(dirname(__FILE__) . '/' . PaylineSDK::WSDL, $this->header_soap);
+            $client = new SoapClient(dirname(__FILE__) . '/' . PaylineSDK::WSDL, $this->soapclient_options);
             $client->__setLocation($this->webServicesEndpoint . $PaylineAPI);
             
             $WSRequest['version'] = isset($array['version']) && strlen($array['version']) ? $array['version'] : '';
@@ -1098,11 +1148,13 @@ class PaylineSDK
                 'code' => $e->getCode(),
                 'message' => $e->getMessage(),
                 'endpoint' => $this->webServicesEndpoint . $PaylineAPI
-            ));
+            )); 
             $ERROR = array();
             $ERROR['result']['code'] = PaylineSDK::ERR_CODE;
             $ERROR['result']['longMessage'] = $e->getMessage();
             $ERROR['result']['shortMessage'] = $e->getMessage();
+            $ERROR['result']['partnerCode'] = null;
+            $ERROR['result']['partnerCodeLabel'] = null;
             return $ERROR;
         }
     }
