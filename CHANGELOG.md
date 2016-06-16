@@ -1,3 +1,16 @@
+* 4.47 (2016-06-16)
+  * new buyer properties :
+  	- deviceFingerprint
+  	- isBot
+  	- isIncognito
+  	- isBehindProxy
+  	- isFromTor
+  	- isEmulator
+  	- isRooted
+  	- hasTimezoneMismatch
+  * new property cardBrand for payment and wallet objets
+  * new property version for getCardsRequest
+
 * 4.46.1 (2016-06-06)
   * contractNumberWalletList can have 99 contractNumberWallet elements
 

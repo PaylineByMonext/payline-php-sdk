@@ -51,4 +51,20 @@ class Buyer
     public $birthDate;
 
     public $fingerprintID;
+
+    public $deviceFingerprint;
+
+    public $isBot;
+
+    public $isIncognito;
+
+    public $isBehindProxy;
+
+    public $isFromTor;
+
+    public $isEmulator;
+
+    public $isRooted;
+
+    public $hasTimezoneMismatch;
 }

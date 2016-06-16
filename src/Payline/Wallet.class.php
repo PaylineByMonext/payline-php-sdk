@@ -29,4 +29,6 @@ class Wallet
     public $default;
 
     public $cardStatus;
+
+    public $cardBrand;
 }

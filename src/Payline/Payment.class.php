@@ -27,4 +27,6 @@ class Payment
     public $differedActionDate;
 
     public $softDescriptor;
+
+    public $cardBrand;
 }
