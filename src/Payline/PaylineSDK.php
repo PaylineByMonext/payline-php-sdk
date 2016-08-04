@@ -1574,7 +1574,8 @@ class PaylineSDK
             'userAgent' => $array['userAgent'],
             'mdFieldValue' => $array['mdFieldValue'],
             'walletId' => $array['walletId'],
-            'walletCardInd' => $array['walletCardInd']
+            'walletCardInd' => $array['walletCardInd'],
+            'generateVirtualCvx' => $array['generateVirtualCvx']
         );
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'verifyEnrollment');
     }
