@@ -1,3 +1,6 @@
+* 4.47.1 (2016-08-04)
+  * new property generateVirtualCvx for verifyEnrollmentRequest 
+  
 * 4.47 (2016-06-16)
   * new buyer properties :
   	- deviceFingerprint
