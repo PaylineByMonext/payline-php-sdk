@@ -41,12 +41,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.47.1';
+    const SDK_RELEASE = 'PHP SDK 4.48';
 
     /**
      * WSDL file name
      */
-    const WSDL = 'v4.47.1.wsdl';
+    const WSDL = 'v4.48.wsdl';
 
     /**
      * development environment flag
@@ -345,18 +345,31 @@ class PaylineSDK
             $this->soapclient_options['proxy_login'] = $proxy_login;
             $this->soapclient_options['proxy_password'] = $proxy_password;
         }
+        $plnInternal = false;
         if (strcmp($environment, PaylineSDK::ENV_HOMO) == 0) {
             $this->webServicesEndpoint = PaylineSDK::HOMO_ENDPOINT;
         } elseif (strcmp($environment, PaylineSDK::ENV_PROD) == 0) {
             $this->webServicesEndpoint = PaylineSDK::PROD_ENDPOINT;
         } elseif (strcmp($environment, PaylineSDK::ENV_DEV) == 0) {
             $this->webServicesEndpoint = PaylineSDK::DEV_ENDPOINT;
+            $plnInternal = true;
         } elseif (strcmp($environment, PaylineSDK::ENV_INT) == 0) {
             $this->webServicesEndpoint = PaylineSDK::INT_ENDPOINT;
+            $plnInternal = true;
         }
         $this->soapclient_options['style'] = defined(SOAP_DOCUMENT) ? SOAP_DOCUMENT : 2;
         $this->soapclient_options['use'] = defined(SOAP_LITERAL) ? SOAP_LITERAL : 2;
         $this->soapclient_options['connection_timeout'] = 5;
+        if($plnInternal){
+            $this->soapclient_options['stream_context'] = stream_context_create(
+                array(
+                    'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false
+                    )
+                )
+            );
+        }
         $this->orderDetails = array();
         $this->privateData = array();
         
@@ -1971,7 +1984,8 @@ class PaylineSDK
     {
         $WSRequest = array(
             'AlertId' => $array['AlertId'],
-            'TransactionId' => $array['TransactionId']
+            'TransactionId' => $array['TransactionId'],
+            'TransactionDate' => $array['TransactionDate']
         );
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::EXTENDED_API, 'getAlertDetails');
     }

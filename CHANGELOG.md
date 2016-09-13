@@ -1,3 +1,7 @@
+
+* 4.48 (2016-09-13)
+  * new properties version and TransactionDate for getAlertDetailsRequest
+    
 * 4.47.1 (2016-08-04)
   * new property generateVirtualCvx for verifyEnrollmentRequest 
   
