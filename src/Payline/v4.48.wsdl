@@ -3502,7 +3502,17 @@
   </wsdl:binding>
   <wsdl:service name="WebPaymentAPI">
     <wsdl:port name="WebPaymentAPI" binding="impl:WebPaymentAPISoapBinding">
-      <wsdlsoap:address location="http://host/V4/services/WebPaymentAPI"/>
+      <wsdlsoap:address location="https://homologation.payline.com/V4/services/WebPaymentAPI"/>
+    </wsdl:port>
+  </wsdl:service>
+  <wsdl:service name="ExtendedAPI">
+    <wsdl:port name="ExtendedAPI" binding="impl:ExtendedAPISoapBinding">
+      <wsdlsoap:address location="https://homologation.payline.com/V4/services/ExtendedAPI"/>
+    </wsdl:port>
+  </wsdl:service>
+  <wsdl:service name="DirectPaymentAPI">
+    <wsdl:port name="DirectPaymentAPI" binding="impl:DirectPaymentAPISoapBinding">
+      <wsdlsoap:address location="https://homologation.payline.com/V4/services/DirectPaymentAPI"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
