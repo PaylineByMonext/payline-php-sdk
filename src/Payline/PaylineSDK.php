@@ -357,8 +357,8 @@ class PaylineSDK
             $this->webServicesEndpoint = PaylineSDK::INT_ENDPOINT;
             $plnInternal = true;
         }
-        $this->soapclient_options['style'] = defined(SOAP_DOCUMENT) ? SOAP_DOCUMENT : 2;
-        $this->soapclient_options['use'] = defined(SOAP_LITERAL) ? SOAP_LITERAL : 2;
+        $this->soapclient_options['style'] = defined('SOAP_DOCUMENT') ? SOAP_DOCUMENT : 2;
+        $this->soapclient_options['use'] = defined('SOAP_LITERAL') ? SOAP_LITERAL : 2;
         $this->soapclient_options['connection_timeout'] = 5;
         if($plnInternal){
             $this->soapclient_options['stream_context'] = stream_context_create(
