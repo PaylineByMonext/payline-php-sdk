@@ -1272,8 +1272,10 @@ class PaylineSDK
             'transactionID' => $array['transactionID'],
             'payment' => $this->payment($array['payment']),
             'privateDataList' => $this->privateData,
-            'sequenceNumber' => $array['sequenceNumber']
         );
+        if (isset($array['sequenceNumber'])) {
+            $WSRequest['sequenceNumber'] = $array['sequenceNumber'];
+        }
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'doCapture');
     }
 
