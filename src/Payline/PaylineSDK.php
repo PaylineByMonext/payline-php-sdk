@@ -16,7 +16,6 @@ use SoapVar;
 
 $vendorPath = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR;
 $classesPath = $vendorPath . 'monext' . DIRECTORY_SEPARATOR . 'payline-sdk' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Payline' . DIRECTORY_SEPARATOR;
-require_once $vendorPath . 'autoload.php';
 require_once $classesPath . 'Payment.class.php';
 require_once $classesPath . 'Order.class.php';
 require_once $classesPath . 'OrderDetail.class.php';
@@ -41,12 +40,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.48';
+    const SDK_RELEASE = 'PHP SDK 4.49';
 
     /**
      * WSDL file name
      */
-    const WSDL = 'v4.48.wsdl';
+    const WSDL = 'v4.49.wsdl';
 
     /**
      * development environment flag
@@ -316,11 +315,17 @@ class PaylineSDK
      *            path to your custom log folder, must end by directory separator. If null, default logs folder is used. Default : null
      * @param int $logLevel
      *            Monolog\Logger log level. Default : Logger::INFO
+     * @param  Monolog\Logger $externalLogger
+     *            Monolog\Logger instance, used by PaylineSDK but external to it 
      */
-    function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO)
+    function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
-        date_default_timezone_set("Europe/Paris");
-        $this->logger = new Logger('PaylineSDK');
+        date_default_timezone_set($defaultTimezone);
+        if($externalLogger){
+            $this->logger = $externalLogger;
+        }else{
+            $this->logger = new Logger('PaylineSDK');
+        }        
         if (is_null($pathLog)) {
             $this->logger->pushHandler(new StreamHandler(realpath(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . date('Y-m-d') . '.log', $logLevel)); // set default log folder
         } elseif (strlen($pathLog) > 0) {
@@ -357,8 +362,8 @@ class PaylineSDK
             $this->webServicesEndpoint = PaylineSDK::INT_ENDPOINT;
             $plnInternal = true;
         }
-        $this->soapclient_options['style'] = defined(SOAP_DOCUMENT) ? SOAP_DOCUMENT : 2;
-        $this->soapclient_options['use'] = defined(SOAP_LITERAL) ? SOAP_LITERAL : 2;
+        $this->soapclient_options['style'] = defined('SOAP_DOCUMENT') ? SOAP_DOCUMENT : 2;
+        $this->soapclient_options['use'] = defined('SOAP_LITERAL') ? SOAP_LITERAL : 2;
         $this->soapclient_options['connection_timeout'] = 5;
         if($plnInternal){
             $this->soapclient_options['stream_context'] = stream_context_create(
@@ -1587,9 +1592,11 @@ class PaylineSDK
             'userAgent' => $array['userAgent'],
             'mdFieldValue' => $array['mdFieldValue'],
             'walletId' => $array['walletId'],
-            'walletCardInd' => $array['walletCardInd'],
-            'generateVirtualCvx' => $array['generateVirtualCvx']
+            'walletCardInd' => $array['walletCardInd']
         );
+        if (isset($array['generateVirtualCvx'])) {
+            $WSRequest['generateVirtualCvx'] = $array['generateVirtualCvx'];
+        }
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'verifyEnrollment');
     }
 

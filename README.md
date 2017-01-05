@@ -11,8 +11,9 @@ Usage
     use Payline\PaylineSDK;
 
     // create an instance
-    $paylineSDK = new PaylineSDK($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment[, $pathLog= null[, $logLevel = Logger::INFO]]);
+    $paylineSDK = new PaylineSDK($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment[, $pathLog= null[, $logLevel = Logger::INFO[, $externalLogger = null[, $defaultTimezone = "Europe/Paris"]]]]);
     /*
+    $merchant_id, the merchant identifier, has to be a string.
     $environment determines in which Payline environment your request are targeted.
     It should be filled with either PaylineSDK::ENV_HOMO (for testing purpose) or PaylineSDK::ENV_PROD (real life)
     If $pathLog is null, log files will be written under default logs directory. Fill with your custom log files path

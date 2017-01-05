@@ -1,4 +1,9 @@
 
+* 4.49 (2017-01-05)
+  * removal of autoload inclusion in main PaylineSDK.php file
+  * fix of `SOAP_DOCUMENT` and `SOAP_LITERAL` constants use in main PaylineSDK.php file
+  * new optional parameters defaultTimezone and externalLogger for PaylineSDK class constructor
+
 * 4.48 (2016-09-13)
   * new properties version and TransactionDate for getAlertDetailsRequest
     
