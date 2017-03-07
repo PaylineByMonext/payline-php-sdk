@@ -40,7 +40,7 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.49';
+    const SDK_RELEASE = 'PHP SDK 4.49.1';
 
     /**
      * WSDL file name
@@ -361,6 +361,8 @@ class PaylineSDK
         } elseif (strcmp($environment, PaylineSDK::ENV_INT) == 0) {
             $this->webServicesEndpoint = PaylineSDK::INT_ENDPOINT;
             $plnInternal = true;
+        }else{
+            $this->webServicesEndpoint = false; // Exception is raised in PaylineSDK::webServiceRequest
         }
         $this->soapclient_options['style'] = defined('SOAP_DOCUMENT') ? SOAP_DOCUMENT : 2;
         $this->soapclient_options['use'] = defined('SOAP_LITERAL') ? SOAP_LITERAL : 2;
@@ -843,6 +845,9 @@ class PaylineSDK
             'result.code' => null
         );
         try {
+            if(!$this->webServicesEndpoint){
+                throw new \Exception('Endpoint error (check `environment` parameter of PaylineSDK constructor)');
+            }
             $client = new SoapClient(dirname(__FILE__) . '/' . PaylineSDK::WSDL, $this->soapclient_options);
             $client->__setLocation($this->webServicesEndpoint . $PaylineAPI);
             
