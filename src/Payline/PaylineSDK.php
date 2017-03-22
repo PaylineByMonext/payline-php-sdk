@@ -248,9 +248,10 @@ class PaylineSDK
     const PROD_CA = 'https://admin.payline.com';
 
     /**
-     * error code returned when Payline can't be reached
+     * error code/shortMessage returned when Payline can't be reached
      */
     const ERR_CODE = 'XXXXX';
+    const ERR_SHORT_MESSAGE = 'ERROR';
 
     /**
      * Monolog\Logger instance
@@ -1175,7 +1176,7 @@ class PaylineSDK
             $ERROR = array();
             $ERROR['result']['code'] = PaylineSDK::ERR_CODE;
             $ERROR['result']['longMessage'] = $e->getMessage();
-            $ERROR['result']['shortMessage'] = $e->getMessage();
+            $ERROR['result']['shortMessage'] = PaylineSDK::ERR_SHORT_MESSAGE;
             $ERROR['result']['partnerCode'] = null;
             $ERROR['result']['partnerCodeLabel'] = null;
             return $ERROR;
