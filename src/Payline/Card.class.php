@@ -11,6 +11,9 @@ namespace Payline;
 
 class Card
 {
+	public $encryptionKeyId;
+	
+	public $encryptedData;
 
     public $number;
 
@@ -29,4 +32,6 @@ class Card
     public $cardholder;
 
     public $token;
+    
+    public $paymentData;
 }

@@ -20,6 +20,7 @@ require_once $classesPath . 'Payment.class.php';
 require_once $classesPath . 'Order.class.php';
 require_once $classesPath . 'OrderDetail.class.php';
 require_once $classesPath . 'Card.class.php';
+require_once $classesPath . 'PaymentData.class.php';
 require_once $classesPath . 'Buyer.class.php';
 require_once $classesPath . 'Address.class.php';
 require_once $classesPath . 'AddressOwner.class.php';
@@ -40,12 +41,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.49.1';
+    const SDK_RELEASE = 'PHP SDK 4.50';
 
     /**
      * WSDL file name
      */
-    const WSDL = 'v4.49.wsdl';
+    const WSDL = 'v4.50.wsdl';
 
     /**
      * development environment flag
@@ -111,6 +112,11 @@ class PaylineSDK
      * SOAP name of payment object
      */
     const SOAP_PAYMENT = 'payment';
+    
+    /**
+     * SOAP name of paymentData object
+     */
+    const SOAP_PAYMENT_DATA = 'paymentData';
 
     /**
      * SOAP name of privateData object
@@ -403,6 +409,26 @@ class PaylineSDK
         }
         return new \SoapVar($payment, SOAP_ENC_OBJECT, PaylineSDK::SOAP_PAYMENT, PaylineSDK::PAYLINE_NAMESPACE);
     }
+    
+    /**
+     * build PaymentData instance from $array and make SoapVar object for payment
+     *
+     * @param array $array
+     *            the array keys are listed in PaymentData class
+     * @return SoapVar representation of PaymentData instance
+     */
+    protected function paymentData($array)
+    {
+        $paymentData = new PaymentData();
+        if ($array && is_array($array)) {
+            foreach ($array as $k => $v) {
+                if (array_key_exists($k, $paymentData) && (strlen($v))) {
+                    $paymentData->$k = $v;
+                }
+            }
+        }
+        return new \SoapVar($paymentData, SOAP_ENC_OBJECT, PaylineSDK::SOAP_PAYMENT_DATA, PaylineSDK::PAYLINE_NAMESPACE);
+    }
 
     /**
      * build Order instance from $array and make SoapVar object for order
@@ -442,6 +468,10 @@ class PaylineSDK
                     $card->$k = $v;
                 }
             }
+        }
+        $card->paymentData = null;
+        if(isset($array['paymentData'])){
+            $card->paymentData = $this->paymentData($array['paymentData']);
         }
         return new \SoapVar($card, SOAP_ENC_OBJECT, PaylineSDK::SOAP_CARD, PaylineSDK::PAYLINE_NAMESPACE);
     }
@@ -825,6 +855,8 @@ class PaylineSDK
             $array['orderDate'] = null;
         if (! isset($array['walletIds']) || ! strlen($array['walletIds'][0] || ! is_array($array['walletIds'])))
             $array['walletIds'] = null;
+        if (! isset($array['merchantName']))
+            $array['merchantName'] = null;
     }
 
     /**
@@ -1598,7 +1630,8 @@ class PaylineSDK
             'userAgent' => $array['userAgent'],
             'mdFieldValue' => $array['mdFieldValue'],
             'walletId' => $array['walletId'],
-            'walletCardInd' => $array['walletCardInd']
+            'walletCardInd' => $array['walletCardInd'],
+            'merchantName' => $array['merchantName']
         );
         if (isset($array['generateVirtualCvx'])) {
             $WSRequest['generateVirtualCvx'] = $array['generateVirtualCvx'];
@@ -1809,7 +1842,8 @@ class PaylineSDK
             'customPaymentPageCode' => $array['customPaymentPageCode'],
             'buyer' => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress']),
             'securityMode' => $array['securityMode'],
-            'contractNumberWalletList' => $array['walletContracts']
+            'contractNumberWalletList' => $array['walletContracts'],
+            'merchantName' => $array['merchantName']
         );
         
         if (isset($array['payment']['mode'])) {
@@ -1854,7 +1888,8 @@ class PaylineSDK
             'notificationURL' => $array['notificationURL'],
             'privateDataList' => $this->privateData,
             'customPaymentTemplateURL' => $array['customPaymentTemplateURL'],
-            'contractNumberWalletList' => $array['walletContracts']
+            'contractNumberWalletList' => $array['walletContracts'],
+            'merchantName' => $array['merchantName']
         );
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::WEB_API, 'manageWebWallet');
     }
