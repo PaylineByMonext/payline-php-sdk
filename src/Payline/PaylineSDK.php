@@ -1841,6 +1841,7 @@ class PaylineSDK
             'languageCode' => $array['languageCode'],
             'customPaymentPageCode' => $array['customPaymentPageCode'],
             'buyer' => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress']),
+            'owner' => $this->owner($array['owner'], $array['ownerAddress']),
             'securityMode' => $array['securityMode'],
             'contractNumberWalletList' => $array['walletContracts'],
             'merchantName' => $array['merchantName']
