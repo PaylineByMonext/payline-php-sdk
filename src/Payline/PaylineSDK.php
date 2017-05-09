@@ -62,11 +62,21 @@ class PaylineSDK
      * homologation environment flag
      */
     const ENV_HOMO = "HOMO";
+    
+    /**
+     * homologation environment flag - uses certificate-based authentication
+     */
+    const ENV_HOMO_CC = "HOMO_CC";
 
     /**
      * production environment flag
      */
     const ENV_PROD = "PROD";
+
+    /**
+     * production environment flag - uses certificate-based authentication
+     */
+    const ENV_PROD_CC = "PROD_CC";
 
     /**
      * name of Payline DirectPaymentAPI
@@ -184,14 +194,24 @@ class PaylineSDK
     const INT_ENDPOINT = 'https://ws.int.payline.com/V4/services/';
 
     /**
-     * web services endpoint in homologation environment
+     * standard web services endpoint in homologation environment
      */
     const HOMO_ENDPOINT = 'https://homologation.payline.com/V4/services/';
 
     /**
-     * web services endpoint in production environment
+     *  certificate-based authentication web services endpoint in homologation environment
+     */
+    const HOMO_CC_ENDPOINT = 'https://homologation-cc.payline.com/V4/services/';
+
+    /**
+     * standard web services endpoint in production environment
      */
     const PROD_ENDPOINT = 'https://services.payline.com/V4/services/';
+
+    /**
+     * certificate-based authentication web services endpoint in production environment
+     */
+    const PROD_CC_ENDPOINT = 'https://services-cc.payline.com/V4/services/';
     
     /**
      * URL of getToken servlet, used by AJAX API, in development environment
@@ -360,8 +380,12 @@ class PaylineSDK
         $plnInternal = false;
         if (strcmp($environment, PaylineSDK::ENV_HOMO) == 0) {
             $this->webServicesEndpoint = PaylineSDK::HOMO_ENDPOINT;
+        } elseif (strcmp($environment, PaylineSDK::ENV_HOMO_CC) == 0) {
+            $this->webServicesEndpoint = PaylineSDK::HOMO_CC_ENDPOINT;
         } elseif (strcmp($environment, PaylineSDK::ENV_PROD) == 0) {
-            $this->webServicesEndpoint = PaylineSDK::PROD_ENDPOINT;
+            $this->webServicesEndpoint = PaylineSDK::PROD_ENDPOINT;               
+        } elseif (strcmp($environment, PaylineSDK::ENV_PROD_CC) == 0) {
+            $this->webServicesEndpoint = PaylineSDK::PROD_CC_ENDPOINT;
         } elseif (strcmp($environment, PaylineSDK::ENV_DEV) == 0) {
             $this->webServicesEndpoint = PaylineSDK::DEV_ENDPOINT;
             $plnInternal = true;
