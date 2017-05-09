@@ -1,3 +1,6 @@
+* 4.50.1 (2017-05-09)
+  * add of certificate-based authentication endpoints  
+
 * 4.50 (2017-04-13)
   * new merchantName parameter for doWebPayment, manageWebWallet and verifyEnrollment (name displayed on ACS)
   * new attribute paymentData for object Card (used by Apple Pay only)
