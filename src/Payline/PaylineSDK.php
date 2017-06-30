@@ -41,12 +41,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.50.1';
+    const SDK_RELEASE = 'PHP SDK 4.50.2';
 
     /**
      * WSDL file name
      */
-    const WSDL = 'v4.50.wsdl';
+    const WSDL = 'v4.50.2.wsdl';
 
     /**
      * development environment flag
@@ -1395,6 +1395,7 @@ class PaylineSDK
             'payment' => $this->payment($array['payment']),
             'comment' => $array['comment'],
             'privateDataList' => $this->privateData,
+            'details' => $this->orderDetails,
             'sequenceNumber' => $array['sequenceNumber']
         );
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'doRefund');
