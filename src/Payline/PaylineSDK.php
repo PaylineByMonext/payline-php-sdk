@@ -41,12 +41,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.50.2';
+    const SDK_RELEASE = 'PHP SDK 4.51';
 
     /**
      * WSDL file name
      */
-    const WSDL = 'v4.50.2.wsdl';
+    const WSDL = 'v4.51.wsdl';
 
     /**
      * development environment flag
