@@ -424,7 +424,7 @@ class PaylineSDK
     protected function payment(array $array)
     {
         $payment = new Payment();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $payment) && (strlen($v))) {
                     $payment->$k = $v;
@@ -444,7 +444,7 @@ class PaylineSDK
     protected function paymentData(array $array)
     {
         $paymentData = new PaymentData();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $paymentData) && (strlen($v))) {
                     $paymentData->$k = $v;
@@ -464,7 +464,7 @@ class PaylineSDK
     protected function order(array $array)
     {
         $order = new Order();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $order) && (strlen($v))) {
                     $order->$k = $v;
@@ -486,7 +486,7 @@ class PaylineSDK
     protected function card(array $array)
     {
         $card = new Card();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $card) && (strlen($v))) {
                     $card->$k = $v;
@@ -514,7 +514,7 @@ class PaylineSDK
     protected function buyer(array $array,array $shippingAdress,array $billingAddress)
     {
         $buyer = new Buyer();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $buyer) && (strlen($v)))
                     $buyer->$k = $v;
@@ -535,7 +535,7 @@ class PaylineSDK
     protected function address(array $array)
     {
         $address = new Address();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $address) && (strlen($v)))
                     $address->$k = $v;
@@ -554,7 +554,7 @@ class PaylineSDK
     protected function addressOwner(array $array)
     {
         $addressOwner = new AddressOwner();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $addressOwner) && (strlen($v)))
                     $addressOwner->$k = $v;
@@ -577,7 +577,7 @@ class PaylineSDK
     {
         if ($array != null) {
             $owner = new Owner();
-            if ($array && is_array($array)) {
+            if ($array) {
                 foreach ($array as $k => $v) {
                     if (array_key_exists($k, $owner) && (strlen($v)))
                         $owner->$k = $v;
@@ -600,7 +600,7 @@ class PaylineSDK
     protected function authentication3DSecure(array $array)
     {
         $authentication3DSecure = new Authentication3DSecure();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $authentication3DSecure) && (strlen($v))) {
                     $authentication3DSecure->$k = $v;
@@ -620,7 +620,7 @@ class PaylineSDK
     protected function bankAccountData(array $array)
     {
         $bankAccountData = new BankAccountData($array);
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $bankAccountData) && (strlen($v))) {
                     $bankAccountData->$k = $v;
@@ -640,7 +640,7 @@ class PaylineSDK
     protected function billingRecordForUpdate(array $array)
     {
         $billingRecordForUpdate = new BillingRecordForUpdate();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $billingRecordForUpdate) && (strlen($v)))
                     $billingRecordForUpdate->$k = $v;
@@ -663,7 +663,7 @@ class PaylineSDK
     protected function wallet(array $inWallet, array $address, array $card)
     {
         $wallet = new Wallet();
-        if ($inWallet && is_array($inWallet)) {
+        if ($inWallet) {
             foreach ($inWallet as $k => $v) {
                 if (array_key_exists($k, $wallet) && (strlen($v)))
                     $wallet->$k = $v;
@@ -687,7 +687,7 @@ class PaylineSDK
     protected function authorization(array $array)
     {
         $authorization = new Authorization($array);
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $authorization) && (strlen($v))) {
                     $authorization->$k = $v;
@@ -707,7 +707,7 @@ class PaylineSDK
     protected function creditor(array $array)
     {
         $creditor = new Creditor();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $creditor) && (strlen($v)))
                     $creditor->$k = $v;
@@ -726,7 +726,7 @@ class PaylineSDK
     protected function cheque(array $array)
     {
         $cheque = new Cheque($array);
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $cheque) && (strlen($v))) {
                     $cheque->$k = $v;
@@ -746,7 +746,7 @@ class PaylineSDK
     protected function recurring(array $array)
     {
         $recurring = new Recurring();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $recurring) && (strlen($v))) {
                     $recurring->$k = $v;
@@ -1269,7 +1269,7 @@ class PaylineSDK
     public function addOrderDetail(array $newOrderDetail)
     {
         $orderDetail = new OrderDetail();
-        if ($newOrderDetail && is_array($newOrderDetail)) {
+        if ($newOrderDetail) {
             foreach ($newOrderDetail as $k => $v) {
                 if (array_key_exists($k, $orderDetail) && (strlen($v)))
                     $orderDetail->$k = $v;
@@ -1288,7 +1288,7 @@ class PaylineSDK
     public function addPrivateData(array $array)
     {
         $private = new PrivateData();
-        if ($array && is_array($array)) {
+        if ($array) {
             foreach ($array as $k => $v) {
                 if (array_key_exists($k, $private) && (strlen($v)))
                     $private->$k = $v;
