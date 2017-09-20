@@ -421,7 +421,7 @@ class PaylineSDK
      *            the array keys are listed in Payment class
      * @return SoapVar representation of Payment instance
      */
-    protected function payment($array)
+    protected function payment(array $array)
     {
         $payment = new Payment();
         if ($array && is_array($array)) {
@@ -441,7 +441,7 @@ class PaylineSDK
      *            the array keys are listed in PaymentData class
      * @return SoapVar representation of PaymentData instance
      */
-    protected function paymentData($array)
+    protected function paymentData(array $array)
     {
         $paymentData = new PaymentData();
         if ($array && is_array($array)) {
@@ -461,7 +461,7 @@ class PaylineSDK
      *            the array keys are listed in Order CLASS.
      * @return SoapVar representation of Order instance
      */
-    protected function order($array)
+    protected function order(array $array)
     {
         $order = new Order();
         if ($array && is_array($array)) {
@@ -483,7 +483,7 @@ class PaylineSDK
      *            the array keys are listed in Card CLASS.
      * @return SoapVar representation of Card instance
      */
-    protected function card($array)
+    protected function card(array $array)
     {
         $card = new Card();
         if ($array && is_array($array)) {
@@ -511,7 +511,7 @@ class PaylineSDK
      *            the array keys are listed in Address CLASS.
      * @return SoapVar representation of Buyer instance
      */
-    protected function buyer($array, $shippingAdress, $billingAddress)
+    protected function buyer(array $array,array $shippingAdress,array $billingAddress)
     {
         $buyer = new Buyer();
         if ($array && is_array($array)) {
@@ -532,7 +532,7 @@ class PaylineSDK
      *            the array keys are listed in Address CLASS.
      * @return SoapVar representation of Address instance
      */
-    protected function address($array)
+    protected function address(array $array)
     {
         $address = new Address();
         if ($array && is_array($array)) {
@@ -551,7 +551,7 @@ class PaylineSDK
      *            the array keys are listed in AddressOwner CLASS.
      * @return SoapVar representation of AddressOwner instance
      */
-    protected function addressOwner($array)
+    protected function addressOwner(array $array)
     {
         $addressOwner = new AddressOwner();
         if ($array && is_array($array)) {
@@ -573,7 +573,7 @@ class PaylineSDK
      * @return SoapVar representation of Owner instance
      *        
      */
-    protected function owner($array, $addressOwner)
+    protected function owner(array $array, array $addressOwner)
     {
         if ($array != null) {
             $owner = new Owner();
@@ -597,7 +597,7 @@ class PaylineSDK
      *            the array keys are listed in Authentication3DSecure CLASS.
      * @return SoapVar representation of Authentication3DSecure instance
      */
-    protected function authentication3DSecure($array)
+    protected function authentication3DSecure(array $array)
     {
         $authentication3DSecure = new Authentication3DSecure();
         if ($array && is_array($array)) {
@@ -617,7 +617,7 @@ class PaylineSDK
      *            the array keys are listed in BankAccountData CLASS.
      * @return SoapVar representation of BankAccountData instance
      */
-    protected function bankAccountData($array)
+    protected function bankAccountData(array $array)
     {
         $bankAccountData = new BankAccountData($array);
         if ($array && is_array($array)) {
@@ -637,7 +637,7 @@ class PaylineSDK
      *            the array keys are listed in BillingRecordForUpdate CLASS.
      * @return SoapVar representation of BillingRecordForUpdate instance
      */
-    protected function billingRecordForUpdate($array)
+    protected function billingRecordForUpdate(array $array)
     {
         $billingRecordForUpdate = new BillingRecordForUpdate();
         if ($array && is_array($array)) {
@@ -660,7 +660,7 @@ class PaylineSDK
      *            the array keys are listed in Card CLASS.
      * @return SoapVar representation of Wallet instance
      */
-    protected function wallet($inWallet, $address, $card)
+    protected function wallet(array $inWallet, array $address, array $card)
     {
         $wallet = new Wallet();
         if ($inWallet && is_array($inWallet)) {
@@ -684,7 +684,7 @@ class PaylineSDK
      * @return SoapVar representation of Authorization instance
      *        
      */
-    protected function authorization($array)
+    protected function authorization(array $array)
     {
         $authorization = new Authorization($array);
         if ($array && is_array($array)) {
@@ -704,7 +704,7 @@ class PaylineSDK
      *            the array keys are listed in Creditor CLASS.
      * @return SoapVar representation of Creditor instance
      */
-    protected function creditor($array)
+    protected function creditor(array $array)
     {
         $creditor = new Creditor();
         if ($array && is_array($array)) {
@@ -723,7 +723,7 @@ class PaylineSDK
      *            the array keys are listed in Cheque CLASS.
      * @return SoapVar representation of Cheque instance
      */
-    protected function cheque($array)
+    protected function cheque(array $array)
     {
         $cheque = new Cheque($array);
         if ($array && is_array($array)) {
@@ -743,7 +743,7 @@ class PaylineSDK
      *            the array keys are listed in Recurring CLASS.
      * @return SoapVar representation of Recurring instance
      */
-    protected function recurring($array)
+    protected function recurring(array $array)
     {
         $recurring = new Recurring();
         if ($array && is_array($array)) {
@@ -802,7 +802,7 @@ class PaylineSDK
      *            name of the node's parent
      * @return array representation of the object
      */
-    private function responseToArray($node,$parent=null)
+    private function responseToArray($node, $parent = null)
     {
         $array = array();
         foreach ($node as $k => $v) {
@@ -895,7 +895,7 @@ class PaylineSDK
      * @param string $Method
      *            the name of the web service
      */
-    private function webServiceRequest($array, $WSRequest, $PaylineAPI, $Method)
+    private function webServiceRequest(array $array, array $WSRequest, $PaylineAPI, $Method)
     {
         $logRequest = array();
         $logResponse = array(
@@ -1266,7 +1266,7 @@ class PaylineSDK
      * @param array $newOrderDetail
      *            associative array containing details about an order item
      */
-    public function addOrderDetail($newOrderDetail)
+    public function addOrderDetail(array $newOrderDetail)
     {
         $orderDetail = new OrderDetail();
         if ($newOrderDetail && is_array($newOrderDetail)) {
@@ -1285,7 +1285,7 @@ class PaylineSDK
      *            an array containing two indexes : key and value
      *            
      */
-    public function addPrivateData($array)
+    public function addPrivateData(array $array)
     {
         $private = new PrivateData();
         if ($array && is_array($array)) {
@@ -1311,7 +1311,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doAuthorization parameters
      */
-    public function doAuthorization($array)
+    public function doAuthorization(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1333,7 +1333,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doCapture parameters
      */
-    public function doCapture($array)
+    public function doCapture(array $array)
     {
         $WSRequest = array(
             'transactionID' => $array['transactionID'],
@@ -1350,7 +1350,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doReAuthorization parameters
      */
-    public function doReAuthorization($array)
+    public function doReAuthorization(array $array)
     {
         $WSRequest = array(
             'transactionID' => $array['transactionID'],
@@ -1367,7 +1367,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doDebit parameters
      */
-    public function doDebit($array)
+    public function doDebit(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1407,7 +1407,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doReset parameters
      */
-    public function doReset($array)
+    public function doReset(array $array)
     {
         $WSRequest = array(
             'transactionID' => $array['transactionID'],
@@ -1422,7 +1422,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doCredit parameters
      */
-    public function doCredit($array)
+    public function doCredit(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1442,7 +1442,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing createWallet parameters
      */
-    public function createWallet($array)
+    public function createWallet(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1463,7 +1463,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing updateWallet parameters
      */
-    public function updateWallet($array)
+    public function updateWallet(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1484,7 +1484,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getWallet parameters
      */
-    public function getWallet($array)
+    public function getWallet(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1500,7 +1500,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getCards parameters
      */
-    public function getCards($array)
+    public function getCards(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1516,7 +1516,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing disableWallet parameters
      */
-    public function disableWallet($array)
+    public function disableWallet(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1532,7 +1532,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing enableWallet parameters
      */
-    public function enableWallet($array)
+    public function enableWallet(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1548,7 +1548,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doImmediateWalletPayment parameters
      */
-    public function doImmediateWalletPayment($array)
+    public function doImmediateWalletPayment(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1570,7 +1570,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doScheduledWalletPayment parameters
      */
-    public function doScheduledWalletPayment($array)
+    public function doScheduledWalletPayment(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1592,7 +1592,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doRecurrentWalletPayment parameters
      */
-    public function doRecurrentWalletPayment($array)
+    public function doRecurrentWalletPayment(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1615,7 +1615,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getPaymentRecord parameters
      */
-    public function getPaymentRecord($array)
+    public function getPaymentRecord(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1630,7 +1630,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing disablePaymentRecord parameters
      */
-    public function disablePaymentRecord($array)
+    public function disablePaymentRecord(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1645,7 +1645,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing verifyEnrollment parameters
      */
-    public function verifyEnrollment($array)
+    public function verifyEnrollment(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1670,7 +1670,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing verifyAuthentication parameters
      */
-    public function verifyAuthentication($array)
+    public function verifyAuthentication(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1687,7 +1687,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doScoringCheque parameters
      */
-    public function doScoringCheque($array)
+    public function doScoringCheque(array $array)
     {
         $WSRequest = array(
             'payment' => $this->payment($array['payment']),
@@ -1704,7 +1704,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getEncryptionKey parameters
      */
-    public function getEncryptionKey($array)
+    public function getEncryptionKey(array $array)
     {
         $WSRequest = array();
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'getEncryptionKey');
@@ -1716,7 +1716,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getMerchantSettings parameters
      */
-    public function getMerchantSettings($array)
+    public function getMerchantSettings(array $array)
     {
         $WSRequest = array();
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'getMerchantSettings');
@@ -1728,7 +1728,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getBalance parameters
      */
-    public function getBalance($array)
+    public function getBalance(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1743,7 +1743,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getToken parameters
      */
-    public function getToken($array)
+    public function getToken(array $array)
     {
         $WSRequest = array(
             'cardNumber' => $array['cardNumber'],
@@ -1759,7 +1759,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getBalance parameters
      */
-    public function unBlock($array)
+    public function unBlock(array $array)
     {
         $WSRequest = array(
             'transactionID' => $array['transactionID'],
@@ -1774,7 +1774,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing updatePaymentRecord parameters
      */
-    public function updatePaymentRecord($array)
+    public function updatePaymentRecord(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1790,7 +1790,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getBillingRecord parameters
      */
-    public function getBillingRecord($array)
+    public function getBillingRecord(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1806,7 +1806,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing updateBillingRecord parameters
      */
-    public function updateBillingRecord($array)
+    public function updateBillingRecord(array $array)
     {
         $WSRequest = array(
             'contractNumber' => $array['contractNumber'],
@@ -1823,7 +1823,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doBankTransfer parameters
      */
-    public function doBankTransfer($array)
+    public function doBankTransfer(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1850,7 +1850,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doWebPayment parameters
      */
-    public function doWebPayment($array)
+    public function doWebPayment(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1886,7 +1886,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getWebPaymentDetails parameters
      */
-    public function getWebPaymentDetails($array)
+    public function getWebPaymentDetails(array $array)
     {
         return $this->webServiceRequest($array, $array, PaylineSDK::WEB_API, 'getWebPaymentDetails');
     }
@@ -1897,7 +1897,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing manageWebWallet parameters
      */
-    public function manageWebWallet($array)
+    public function manageWebWallet(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1926,7 +1926,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing createWebWallet parameters
      */
-    public function createWebWallet($array)
+    public function createWebWallet(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1953,7 +1953,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing updateWebWallet parameters
      */
-    public function updateWebWallet($array)
+    public function updateWebWallet(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1983,7 +1983,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getWebWallet parameters
      */
-    public function getWebWallet($array)
+    public function getWebWallet(array $array)
     {
         return $this->webServiceRequest($array, $array, PaylineSDK::WEB_API, 'getWebWallet');
     }
@@ -2002,7 +2002,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getWebWallet parameters
      */
-    public function getTransactionDetails($array)
+    public function getTransactionDetails(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -2022,7 +2022,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getWebWallet parameters
      */
-    public function transactionsSearch($array)
+    public function transactionsSearch(array $array)
     {
         $WSRequest = array(
             'transactionId' => $array['transactionId'],
@@ -2054,7 +2054,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getAlertDetails parameters
      */
-    public function getAlertDetails($array)
+    public function getAlertDetails(array $array)
     {
         $WSRequest = array(
             'AlertId' => $array['AlertId'],
