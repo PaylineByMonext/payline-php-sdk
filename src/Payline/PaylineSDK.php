@@ -343,7 +343,7 @@ class PaylineSDK
      * @param  Monolog\Logger $externalLogger
      *            Monolog\Logger instance, used by PaylineSDK but external to it 
      */
-    function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
+    public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
         date_default_timezone_set($defaultTimezone);
         if($externalLogger){
