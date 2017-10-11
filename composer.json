@@ -25,9 +25,7 @@
 	"autoload" : {
 		"psr-4" : {
 			"Payline\\" : "src/Payline"
-		},
-		"psr-0" : {
-			"Payline\\" : "src/Payline"
 		}
+		 
 	}
 }
