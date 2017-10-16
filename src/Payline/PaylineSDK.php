@@ -31,8 +31,6 @@ use Payline\Creditor;
 use Payline\Cheque;
 use Payline\Recurring;
 
-$vendorPath = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR;
-
 class PaylineSDK
 {
 
