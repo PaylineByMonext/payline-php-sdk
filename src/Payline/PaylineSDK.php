@@ -41,12 +41,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.51';
+    const SDK_RELEASE = 'PHP SDK 4.52';
 
     /**
      * WSDL file name
      */
-    const WSDL = 'v4.51.wsdl';
+    const WSDL = 'v4.52.wsdl';
 
     /**
      * development environment flag
@@ -347,6 +347,7 @@ class PaylineSDK
      */
     function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
+        $merchant_id = $merchant_id+''; // prevent cast errors. Mechant ID has to be a string.
         date_default_timezone_set($defaultTimezone);
         if($externalLogger){
             $this->logger = $externalLogger;
