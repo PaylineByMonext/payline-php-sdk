@@ -13,27 +13,25 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use SoapClient;
 use SoapVar;
+use Payline\Payment;
+use Payline\Order;
+use Payline\OrderDetail;
+use Payline\Card;
+use Payline\PaymentData;
+use Payline\Buyer;
+use Payline\Address;
+use Payline\AddressOwner;
+use Payline\Owner;
+use Payline\Authentication3DSecure;
+use Payline\BillingRecordForUpdate;
+use Payline\Wallet;
+use Payline\OrderDetail;
+use Payline\Authorization;
+use Payline\Creditor;
+use Payline\Cheque;
+use Payline\Recurring;
 
 $vendorPath = realpath(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . DIRECTORY_SEPARATOR;
-$classesPath = $vendorPath . 'monext' . DIRECTORY_SEPARATOR . 'payline-sdk' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Payline' . DIRECTORY_SEPARATOR;
-require_once $classesPath . 'Payment.class.php';
-require_once $classesPath . 'Order.class.php';
-require_once $classesPath . 'OrderDetail.class.php';
-require_once $classesPath . 'Card.class.php';
-require_once $classesPath . 'PaymentData.class.php';
-require_once $classesPath . 'Buyer.class.php';
-require_once $classesPath . 'Address.class.php';
-require_once $classesPath . 'AddressOwner.class.php';
-require_once $classesPath . 'Owner.class.php';
-require_once $classesPath . 'Authentication3DSecure.class.php';
-require_once $classesPath . 'BankAccountData.class.php';
-require_once $classesPath . 'PrivateData.class.php';
-require_once $classesPath . 'BillingRecordForUpdate.class.php';
-require_once $classesPath . 'Wallet.class.php';
-require_once $classesPath . 'Authorization.class.php';
-require_once $classesPath . 'Creditor.class.php';
-require_once $classesPath . 'Cheque.class.php';
-require_once $classesPath . 'Recurring.class.php';
 
 class PaylineSDK
 {
@@ -345,7 +343,7 @@ class PaylineSDK
      * @param  Monolog\Logger $externalLogger
      *            Monolog\Logger instance, used by PaylineSDK but external to it 
      */
-    function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
+    public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
         $merchant_id = $merchant_id+''; // prevent cast errors. Mechant ID has to be a string.
         date_default_timezone_set($defaultTimezone);
