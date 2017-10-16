@@ -824,7 +824,7 @@ class PaylineSDK
         return $array;
     }
         
-    /**
+        /**
      * Adds indexes with null values to the web services request array, in order to prevent SOAP format exception
      *
      * @param array $array
@@ -832,54 +832,78 @@ class PaylineSDK
      */
     private static function formatRequest(&$array)
     {
-        if (! isset($array['buyer']))
+        if (!isset($array['buyer'])) {
             $array['buyer'] = null;
-        if (! isset($array['ownerAddress']))
+        }
+        if (!isset($array['ownerAddress'])) {
             $array['ownerAddress'] = null;
-        if (! isset($array['3DSecure']))
+        }
+        if (!isset($array['3DSecure'])) {
             $array['3DSecure'] = null;
-        if (! isset($array['bankAccountData']))
+        }
+        if (!isset($array['bankAccountData'])) {
             $array['bankAccountData'] = null;
-        if (! isset($array['cancelURL']) || ! strlen($array['cancelURL']))
+        }
+        if (!isset($array['cancelURL']) || !strlen($array['cancelURL'])) {
             $array['cancelURL'] = null;
-        if (! isset($array['notificationURL']) || ! strlen($array['notificationURL']))
+        }
+        if (!isset($array['notificationURL']) || !strlen($array['notificationURL'])) {
             $array['notificationURL'] = null;
-        if (! isset($array['returnURL']) || ! strlen($array['returnURL']))
+        }
+        if (!isset($array['returnURL']) || !strlen($array['returnURL'])) {
             $array['returnURL'] = null;
-        if (! isset($array['languageCode']) || ! strlen($array['languageCode']))
+        }
+        if (!isset($array['languageCode']) || !strlen($array['languageCode'])) {
             $array['languageCode'] = null;
-        if (! isset($array['securityMode']) || ! strlen($array['securityMode']))
+        }
+        if (!isset($array['securityMode']) || !strlen($array['securityMode'])) {
             $array['securityMode'] = null;
-        if (! isset($array['buyer']))
+        }
+        if (!isset($array['buyer'])) {
             $array['buyer'] = null;
-        if (! isset($array['billingAddress']))
+        }
+        if (!isset($array['billingAddress'])) {
             $array['billingAddress'] = null;
-        if (! isset($array['shippingAddress']))
+        }
+        if (!isset($array['shippingAddress'])) {
             $array['shippingAddress'] = null;
-        if (! isset($array['owner']))
+        }
+        if (!isset($array['owner'])) {
             $array['owner'] = null;
-        if (! isset($array['ownerAddress']))
+        }
+        if (!isset($array['ownerAddress'])) {
             $array['ownerAddress'] = null;
-        if (! isset($array['contracts']) || ! strlen($array['contracts'][0]) || ! is_array($array['contracts']))
+        }
+        if (!isset($array['contracts']) || !strlen($array['contracts'][0]) || !is_array($array['contracts'])) {
             $array['contracts'] = null;
-        if (! isset($array['secondContracts']) || ! strlen($array['secondContracts'][0]) || ! is_array($array['secondContracts']))
+        }
+        if (!isset($array['secondContracts']) || !strlen($array['secondContracts'][0]) || !is_array($array['secondContracts'])) {
             $array['secondContracts'] = null;
-        if (! isset($array['walletContracts']) || ! strlen($array['walletContracts'][0]) || ! is_array($array['walletContracts']))
+        }
+        if (!isset($array['walletContracts']) || !strlen($array['walletContracts'][0]) || !is_array($array['walletContracts'])) {
             $array['walletContracts'] = null;
-        if (! isset($array['customPaymentPageCode']) || ! strlen($array['customPaymentPageCode']))
+        }
+        if (!isset($array['customPaymentPageCode']) || !strlen($array['customPaymentPageCode'])) {
             $array['customPaymentPageCode'] = null;
-        if (! isset($array['customPaymentTemplateURL']) || ! strlen($array['customPaymentTemplateURL']))
+        }
+        if (!isset($array['customPaymentTemplateURL']) || !strlen($array['customPaymentTemplateURL'])) {
             $array['customPaymentTemplateURL'] = null;
-        if (! isset($array['recurring']))
+        }
+        if (!isset($array['recurring'])) {
             $array['recurring'] = null;
-        if (! isset($array['orderRef']) || ! strlen($array['orderRef']))
+        }
+        if (!isset($array['orderRef']) || !strlen($array['orderRef'])) {
             $array['orderRef'] = null;
-        if (! isset($array['orderDate']) || ! strlen($array['orderDate']))
+        }
+        if (!isset($array['orderDate']) || !strlen($array['orderDate'])) {
             $array['orderDate'] = null;
-        if (! isset($array['walletIds']) || ! strlen($array['walletIds'][0] || ! is_array($array['walletIds'])))
+        }
+        if (!isset($array['walletIds']) || !strlen($array['walletIds'][0] || !is_array($array['walletIds']))) {
             $array['walletIds'] = null;
-        if (! isset($array['merchantName']))
+        }
+        if (!isset($array['merchantName'])) {
             $array['merchantName'] = null;
+        }
     }
 
     /**
