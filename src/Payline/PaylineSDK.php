@@ -25,7 +25,6 @@ use Payline\Owner;
 use Payline\Authentication3DSecure;
 use Payline\BillingRecordForUpdate;
 use Payline\Wallet;
-use Payline\OrderDetail;
 use Payline\Authorization;
 use Payline\Creditor;
 use Payline\Cheque;
