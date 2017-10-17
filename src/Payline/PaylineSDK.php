@@ -342,7 +342,10 @@ class PaylineSDK
      */
     public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
-        $merchant_id = $merchant_id+''; // prevent cast errors. Mechant ID has to be a string.
+        if (is_int($merchant_id)) {
+            $merchant_id = (string) $merchant_id;
+        }
+
         date_default_timezone_set($defaultTimezone);
         if ($externalLogger) {
             $this->logger = $externalLogger;
