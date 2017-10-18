@@ -1977,6 +1977,38 @@
 					<element name="additionalPrivateData" nillable="false" type="xsd:string"/>
 				</sequence>
 			</complexType>
+			<complexType name="addressInterlocutor">
+				<annotation>
+					<documentation>
+						This element contains information about Interlocutor
+						address
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="street1" nillable="true" type="xsd:string"/>
+					<element name="street2" nillable="true" type="xsd:string"/>
+					<element name="city" nillable="true" type="xsd:string"/>
+					<element name="zipCode" nillable="true" type="xsd:string"/>
+					<element name="state" nillable="true" type="xsd:string"/>
+					<element name="country" nillable="true" type="xsd:string"/>
+				</sequence>
+			</complexType>
+			<complexType name="interlocutor">
+				<annotation>
+					<documentation>
+						This element contains information about Interlocutor
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="firstName" nillable="true" type="xsd:string"/>
+					<element name="lastName" nillable="true" type="xsd:string"/>
+					<element name="email" nillable="true" type="xsd:string"/>
+					<element name="phone" nillable="true" type="xsd:string"/>
+					<element name="mobile" nillable="true" type="xsd:string"/>
+					<element name="fax" nillable="true" type="xsd:string"/>
+					<element name="addressInterlocutor" nillable="true" type="tns1:addressInterlocutor"/>
+				</sequence>
+			</complexType>
 			<complexType name="iban">
 				<annotation>
 					<documentation>
