@@ -772,7 +772,7 @@ class PaylineSDK
      * @param int $n2
      *            number of characters shown at end begining of the string
      */
-    private function hideChars($inString, $n1, $n2)
+    protected function hideChars($inString, $n1, $n2)
     {
         $inStringLength = strlen($inString);
         if ($inStringLength < ($n1 + $n2)) {
@@ -790,7 +790,7 @@ class PaylineSDK
      * @param String $parentName name of its parent
      * @return boolean whether $nodeName is child from a list or not
      */
-    private function isChildFromList($nodeName,$parentName){
+    protected function isChildFromList($nodeName,$parentName){
         if(array_key_exists($nodeName, $this->parentNode)){
             if(strcmp($this->parentNode[$nodeName],$parentName) == 0){
                 return true;
@@ -808,7 +808,7 @@ class PaylineSDK
      *            name of the node's parent
      * @return array representation of the object
      */
-    private function responseToArray($node, $parent = null)
+    protected function responseToArray($node, $parent = null)
     {
         $array = array();
         foreach ($node as $k => $v) {
@@ -925,7 +925,7 @@ class PaylineSDK
      * @param string $Method
      *            the name of the web service
      */
-    private function webServiceRequest(array $array, array $WSRequest, $PaylineAPI, $Method)
+    protected function webServiceRequest(array $array, array $WSRequest, $PaylineAPI, $Method)
     {
         $logRequest = array();
         $logResponse = array(
