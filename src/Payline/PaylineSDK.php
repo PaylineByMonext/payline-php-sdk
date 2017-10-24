@@ -36,7 +36,7 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.52';
+    const SDK_RELEASE = 'PHP SDK 4.52.1';
 
     /**
      * WSDL file name
@@ -831,8 +831,8 @@ class PaylineSDK
         return $array;
     }
         
-        /**
-     * Adds indexes with null values to the web services request array, in order to prevent SOAP format exception
+    /**
+     * Adds indexes with empty values to the web services request array, in order to prevent SOAP format exception
      *
      * @param array $array
      *            associative array containing web services parameters
@@ -840,16 +840,13 @@ class PaylineSDK
     private static function formatRequest(&$array)
     {
         if (!isset($array['buyer'])) {
-            $array['buyer'] = null;
-        }
-        if (!isset($array['ownerAddress'])) {
-            $array['ownerAddress'] = null;
+            $array['buyer'] = array();
         }
         if (!isset($array['3DSecure'])) {
-            $array['3DSecure'] = null;
+            $array['3DSecure'] = array();
         }
         if (!isset($array['bankAccountData'])) {
-            $array['bankAccountData'] = null;
+            $array['bankAccountData'] = array();
         }
         if (!isset($array['cancelURL']) || !strlen($array['cancelURL'])) {
             $array['cancelURL'] = null;
@@ -866,20 +863,17 @@ class PaylineSDK
         if (!isset($array['securityMode']) || !strlen($array['securityMode'])) {
             $array['securityMode'] = null;
         }
-        if (!isset($array['buyer'])) {
-            $array['buyer'] = null;
-        }
         if (!isset($array['billingAddress'])) {
-            $array['billingAddress'] = null;
+            $array['billingAddress'] = array();
         }
         if (!isset($array['shippingAddress'])) {
-            $array['shippingAddress'] = null;
+            $array['shippingAddress'] = array();
         }
         if (!isset($array['owner'])) {
-            $array['owner'] = null;
+            $array['owner'] = array();
         }
         if (!isset($array['ownerAddress'])) {
-            $array['ownerAddress'] = null;
+            $array['ownerAddress'] = array();
         }
         if (!isset($array['contracts']) || !strlen($array['contracts'][0]) || !is_array($array['contracts'])) {
             $array['contracts'] = null;
@@ -897,7 +891,7 @@ class PaylineSDK
             $array['customPaymentTemplateURL'] = null;
         }
         if (!isset($array['recurring'])) {
-            $array['recurring'] = null;
+            $array['recurring'] = array();
         }
         if (!isset($array['orderRef']) || !strlen($array['orderRef'])) {
             $array['orderRef'] = null;
@@ -912,7 +906,7 @@ class PaylineSDK
             $array['merchantName'] = null;
         }
     }
-
+    
     /**
      * Create the SoapClient instance and make the web service call
      *
