@@ -11,7 +11,7 @@ Usage
     use Payline\PaylineSDK;
 
     // create an instance
-    $paylineSDK = new PaylineSDK($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment[, $pathLog= null[, $logLevel = Logger::INFO[, $externalLogger = null[, $defaultTimezone = "Europe/Paris"]]]]);
+    $paylineSDK = new PaylineSDK($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment[$pathLog= null[$logLevel = Logger::INFO[$externalLogger = null[$defaultTimezone = "Europe/Paris"]]]]);
     /*
     $merchant_id, the merchant identifier, has to be a string.
     $environment determines in which Payline environment your request are targeted.
