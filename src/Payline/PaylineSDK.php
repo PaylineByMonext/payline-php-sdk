@@ -418,6 +418,24 @@ class PaylineSDK
         ini_set('user_agent', "PHP\r\nversion: " . PaylineSDK::SDK_RELEASE);
     }
 
+    
+    /**
+     * reset OrderDetails
+     */
+    public function resetOrderDetails()
+    {
+        $this->orderDetails = array();
+    }
+
+
+    /**
+     * reset Private Data
+     */
+    public function resetPrivateData()
+    {
+        $this->privateData = array();
+    }
+    
     /**
      * build Payment instance from $array and make SoapVar object for payment
      *
