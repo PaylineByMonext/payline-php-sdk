@@ -39,4 +39,6 @@ class Order
     public $deliveryExpectedDate;
 
     public $deliveryExpectedDelay;
+
+    public $deliveryCharge;
 }

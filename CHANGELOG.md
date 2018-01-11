@@ -1,4 +1,13 @@
-* 4.52 (2017-10-16)
+* 4.53 (2018-01-10)
+  * new deliveryCharge attribute in order object
+  * new registrationToken attribute in payment object
+  * new object subMerchant
+  * new method isRegistered
+  * new subMerchant parameter for doAuthorization, doWebPayment, doCredit, doDebit, doImmediateWalletPayment, doScheduledWalletPayment
+  * new miscData parameter for doWebPayment
+  * new returnUrl parameter for verifyEnrollment
+ 
+ * 4.52 (2017-10-16)
   * new avs child node in transaction object
   
 * 4.51 (2017-08-11)
