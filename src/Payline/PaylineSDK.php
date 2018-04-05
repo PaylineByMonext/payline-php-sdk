@@ -1936,9 +1936,9 @@ class PaylineSDK
         $this->formatRequest($array);
         $WSRequest = array(
             'payment'           => $this->payment($array['payment']),
-            'order'             => $this->payment($array['order']),
+            'order'             => $this->order($array['order']),
             'privateDataList'   => $this->privateData,
-            'buyer'             => $this->payment($array['buyer'])
+            'buyer'             => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'])
         );
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'isRegistered');
     }
