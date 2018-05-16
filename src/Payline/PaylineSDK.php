@@ -856,7 +856,7 @@ class PaylineSDK
         $array = array();
         foreach ($node as $k => $v) {
             if ($this->isChildFromList($k, $parent)) { // current value is a list
-                if (count($v) == 1 && $k != '0') { // a list with 1 element. It's returned with a 0-index
+                if ($v instanceof \Countable && count($v) == 1 && $k != '0') { // a list with 1 element. It's returned with a 0-index
                     $array[$k][0] = PaylineSDK::responseToArray($v, $k);
                 } elseif (is_object($v) || is_array($v)) { // a list with more than 1 element
                     $array[$k] = PaylineSDK::responseToArray($v, $k);
