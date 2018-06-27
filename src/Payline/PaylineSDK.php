@@ -36,12 +36,12 @@ class PaylineSDK
     /**
      * Payline release corresponding to this version of the package
      */
-    const SDK_RELEASE = 'PHP SDK 4.53';
+    const SDK_RELEASE = 'PHP SDK 4.55';
 
     /**
      * WSDL file name
      */
-    const WSDL = 'v4.53.wsdl';
+    const WSDL = 'v4.55.wsdl';
 
     /**
      * development environment flag
@@ -954,6 +954,9 @@ class PaylineSDK
         if (!isset($array['subMerchant'])) {
             $array['subMerchant'] = array();
         }
+        if (!isset($array['asynchronousRetryTimeout'])) {
+            $array['asynchronousRetryTimeout'] = null;
+        }
     }
     
     /**
@@ -1398,15 +1401,16 @@ class PaylineSDK
     {
         $this->formatRequest($array);
         $WSRequest = array(
-            'payment'                => $this->payment($array['payment']),
-            'card'                   => $this->card($array['card']),
-            'order'                  => $this->order($array['order']),
-            'buyer'                  => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress']),
-            'owner'                  => $this->owner($array['owner'], $array['ownerAddress']),
-            'privateDataList'        => $this->privateData,
-            'authentication3DSecure' => $this->authentication3DSecure($array['3DSecure']),
-            'bankAccountData'        => $this->bankAccountData($array['bankAccountData']),
-            'subMerchant'            => $this->subMerchant($array['subMerchant'])
+            'payment'                   => $this->payment($array['payment']),
+            'card'                      => $this->card($array['card']),
+            'order'                     => $this->order($array['order']),
+            'buyer'                     => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress']),
+            'owner'                     => $this->owner($array['owner'], $array['ownerAddress']),
+            'privateDataList'           => $this->privateData,
+            'authentication3DSecure'    => $this->authentication3DSecure($array['3DSecure']),
+            'bankAccountData'           => $this->bankAccountData($array['bankAccountData']),
+            'subMerchant'               => $this->subMerchant($array['subMerchant']),
+            'asynchronousRetryTimeout'  => $array['asynchronousRetryTimeout']
         );
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'doAuthorization');
     }
@@ -1938,7 +1942,8 @@ class PaylineSDK
             'payment'           => $this->payment($array['payment']),
             'order'             => $this->order($array['order']),
             'privateDataList'   => $this->privateData,
-            'buyer'             => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'])
+            'buyer'             => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress']),
+            'miscData'          => $array['miscData']
         );
         return $this->webServiceRequest($array, $WSRequest, PaylineSDK::DIRECT_API, 'isRegistered');
     }
@@ -1978,7 +1983,8 @@ class PaylineSDK
             'contractNumberWalletList'   => $array['walletContracts'],
             'merchantName'               => $array['merchantName'],
             'subMerchant'                => $this->subMerchant($array['subMerchant']),
-            'miscData'                   => $array['miscData']
+            'miscData'                   => $array['miscData'],
+            'asynchronousRetryTimeout'   => $array['asynchronousRetryTimeout']
         );
 
         if (isset($array['payment']['mode'])) {

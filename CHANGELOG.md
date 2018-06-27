@@ -1,3 +1,7 @@
+* 4.54 & 4.55 (2018-06-27)
+  * new asynchronousRetryTimeout parameter for doAuthorization and doWebPayment (4.55)
+  * new miscData parameter for isRegistered (4.54)
+  
 * 4.53 (2018-01-10)
   * new deliveryCharge attribute in order object
   * new registrationToken attribute in payment object
