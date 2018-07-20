@@ -91,7 +91,7 @@ class PaylineSDK
     /**
      * namespace used in web services desciptor
      */
-    const PAYLINE_NAMESPACE = 'http://obj.ws.payline.experian.com';
+    const PAYLINE_NAMESPACE = 'https://obj.ws.payline.experian.com';
 
     /**
      * SOAP name of authorization object

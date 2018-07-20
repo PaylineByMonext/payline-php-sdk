@@ -32,6 +32,11 @@ Usage
 	$doWebPaymentRequest['order']['ref'] = 'myOrderRef_35656'; // the reference of your order
 	$doWebPaymentRequest['order']['amount'] = 1000; // may differ from payment.amount if currency is different
 	$doWebPaymentRequest['order']['currency'] = 978; // ISO 4217 code for euro
+	$doWebPaymentRequest['order']['date'] = date('d/m/Y H:i'); // the date of your order dd/mm/yyyy HH24:MI format
+
+	// RETURN
+	$doWebPaymentRequest['returnURL'] = 'https://example.com/confirmation'; // User redirection URL after payment validated
+	$doWebPaymentRequest['cancelURL'] = 'https://example.com/cancel'; // User redirection URL if payment is not validated
 
 	// CONTRACT NUMBERS
 	$doWebPaymentRequest['payment']['contractNumber'] = '1234567';
