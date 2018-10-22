@@ -2225,10 +2225,14 @@ class PaylineSDK
      */
     public function getEncrypt($message, $accessKey) 
     {
-        $block   = mcrypt_get_block_size('rijndael_128', 'ecb');
-        $pad     = $block - (strlen($message) % $block);
+        $cipher = "AES-256-ECB";
+        $opts = OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING;
+
+        $pad = 16;
         $message .= str_repeat(chr($pad), $pad);
-        return $this->base64_url_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $accessKey, $message, MCRYPT_MODE_ECB));
+        $encrypted = openssl_encrypt($message, $cipher, $accessKey, $opts);
+
+        return $this->base64_url_encode($encrypted);
     }
 
     /**
@@ -2241,13 +2245,15 @@ class PaylineSDK
      */
     public function getDecrypt($message, $accessKey)
     {
+        $cipher = "AES-256-ECB";
+        $opts = OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING;
+
         $message = $this->base64_url_decode($message);
-        $message = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $accessKey, $message, MCRYPT_MODE_ECB);
-        $pad = ord($message[($len = strlen($message)) - 1]);
-        $len = strlen($message);
-        $pad = ord($message[$len - 1]);
-        $return = substr($message, 0, strlen($message) - $pad);
-        return $return;
+        $decrypted = openssl_decrypt($message, $cipher, $accessKey, $opts);
+        $len = strlen($decrypted);
+        $pad = ord($decrypted[$len - 1]);
+
+        return substr($decrypted, 0, strlen($decrypted) - $pad);
     }
 
     /**
