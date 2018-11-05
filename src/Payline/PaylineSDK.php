@@ -2229,7 +2229,15 @@ class PaylineSDK
         $opts = OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING;
 
         $pad = 16;
-        $message .= str_repeat(chr($pad), $pad);
+        $len = strlen($message);
+
+        $padlen = $len + $pad - $len % $pad;
+        $message = str_pad(
+            $message,
+            $padlen,
+            chr($padlen - $len)
+        );
+
         $encrypted = openssl_encrypt($message, $cipher, $accessKey, $opts);
 
         return $this->base64_url_encode($encrypted);
