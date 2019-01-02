@@ -25,4 +25,8 @@ class Recurring
     public $startDate;
 
     public $endDate;
+
+    public $newAmount;
+
+    public $amountModificationDate;
 }
