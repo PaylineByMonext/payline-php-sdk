@@ -280,7 +280,7 @@ class PaylineSDK
     const ERR_SHORT_MESSAGE = 'ERROR';
 
     /**
-     * Monolog\Logger instance
+     * @var Logger
      */
     private $logger;
 
@@ -341,9 +341,9 @@ class PaylineSDK
      * @param string $pathLog
      *            path to your custom log folder, must end by directory separator. If null, default logs folder is used. Default : null
      * @param int $logLevel
-     *            Monolog\Logger log level. Default : Logger::INFO
-     * @param  Monolog\Logger $externalLogger
-     *            Monolog\Logger instance, used by PaylineSDK but external to it 
+     *            \Monolog\Logger log level. Default : Logger::INFO
+     * @param Logger $externalLogger
+     *            \Monolog\Logger instance, used by PaylineSDK but external to it 
      */
     public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
@@ -1337,7 +1337,7 @@ class PaylineSDK
     }
 
     /**
-     * returns Monolog\Logger instance
+     * @return Logger \Monolog\Logger instance
      */
     public function getLogger()
     {
