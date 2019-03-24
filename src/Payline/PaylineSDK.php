@@ -402,6 +402,7 @@ class PaylineSDK
         $this->soapclient_options['style'] = defined('SOAP_DOCUMENT') ? SOAP_DOCUMENT : 2;
         $this->soapclient_options['use'] = defined('SOAP_LITERAL') ? SOAP_LITERAL : 2;
         $this->soapclient_options['connection_timeout'] = 5;
+        $this->soapclient_options['trace'] = false;
         if($plnInternal){
             $this->soapclient_options['stream_context'] = stream_context_create(
                 array(
@@ -1305,6 +1306,10 @@ class PaylineSDK
             $logResponse['result.code'] = $response['result']['code'];
             $this->logger->addInfo($Method . 'Request', $logRequest);
             $this->logger->addInfo($Method . 'Response', $logResponse);
+            if ($this->soapclient_options['trace'] === true) {
+                $this->logger->addDebug($Method . 'Last Request ' . $client->__getLastRequest());
+                $this->logger->addDebug($Method . 'Last Response ' .  $client->__getLastResponse());
+            }
             return $response;
         } catch (\Exception $e) {
             $this->logger->addInfo($Method . 'Request', $logRequest);
