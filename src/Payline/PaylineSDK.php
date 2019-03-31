@@ -1307,8 +1307,10 @@ class PaylineSDK
             $this->logger->addInfo($Method . 'Request', $logRequest);
             $this->logger->addInfo($Method . 'Response', $logResponse);
             if ($this->soapclient_options['trace'] === true) {
-                $this->logger->addDebug($Method . 'Last Request ' . $client->__getLastRequest());
-                $this->logger->addDebug($Method . 'Last Response ' .  $client->__getLastResponse());
+                $this->logger->addDebug($Method . ' Last Request ' . $client->__getLastRequest());
+                $this->logger->addDebug($Method . ' Last Request Headers ' . $client->__getLastRequestHeaders());
+                $this->logger->addDebug($Method . ' Last Response ' .  $client->__getLastResponse());
+                $this->logger->addDebug($Method . ' Last Response Headers ' .  $client->__getLastResponseHeaders());
             }
             return $response;
         } catch (\Exception $e) {
