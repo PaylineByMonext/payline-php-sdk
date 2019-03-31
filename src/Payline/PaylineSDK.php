@@ -403,6 +403,7 @@ class PaylineSDK
         $this->soapclient_options['use'] = defined('SOAP_LITERAL') ? SOAP_LITERAL : 2;
         $this->soapclient_options['connection_timeout'] = 5;
         $this->soapclient_options['trace'] = false;
+        $this->soapclient_options['soap_client'] = false;
         if($plnInternal){
             $this->soapclient_options['stream_context'] = stream_context_create(
                 array(
@@ -982,7 +983,11 @@ class PaylineSDK
             if(!$this->webServicesEndpoint){
                 throw new \Exception('Endpoint error (check `environment` parameter of PaylineSDK constructor)');
             }
-            $client = new SoapClient(__DIR__ . '/' . self::WSDL, $this->soapclient_options);
+            if ($this->soapclient_options['soap_client'] instanceof \SoapClient)  {
+                $client = $this->soapclient_options['soap_client'];
+            } else {
+                $client = new SoapClient(__DIR__ . '/' . self::WSDL, $this->soapclient_options);
+            }
             $client->__setLocation($this->webServicesEndpoint . $PaylineAPI);
             
             $WSRequest['version'] = isset($array['version']) && strlen($array['version']) ? $array['version'] : '';
