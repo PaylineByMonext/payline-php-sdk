@@ -58,7 +58,7 @@ Requires monolog/monolog, just let Composer do the job
 Author
 ------
 
-Fabien SUAREZ - <fabien.suarez@payline.com>
+Payline support - <support@payline.com>
 
 License
 -------
