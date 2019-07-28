@@ -31,4 +31,6 @@ class Payment
     public $cardBrand;
 
     public $registrationToken;
+
+    public $cumulatedAmount;
 }

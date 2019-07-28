@@ -1,3 +1,16 @@
+* 4.59 (2019-07-28)
+  * wsdl upgrade
+  * new threeDSInfo parameter for manageWebWallet and doWebPayment
+  * new browser in threeDSInfo
+  * new sdk in threeDSInfo
+  * new streetNumber, addressCreateDate and email in address
+  * new resultContainer and authenticationResult in Authentication3DSecure
+  * new buyerExtended, merchantAuthentication and loyaltyMemberType in buyer
+  * new discountAmount, otaPackageType, otaDestinationCountry, bookingReference, orderDetail, orderExtended and orderOTA in order
+  * new seller and sellerType in OrderDetail
+  * new cumulatedAmount in payment
+  * new billingBank in recurring
+
 * 4.54 & 4.55 (2018-06-27)
   * new asynchronousRetryTimeout parameter for doAuthorization and doWebPayment (4.55)
   * new miscData parameter for isRegistered (4.54)

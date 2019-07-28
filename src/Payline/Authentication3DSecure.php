@@ -31,4 +31,8 @@ class Authentication3DSecure
     public $PaResStatus;
 
     public $VeResStatus;
+
+    public $resultContainer;
+
+    public $authenticationResult;
 }

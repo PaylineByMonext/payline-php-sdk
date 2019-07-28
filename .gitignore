@@ -7,3 +7,4 @@ phpunit.xml
 /.settings/
 /.buildpath
 /.project
+/.idea
