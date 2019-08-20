@@ -67,4 +67,10 @@ class Buyer
     public $isRooted;
 
     public $hasTimezoneMismatch;
+
+    public $buyerExtended;
+
+    public $merchantAuthentication;
+
+    public $loyaltyMemberType;
 }

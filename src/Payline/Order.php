@@ -41,4 +41,18 @@ class Order
     public $deliveryExpectedDelay;
 
     public $deliveryCharge;
+
+    public $discountAmount;
+
+    public $otaPackageType;
+
+    public $otaDestinationCountry;
+
+    public $bookingReference;
+
+    public $orderDetail;
+
+    public $orderExtended;
+
+    public $orderOTA;
 }

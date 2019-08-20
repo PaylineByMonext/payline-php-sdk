@@ -37,4 +37,10 @@ class Address
     public $phoneType;
 
     public $phone;
+
+    public $streetNumber;
+
+    public $addressCreateDate;
+
+    public $email;
 }

@@ -29,4 +29,6 @@ class Recurring
     public $newAmount;
 
     public $amountModificationDate;
+
+    public $billingRank;
 }

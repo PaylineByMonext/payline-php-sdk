@@ -31,4 +31,8 @@ class OrderDetail
     public $additionalData;
 
     public $taxRate;
+
+    public $seller;
+
+    public $sellerType;
 }
