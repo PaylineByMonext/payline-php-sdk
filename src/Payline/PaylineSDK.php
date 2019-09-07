@@ -1763,6 +1763,7 @@ class PaylineSDK
     public function verifyEnrollment(array $array)
     {
         $this->formatRequest($array);
+        $order = $array['order'] != null ? $this->order($array['order']) : null;
         $WSRequest = array(
             'payment'           => $this->payment($array['payment']),
             'card'              => $this->card($array['card']),
@@ -1773,7 +1774,7 @@ class PaylineSDK
             'walletCardInd'     => $array['walletCardInd'],
             'merchantName'      => $array['merchantName'],
             'returnURL'         => $array['returnURL'],
-            'order'             => $this->order($array['order']),
+            'order'             => $order,
             'buyer'             => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
             'subMerchant'       => $this->subMerchant($array['subMerchant']),
             'privateDataList'   => $this->privateData,
