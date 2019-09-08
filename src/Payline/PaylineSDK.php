@@ -31,6 +31,8 @@ use Payline\Authorization;
 use Payline\Creditor;
 use Payline\Cheque;
 use Payline\Recurring;
+use Payline\ThreeDSInfo;
+use Payline\Sdk;
 
 class PaylineSDK
 {
@@ -1763,7 +1765,10 @@ class PaylineSDK
     public function verifyEnrollment(array $array)
     {
         $this->formatRequest($array);
-        $order = $array['order'] != null ? $this->order($array['order']) : null;
+        $order = array_key_exists('order', $array) ? $this->order($array['order']) : null;
+        $buyer = array_key_exists('buyer', $array) ? $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']) : null;
+        $subMerchant = array_key_exists('subMerchant', $array) ? $this->subMerchant($array['subMerchant']) : null;
+        $threeDSInfo = array_key_exists('threeDSInfo', $array) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
         $WSRequest = array(
             'payment'           => $this->payment($array['payment']),
             'card'              => $this->card($array['card']),
@@ -1775,11 +1780,11 @@ class PaylineSDK
             'merchantName'      => $array['merchantName'],
             'returnURL'         => $array['returnURL'],
             'order'             => $order,
-            'buyer'             => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'subMerchant'       => $this->subMerchant($array['subMerchant']),
+            'buyer'             => $buyer,
+            'subMerchant'       => $subMerchant,
             'privateDataList'   => $this->privateData,
             'merchantScore'     => $array['merchantScore'],
-            'threeDSInfo'       => $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk'])
+            'threeDSInfo'       => $threeDSInfo
         );
         if (isset($array['generateVirtualCvx'])) {
             $WSRequest['generateVirtualCvx'] = $array['generateVirtualCvx'];
