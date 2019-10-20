@@ -1769,6 +1769,7 @@ class PaylineSDK
         $buyer = array_key_exists('buyer', $array) ? $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']) : null;
         $subMerchant = array_key_exists('subMerchant', $array) ? $this->subMerchant($array['subMerchant']) : null;
         $threeDSInfo = array_key_exists('threeDSInfo', $array) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
+        $merchantScore = array_key_exists('merchantScore', $array) ? $$array['merchantScore'] :  null;
         $WSRequest = array(
             'payment'           => $this->payment($array['payment']),
             'card'              => $this->card($array['card']),
@@ -1783,7 +1784,7 @@ class PaylineSDK
             'buyer'             => $buyer,
             'subMerchant'       => $subMerchant,
             'privateDataList'   => $this->privateData,
-            'merchantScore'     => $array['merchantScore'],
+            'merchantScore'     => $merchantScore,
             'threeDSInfo'       => $threeDSInfo
         );
         if (isset($array['generateVirtualCvx'])) {
