@@ -51,7 +51,7 @@ class PaylineSDK
      * development environment flag
      */
     const ENV_DEV = "DEV";
-    
+
     /**
      * integration environment flag
      */
@@ -61,7 +61,7 @@ class PaylineSDK
      * homologation environment flag
      */
     const ENV_HOMO = "HOMO";
-    
+
     /**
      * homologation environment flag - uses certificate-based authentication
      */
@@ -121,7 +121,7 @@ class PaylineSDK
      * SOAP name of payment object
      */
     const SOAP_PAYMENT = 'payment';
-    
+
     /**
      * SOAP name of paymentData object
      */
@@ -181,7 +181,7 @@ class PaylineSDK
      * SOAP name of recurring object
      */
     const SOAP_RECURRING = 'recurring';
-    
+
     /**
      * SOAP name of subMerchant object
      */
@@ -241,12 +241,12 @@ class PaylineSDK
      * certificate-based authentication web services endpoint in production environment
      */
     const PROD_CC_ENDPOINT = 'https://services-cc.payline.com/V4/services/';
-    
+
     /**
      * URL of getToken servlet, used by AJAX API, in development environment
      */
     const DEV_GET_TOKEN_SERVLET = "https://webpayment.dev.payline.com/webpayment/getToken";
-    
+
     /**
      * URL of getToken servlet, used by AJAX API, in integration environment
      */
@@ -261,44 +261,44 @@ class PaylineSDK
      * URL of getToken servlet, used by AJAX API, in production environment
      */
     const PROD_GET_TOKEN_SERVLET = "https://webpayment.payline.com/webpayment/getToken";
-    
+
     /**
      * Widget JavaScript in development environment
      */
     const DEV_WDGT_JS = "https://webpayment.dev.payline.com/payline-widget/scripts/widget-min.js";
-    
+
     /**
      * Widget JavaScript in homologation environment
      */
     const HOMO_WDGT_JS = "https://homologation-payment.payline.com/scripts/widget-min.js";
-    
+
     /**
      * Widget JavaScript in production environment
      */
     const PROD_WDGT_JS = "https://payment.payline.com/scripts/widget-min.js";
-    
+
     /**
      * Widget css in development environment
      */
-    const DEV_WDGT_CSS = "https://webpayment.dev.payline.com/payline-widget/styles/widget-min.css";  
-    
+    const DEV_WDGT_CSS = "https://webpayment.dev.payline.com/payline-widget/styles/widget-min.css";
+
     /**
      * Widget css in homologation environment
      */
-    const HOMO_WDGT_CSS = "https://homologation-payment.payline.com/styles/widget-min.css";    
-    
+    const HOMO_WDGT_CSS = "https://homologation-payment.payline.com/styles/widget-min.css";
+
     /**
      * Widget css in production environment
      */
     const PROD_WDGT_CSS = "https://payment.payline.com/styles/widget-min.css";
-    
+
     /**
      * homologation administration center URL
      */
     const HOMO_CA = 'https://homologation-admin.payline.com';
 
     /**
-     * administration center URL 
+     * administration center URL
      */
     const PROD_CA = 'https://admin.payline.com';
 
@@ -327,7 +327,7 @@ class PaylineSDK
      * array containing private data
      */
     private $privateData;
-    
+
     /**
      * array containing parent-child nodes associations
      */
@@ -349,7 +349,7 @@ class PaylineSDK
         'PaymentMeansTrans'        => 'PaymentMeansTransHist',
         'AlertsTrans'              => 'AlertsTransHist'
     );
-    
+
     /**
      * PaylineSDK class constructor
      *
@@ -372,7 +372,7 @@ class PaylineSDK
      * @param int $logLevel
      *            Monolog\Logger log level. Default : Logger::INFO
      * @param  Monolog\Logger $externalLogger
-     *            Monolog\Logger instance, used by PaylineSDK but external to it 
+     *            Monolog\Logger instance, used by PaylineSDK but external to it
      */
     public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
@@ -392,7 +392,7 @@ class PaylineSDK
             $this->logger->pushHandler(new StreamHandler($pathLog . date('Y-m-d') . '.log', $logLevel)); // set custom log folder
         }
 
-        $this->logger->addInfo('__construct', array(
+        $this->logger->info('__construct', array(
             'merchant_id' => $this->hideChars($merchant_id, 6, 1),
             'access_key' => $this->hideChars($access_key, 1, 3),
             'proxy_host' => $proxy_host,
@@ -416,7 +416,7 @@ class PaylineSDK
         } elseif (strcmp($environment, self::ENV_HOMO_CC) == 0) {
             $this->webServicesEndpoint = self::HOMO_CC_ENDPOINT;
         } elseif (strcmp($environment, self::ENV_PROD) == 0) {
-            $this->webServicesEndpoint = self::PROD_ENDPOINT;               
+            $this->webServicesEndpoint = self::PROD_ENDPOINT;
         } elseif (strcmp($environment, self::ENV_PROD_CC) == 0) {
             $this->webServicesEndpoint = self::PROD_CC_ENDPOINT;
         } elseif (strcmp($environment, self::ENV_DEV) == 0) {
@@ -445,11 +445,11 @@ class PaylineSDK
         }
         $this->orderDetails = array();
         $this->privateData = array();
-        
+
         ini_set('user_agent', "PHP\r\nversion: " . self::SDK_RELEASE);
     }
 
-    
+
     /**
      * reset OrderDetails
      */
@@ -466,7 +466,7 @@ class PaylineSDK
     {
         $this->privateData = array();
     }
-    
+
     /**
      * build Payment instance from $array and make SoapVar object for payment
      *
@@ -478,7 +478,7 @@ class PaylineSDK
     {
         return $this->buildSoapObject($array, new Payment(), self::SOAP_PAYMENT);
     }
-    
+
     /**
      * build PaymentData instance from $array and make SoapVar object for payment
      *
@@ -598,7 +598,7 @@ class PaylineSDK
      * @param array $addressOwner
      *            the array keys are listed in AddressOwner CLASS.
      * @return SoapVar representation of Owner instance
-     *        
+     *
      */
     protected function owner(array $array, array $addressOwner)
     {
@@ -675,7 +675,7 @@ class PaylineSDK
                 }
             }
         }
-        
+
         $wallet->shippingAddress = $this->address($address);
         $wallet->card = $this->card($card);
         return new \SoapVar($wallet, SOAP_ENC_OBJECT, self::SOAP_WALLET, self::PAYLINE_NAMESPACE);
@@ -687,7 +687,7 @@ class PaylineSDK
      * @param array $array
      *            the array keys are listed in Authorization CLASS.
      * @return SoapVar representation of Authorization instance
-     *        
+     *
      */
     protected function authorization(array $array)
     {
@@ -718,7 +718,7 @@ class PaylineSDK
     {
         return $this->buildSoapObject($array, new Cheque(), self::SOAP_CHEQUE);
     }
-    
+
     /**
      * build Recurring instance from $array and make SoapVar object for recurring
      *
@@ -730,7 +730,7 @@ class PaylineSDK
     {
         return $this->buildSoapObject($array, new Recurring(), self::SOAP_RECURRING);
     }
-    
+
     /**
      * build SubMerchant instance from $array and make SoapVar object for subMerchant
      *
@@ -822,7 +822,7 @@ class PaylineSDK
         $outString .= substr($inString, - ($n2));
         return $outString;
     }
-    
+
     /**
      *
      * @param String $nodeName name of a node in a web service response
@@ -837,7 +837,7 @@ class PaylineSDK
         }
         return false;
     }
-    
+
     /**
      * make an array from a payline server response object.
      *
@@ -869,7 +869,7 @@ class PaylineSDK
         }
         return $array;
     }
-        
+
     /**
      * Adds indexes with empty values to the web services request array, in order to prevent SOAP format exception
      *
@@ -966,7 +966,7 @@ class PaylineSDK
             $array['threeDSInfo'] = array();
         }
     }
-    
+
     /**
      * Create the SoapClient instance and make the web service call
      *
@@ -995,10 +995,10 @@ class PaylineSDK
                 $client = new SoapClient(__DIR__ . '/' . self::WSDL, $this->soapclient_options);
             }
             $client->__setLocation($this->webServicesEndpoint . $PaylineAPI);
-            
+
             $WSRequest['version'] = isset($array['version']) && strlen($array['version']) ? $array['version'] : '';
             $WSRequest['media'] = isset($array['media']) && strlen($array['media']) ? $array['media'] : '';
-            
+
             switch ($Method) {
                 case 'createMerchant':
                     $response = self::responseToArray($client->createMerchant($WSRequest));
@@ -1315,18 +1315,18 @@ class PaylineSDK
                     break;
             }
             $logResponse['result.code'] = $response['result']['code'];
-            $this->logger->addInfo($Method . 'Request', $logRequest);
-            $this->logger->addInfo($Method . 'Response', $logResponse);
+            $this->logger->info($Method . 'Request', $logRequest);
+            $this->logger->info($Method . 'Response', $logResponse);
             if ($this->soapclient_options['trace'] === true) {
-                $this->logger->addDebug($Method . ' Last Request ' . $client->__getLastRequest());
-                $this->logger->addDebug($Method . ' Last Request Headers ' . $client->__getLastRequestHeaders());
-                $this->logger->addDebug($Method . ' Last Response ' .  $client->__getLastResponse());
-                $this->logger->addDebug($Method . ' Last Response Headers ' .  $client->__getLastResponseHeaders());
+                $this->logger->debug($Method . ' Last Request ' . $client->__getLastRequest());
+                $this->logger->debug($Method . ' Last Request Headers ' . $client->__getLastRequestHeaders());
+                $this->logger->debug($Method . ' Last Response ' .  $client->__getLastResponse());
+                $this->logger->debug($Method . ' Last Response Headers ' .  $client->__getLastResponseHeaders());
             }
             return $response;
         } catch (\Exception $e) {
-            $this->logger->addInfo($Method . 'Request', $logRequest);
-            $this->logger->addError('Exception occured at ' . $Method . ' call', array(
+            $this->logger->info($Method . 'Request', $logRequest);
+            $this->logger->error('Exception occured at ' . $Method . ' call', array(
                 'code'     => $e->getCode(),
                 'message'  => $e->getMessage(),
                 'endpoint' => $this->webServicesEndpoint . $PaylineAPI
@@ -1386,7 +1386,7 @@ class PaylineSDK
      *
      * @param array $array
      *            an array containing two indexes : key and value
-     *            
+     *
      */
     public function addPrivateData(array $array)
     {
@@ -1408,7 +1408,7 @@ class PaylineSDK
      *
      * *************************************************************************
      */
-    
+
     /**
      * calls doAuthorization web service
      *
@@ -1958,7 +1958,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing doBankTransfer parameters
      */
-    public function doBankTransfer(array $array) 
+    public function doBankTransfer(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -1970,7 +1970,7 @@ class PaylineSDK
         );
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doBankTransfer');
     }
-    
+
     /**
      * calls isRegistered web service
      *
@@ -1997,14 +1997,14 @@ class PaylineSDK
      *
      * *************************************************************************
      */
-    
+
     /**
      * calls doWebPayment web service
      *
      * @param array $array
      *            associative array containing doWebPayment parameters
      */
-    public function doWebPayment(array $array) 
+    public function doWebPayment(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -2089,7 +2089,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing manageWebWallet parameters
      */
-    public function manageWebWallet(array $array) 
+    public function manageWebWallet(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -2146,7 +2146,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing updateWebWallet parameters
      */
-    public function updateWebWallet(array $array) 
+    public function updateWebWallet(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -2188,14 +2188,14 @@ class PaylineSDK
      *
      * *************************************************************************
      */
-    
+
     /**
      * calls getTransactionDetails web service
      *
      * @param array $array
      *            associative array containing getWebWallet parameters
      */
-    public function getTransactionDetails(array $array) 
+    public function getTransactionDetails(array $array)
     {
         $this->formatRequest($array);
         $WSRequest = array(
@@ -2215,7 +2215,7 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getWebWallet parameters
      */
-    public function transactionsSearch(array $array) 
+    public function transactionsSearch(array $array)
     {
         $WSRequest = array(
             'transactionId'       => $array['transactionId'],
@@ -2263,7 +2263,7 @@ class PaylineSDK
      *
      * ************************************************************************
      */
-    
+
     /**
      * Custom base64 url encoding.
      * Replace unsafe url chars
@@ -2301,7 +2301,7 @@ class PaylineSDK
      *            merchant access key (SHA256 encrypted)
      * @return string encrypted message
      */
-    public function getEncrypt($message, $accessKey) 
+    public function getEncrypt($message, $accessKey)
     {
         $cipher = "AES-256-ECB";
         $opts = OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING;
@@ -2339,9 +2339,9 @@ class PaylineSDK
      *
      * @param string $data
      *            decrypted message sent by getToken servlet
-     * @param string $filename            
-     * @param string $error            
-     * @param unknown $maxlength            
+     * @param string $filename
+     * @param string $error
+     * @param unknown $maxlength
      * @return NULL|boolean|string
      */
     public function gzdecode($data, &$filename = '', &$error = '', $maxlength = null)
