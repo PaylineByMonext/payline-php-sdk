@@ -380,7 +380,6 @@ class PaylineSDK
             $merchant_id = (string) $merchant_id;
         }
 
-        date_default_timezone_set($defaultTimezone);
         if ($externalLogger) {
             $this->logger = $externalLogger;
         } else {
