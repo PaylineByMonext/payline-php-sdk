@@ -1581,6 +1581,7 @@ class PaylineSDK
      */
     public function updateWallet(array $array)
     {
+        $this->formatRequest($array);
         $WSRequest = array(
             'contractNumber'           => $array['contractNumber'],
             'cardInd'                  => $array['cardInd'],
