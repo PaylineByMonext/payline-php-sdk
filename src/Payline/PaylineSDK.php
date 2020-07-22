@@ -504,7 +504,7 @@ class PaylineSDK
         $order = new Order();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $order) && (strlen($v))) {
+                if (property_exists($order, $k) && (strlen($v))) {
                     $order->$k = $v;
                 }
             }
@@ -526,7 +526,7 @@ class PaylineSDK
         $card = new Card();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $card) && (strlen($v))) {
+                if (property_exists($card, $k) && (strlen($v))) {
                     $card->$k = $v;
                 }
             }
@@ -556,7 +556,7 @@ class PaylineSDK
         $buyer = new Buyer();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $buyer) && (strlen($v))) {
+                if (property_exists($buyer, $k) && (strlen($v))) {
                     $buyer->$k = $v;
                 }
             }
@@ -607,7 +607,7 @@ class PaylineSDK
             $owner = new Owner();
             if ($array) {
                 foreach ($array as $k => $v) {
-                    if (array_key_exists($k, $owner) && (strlen($v))) {
+                    if (property_exists($owner, $k) && (strlen($v))) {
                         $owner->$k = $v;
                     }
                 }
@@ -671,7 +671,7 @@ class PaylineSDK
         $wallet = new Wallet();
         if ($inWallet) {
             foreach ($inWallet as $k => $v) {
-                if (array_key_exists($k, $wallet) && (strlen($v))) {
+                if (property_exists($wallet, $k) && (strlen($v))) {
                     $wallet->$k = $v;
                 }
             }
@@ -759,7 +759,7 @@ class PaylineSDK
         $threeDSInfo = new ThreeDSInfo();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $array) && (strlen($v))) {
+                if (property_exists($threeDSInfo, $k) && (strlen($v))) {
                     $threeDSInfo->$k = $v;
                 }
             }
@@ -831,7 +831,7 @@ class PaylineSDK
      * @return boolean whether $nodeName is child from a list or not
      */
     protected function isChildFromList($nodeName,$parentName){
-        if(array_key_exists($nodeName, $this->parentNode)){
+        if(isset($this->parentNode[$nodeName])){
             if(strcmp($this->parentNode[$nodeName],$parentName) == 0){
                 return true;
             }
@@ -1374,7 +1374,7 @@ class PaylineSDK
         $orderDetail = new OrderDetail();
         if ($newOrderDetail) {
             foreach ($newOrderDetail as $k => $v) {
-                if (array_key_exists($k, $orderDetail) && (strlen($v))) {
+                if (property_exists($orderDetail, $k) && (strlen($v))) {
                     $orderDetail->$k = $v;
                 }
             }
@@ -1394,7 +1394,7 @@ class PaylineSDK
         $private = new PrivateData();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $private) && (strlen($v))) {
+                if (property_exists($private, $k) && (strlen($v))) {
                     $private->$k = $v;
                 }
             }
@@ -1767,11 +1767,11 @@ class PaylineSDK
     public function verifyEnrollment(array $array)
     {
         $this->formatRequest($array);
-        $order = array_key_exists('order', $array) ? $this->order($array['order']) : null;
-        $buyer = array_key_exists('buyer', $array) ? $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']) : null;
-        $subMerchant = array_key_exists('subMerchant', $array) ? $this->subMerchant($array['subMerchant']) : null;
-        $threeDSInfo = array_key_exists('threeDSInfo', $array) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
-        $merchantScore = array_key_exists('merchantScore', $array) ? $array['merchantScore'] :  null;
+        $order = isset($array['order']) ? $this->order($array['order']) : null;
+        $buyer = isset($array['buyer']) ? $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']) : null;
+        $subMerchant = isset($array['subMerchant']) ? $this->subMerchant($array['subMerchant']) : null;
+        $threeDSInfo = isset($array['threeDSInfo']) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
+        $merchantScore = isset($array['merchantScore']) ? $array['merchantScore'] :  null;
         $WSRequest = array(
             'payment'           => $this->payment($array['payment']),
             'card'              => $this->card($array['card']),
@@ -2470,7 +2470,7 @@ class PaylineSDK
     {
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $object) && (strlen($v))) {
+                if (property_exists($object, $k) && (strlen($v))) {
                     $object->$k = $v;
                 }
             }
