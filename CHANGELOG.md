@@ -1,3 +1,8 @@
+* 4.64.1 (2020-01-06)
+  * wsdl upgrade and split wsdl in three files    
+  * new properties authorizedCurrency, authorizedAmount in Authorization
+  * new property challengeWindowSize in threeDSInfo
+    
 * 4.59 (2019-07-28)
   * wsdl upgrade
   * new threeDSInfo parameter for manageWebWallet and doWebPayment

@@ -25,5 +25,7 @@ class ThreeDSInfo {
     public $threeDSMethodNotificationURL;
 
     public $threeDSMethodResult;
+
+    public $challengeWindowSize;
 }
 
