@@ -1,3 +1,13 @@
+* 4.64.1 (2020-01-06)
+  * wsdl upgrade and split wsdl in three files    
+  * new properties authorizedCurrency, authorizedAmount in Authorization
+  * new property challengeWindowSize in threeDSInfo
+  * new property challengeWindowSize in threeDSInfo
+  * support php 7.4 replace array_key_exists by property_exists on object
+  * allow to customize waiting time when connecting to Payline servers
+  * format request for UpdateWallet call
+  * fix phpdoc for logger
+    
 * 4.59 (2019-07-28)
   * wsdl upgrade
   * new threeDSInfo parameter for manageWebWallet and doWebPayment
