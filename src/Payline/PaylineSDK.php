@@ -751,11 +751,12 @@ class PaylineSDK
      *      the array keys liste in Sdk CLASS.
      * @return  SoapVar representation of ThreeDSInfo instance
      */
-    protected function threeDSInfo(array $array, array $arrayBrowser, array $arraySdk) {
+    protected function threeDSInfo(array $array, array $arrayBrowser, array $arraySdk)
+    {
         $threeDSInfo = new ThreeDSInfo();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $array) && (strlen($v))) {
+                if (property_exists($threeDSInfo, $k) && (strlen($v))) {
                     $threeDSInfo->$k = $v;
                 }
             }
