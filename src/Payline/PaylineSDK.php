@@ -39,13 +39,9 @@ class PaylineSDK
 
     /**
      * Payline release corresponding to this version of the package
+     * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.59';
-
-    /**
-     * WSDL file name
-     */
-    const WSDL = 'v4.59.wsdl';
+    const SDK_RELEASE = 'PHP SDK 4.64.1';
 
     /**
      * development environment flag
@@ -966,6 +962,11 @@ class PaylineSDK
         if (!isset($array['threeDSInfo'])) {
             $array['threeDSInfo'] = array();
         }
+        if (!isset($array['updatePersonalDetails'])) {
+            $array['updatePersonalDetails'] = null;
+        }
+
+
     }
 
     /**
@@ -993,7 +994,7 @@ class PaylineSDK
             if ($this->soapclient_options['soap_client'] instanceof \SoapClient)  {
                 $client = $this->soapclient_options['soap_client'];
             } else {
-                $client = new SoapClient(__DIR__ . '/' . self::WSDL, $this->soapclient_options);
+                $client = new SoapClient(__DIR__ . '/wsdl/' . $PaylineAPI . '.wsdl', $this->soapclient_options);
             }
             $client->__setLocation($this->webServicesEndpoint . $PaylineAPI);
 

@@ -11,8 +11,11 @@ namespace Payline;
 
 class Authorization
 {
-
     public $number;
 
     public $date;
+
+    public $authorizedAmount;
+
+    public $authorizedCurrency;
 }
