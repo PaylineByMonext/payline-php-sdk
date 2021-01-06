@@ -431,7 +431,7 @@ class PaylineSDK
         }
         $this->soapclient_options['style'] = defined('SOAP_DOCUMENT') ? SOAP_DOCUMENT : 2;
         $this->soapclient_options['use'] = defined('SOAP_LITERAL') ? SOAP_LITERAL : 2;
-        $this->soapclient_options['connection_timeout'] = 5;
+        $this->soapclient_options['connection_timeout'] = defined('SOAP_CONNECTION_TIMEOUT') ? SOAP_CONNECTION_TIMEOUT : 5;
         $this->soapclient_options['trace'] = false;
         $this->soapclient_options['soap_client'] = false;
         if($plnInternal){
@@ -1581,6 +1581,7 @@ class PaylineSDK
      */
     public function updateWallet(array $array)
     {
+        $this->formatRequest($array);
         $WSRequest = array(
             'contractNumber'           => $array['contractNumber'],
             'cardInd'                  => $array['cardInd'],
