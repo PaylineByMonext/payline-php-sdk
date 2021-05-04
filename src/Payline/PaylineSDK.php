@@ -39,13 +39,9 @@ class PaylineSDK
 
     /**
      * Payline release corresponding to this version of the package
+     * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.59';
-
-    /**
-     * WSDL file name
-     */
-    const WSDL = 'v4.59.wsdl';
+    const SDK_RELEASE = 'PHP SDK 4.64.1';
 
     /**
      * development environment flag
@@ -309,7 +305,7 @@ class PaylineSDK
     const ERR_SHORT_MESSAGE = 'ERROR';
 
     /**
-     * Monolog\Logger instance
+     * @var Logger
      */
     private $logger;
 
@@ -370,9 +366,9 @@ class PaylineSDK
      * @param string $pathLog
      *            path to your custom log folder, must end by directory separator. If null, default logs folder is used. Default : null
      * @param int $logLevel
-     *            Monolog\Logger log level. Default : Logger::INFO
-     * @param  Monolog\Logger $externalLogger
-     *            Monolog\Logger instance, used by PaylineSDK but external to it
+     *            \Monolog\Logger log level. Default : Logger::INFO
+     * @param Logger $externalLogger
+     *            \Monolog\Logger instance, used by PaylineSDK but external to it
      */
     public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
     {
@@ -431,7 +427,7 @@ class PaylineSDK
         }
         $this->soapclient_options['style'] = defined('SOAP_DOCUMENT') ? SOAP_DOCUMENT : 2;
         $this->soapclient_options['use'] = defined('SOAP_LITERAL') ? SOAP_LITERAL : 2;
-        $this->soapclient_options['connection_timeout'] = 5;
+        $this->soapclient_options['connection_timeout'] = defined('SOAP_CONNECTION_TIMEOUT') ? SOAP_CONNECTION_TIMEOUT : 5;
         $this->soapclient_options['trace'] = false;
         $this->soapclient_options['soap_client'] = false;
         if($plnInternal){
@@ -504,7 +500,7 @@ class PaylineSDK
         $order = new Order();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $order) && (strlen($v))) {
+                if (property_exists($order, $k) && (strlen($v))) {
                     $order->$k = $v;
                 }
             }
@@ -526,7 +522,7 @@ class PaylineSDK
         $card = new Card();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $card) && (strlen($v))) {
+                if (property_exists($card, $k) && (strlen($v))) {
                     $card->$k = $v;
                 }
             }
@@ -556,7 +552,7 @@ class PaylineSDK
         $buyer = new Buyer();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $buyer) && (strlen($v))) {
+                if (property_exists($buyer, $k) && (strlen($v))) {
                     $buyer->$k = $v;
                 }
             }
@@ -607,7 +603,7 @@ class PaylineSDK
             $owner = new Owner();
             if ($array) {
                 foreach ($array as $k => $v) {
-                    if (array_key_exists($k, $owner) && (strlen($v))) {
+                    if (property_exists($owner, $k) && (strlen($v))) {
                         $owner->$k = $v;
                     }
                 }
@@ -671,7 +667,7 @@ class PaylineSDK
         $wallet = new Wallet();
         if ($inWallet) {
             foreach ($inWallet as $k => $v) {
-                if (array_key_exists($k, $wallet) && (strlen($v))) {
+                if (property_exists($wallet, $k) && (strlen($v))) {
                     $wallet->$k = $v;
                 }
             }
@@ -755,11 +751,12 @@ class PaylineSDK
      *      the array keys liste in Sdk CLASS.
      * @return  SoapVar representation of ThreeDSInfo instance
      */
-    protected function threeDSInfo(array $array, array $arrayBrowser, array $arraySdk) {
+    protected function threeDSInfo(array $array, array $arrayBrowser, array $arraySdk)
+    {
         $threeDSInfo = new ThreeDSInfo();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $array) && (strlen($v))) {
+                if (property_exists($threeDSInfo, $k) && (strlen($v))) {
                     $threeDSInfo->$k = $v;
                 }
             }
@@ -966,6 +963,11 @@ class PaylineSDK
         if (!isset($array['threeDSInfo'])) {
             $array['threeDSInfo'] = array();
         }
+        if (!isset($array['updatePersonalDetails'])) {
+            $array['updatePersonalDetails'] = null;
+        }
+
+
     }
 
     /**
@@ -993,7 +995,7 @@ class PaylineSDK
             if ($this->soapclient_options['soap_client'] instanceof \SoapClient)  {
                 $client = $this->soapclient_options['soap_client'];
             } else {
-                $client = new SoapClient(__DIR__ . '/' . self::WSDL, $this->soapclient_options);
+                $client = new SoapClient(__DIR__ . '/wsdl/' . $PaylineAPI . '.wsdl', $this->soapclient_options);
             }
             $client->__setLocation($this->webServicesEndpoint . $PaylineAPI);
 
@@ -1356,7 +1358,7 @@ class PaylineSDK
     }
 
     /**
-     * returns Monolog\Logger instance
+     * @return Logger \Monolog\Logger instance
      */
     public function getLogger()
     {
@@ -1374,7 +1376,7 @@ class PaylineSDK
         $orderDetail = new OrderDetail();
         if ($newOrderDetail) {
             foreach ($newOrderDetail as $k => $v) {
-                if (array_key_exists($k, $orderDetail) && (strlen($v))) {
+                if (property_exists($orderDetail, $k) && (strlen($v))) {
                     $orderDetail->$k = $v;
                 }
             }
@@ -1394,7 +1396,7 @@ class PaylineSDK
         $private = new PrivateData();
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $private) && (strlen($v))) {
+                if (property_exists($private, $k) && (strlen($v))) {
                     $private->$k = $v;
                 }
             }
@@ -2470,7 +2472,7 @@ class PaylineSDK
     {
         if ($array) {
             foreach ($array as $k => $v) {
-                if (array_key_exists($k, $object) && (strlen($v))) {
+                if (property_exists($object, $k) && (strlen($v))) {
                     $object->$k = $v;
                 }
             }
