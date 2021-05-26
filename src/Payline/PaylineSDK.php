@@ -1027,9 +1027,11 @@ class PaylineSDK
                 case 'createWallet':
                     $logRequest = array(
                         'contractNumber' => $array['contractNumber'],
-                        'walletId' => $array['wallet']['walletId'],
-                        'card.number' => $this->hideChars($array['card']['number'], 4, 4)
+                        'walletId' => $array['wallet']['walletId']
                     );
+                    if (!empty($array['card'])) {
+                        $logRequest['card.number'] = $this->hideChars($array['card']['number'], 4, 4);
+                    }
                     $response = self::responseToArray($client->createWallet($WSRequest));
                     break;
                 case 'createWebWallet':

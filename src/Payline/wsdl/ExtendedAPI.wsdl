@@ -2152,7 +2152,7 @@
 					<element minOccurs="0" name="firstName" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="email" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="shippingAddress" nillable="true" type="tns1:address"/>
-					<element name="card" nillable="false" type="tns1:card"/>
+					<element name="card" nillable="true" type="tns1:card"/>
 					<element minOccurs="0" name="comment" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="default" nillable="true" type="xsd:string"/>
 					<element minOccurs="0" name="cardStatus" nillable="true" type="xsd:string"/>
