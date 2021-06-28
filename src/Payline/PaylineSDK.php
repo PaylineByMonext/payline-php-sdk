@@ -2539,8 +2539,10 @@ class PaylineSDK
      *
      * @return string
      */    
-    public function getLastRequest() {
-        return ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastRequest() : false;
+    public function getLastRequest( $beautifuler = false ) {
+        $result = ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastRequest() : false;
+        if ($result && $beautifuler) $result = $this->beautifulerXML($result);
+        return $result;
     }
 
     /**
@@ -2548,8 +2550,10 @@ class PaylineSDK
      *
      * @return string
      */ 
-    public function getLastRequestHeaders() {
-        return ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastRequestHeaders() : false;
+    public function getLastRequestHeaders( $beautifuler = false ) {
+        $result = ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastRequestHeaders() : false;
+        if ($result && $beautifuler) $result = $this->beautifulerXML($result);
+        return $result;
     }
 
     /**
@@ -2557,8 +2561,10 @@ class PaylineSDK
      *
      * @return string
      */ 
-    public function getLastResponse() {
-        return ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastResponse() : false;
+    public function getLastResponse( $beautifuler = false ) {
+        $result = ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastResponse() : false;
+        if ($result && $beautifuler) $result = $this->beautifulerXML($result);
+        return $result;
     }
 
     /**
@@ -2566,8 +2572,24 @@ class PaylineSDK
      *
      * @return string
      */ 
-    public function getLastResponseHeaders() {
-        return ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastResponseHeaders() : false;
+    public function getLastResponseHeaders( $beautifuler = false ) {
+        $result = ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastResponseHeaders() : false;
+        if ($result && $beautifuler) $result = $this->beautifulerXML($result);
+        return $result;
     }
 
+    /**
+     * Pretty print XML
+     *
+     * @param string $xml
+     *            content of the xml file to make pretty
+     * @return boolean|string
+     */
+    public function beautifulerXML($xml) {
+        $dom = new \DOMDocument('1.0');
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $dom->loadXML($xml);
+        return $dom->saveXML();
+    }
 }
