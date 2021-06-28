@@ -310,6 +310,11 @@ class PaylineSDK
     private $logger;
 
     /**
+     * @var SoapClient
+     */
+    private $client;
+
+    /**
      * tool / e-commerce module using this library
      */
     private $usedBy = null;
@@ -369,8 +374,10 @@ class PaylineSDK
      *            \Monolog\Logger log level. Default : Logger::INFO
      * @param Logger $externalLogger
      *            \Monolog\Logger instance, used by PaylineSDK but external to it
+    * @param boolean $trace
+     *            activate trace. Default : false
      */
-    public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris")
+    public function __construct($merchant_id, $access_key, $proxy_host, $proxy_port, $proxy_login, $proxy_password, $environment, $pathLog = null, $logLevel = Logger::INFO, $externalLogger = null, $defaultTimezone = "Europe/Paris", $trace = false)
     {
         if (is_int($merchant_id)) {
             $merchant_id = (string) $merchant_id;
@@ -428,7 +435,7 @@ class PaylineSDK
         $this->soapclient_options['style'] = defined('SOAP_DOCUMENT') ? SOAP_DOCUMENT : 2;
         $this->soapclient_options['use'] = defined('SOAP_LITERAL') ? SOAP_LITERAL : 2;
         $this->soapclient_options['connection_timeout'] = defined('SOAP_CONNECTION_TIMEOUT') ? SOAP_CONNECTION_TIMEOUT : 5;
-        $this->soapclient_options['trace'] = false;
+        $this->soapclient_options['trace'] = $trace;
         $this->soapclient_options['soap_client'] = false;
         if($plnInternal){
             $this->soapclient_options['stream_context'] = stream_context_create(
@@ -1014,11 +1021,11 @@ class PaylineSDK
                 throw new \Exception('Endpoint error (check `environment` parameter of PaylineSDK constructor)');
             }
             if ($this->soapclient_options['soap_client'] instanceof \SoapClient)  {
-                $client = $this->soapclient_options['soap_client'];
+                $this->client = $this->soapclient_options['soap_client'];
             } else {
-                $client = new SoapClient(__DIR__ . '/wsdl/' . $PaylineAPI . '.wsdl', $this->soapclient_options);
+                $this->client = new SoapClient(__DIR__ . '/wsdl/' . $PaylineAPI . '.wsdl', $this->soapclient_options);
             }
-            $client->__setLocation($this->webServicesEndpoint . $PaylineAPI);
+            $this->client->__setLocation($this->webServicesEndpoint . $PaylineAPI);
 
             $WSRequest['version'] = isset($array['version']) && strlen($array['version']) ? $array['version'] : '';
             $WSRequest['media'] = isset($array['media']) && strlen($array['media']) ? $array['media'] : '';
@@ -1030,14 +1037,14 @@ class PaylineSDK
                         'walletId' => $array['wallet']['walletId'],
                         'card.number' => $this->hideChars($array['card']['number'], 4, 4)
                     );
-                    $response = self::responseToArray($client->createWallet($WSRequest));
+                    $response = self::responseToArray($this->client->createWallet($WSRequest));
                     break;
                 case 'createWebWallet':
                     $logRequest = array(
                         'contractNumber' => $array['contractNumber'],
                         'walletId' => $array['buyer']['walletId']
                     );
-                    $response = self::responseToArray($client->createWebWallet($WSRequest));
+                    $response = self::responseToArray($this->client->createWebWallet($WSRequest));
                     if ($response['result']['code'] == '00000') {
                         $logResponse['token'] = $response['token'];
                     }
@@ -1047,7 +1054,7 @@ class PaylineSDK
                         'contractNumber' => $array['contractNumber'],
                         'paymentRecordId ' => $array['paymentRecordId']
                     );
-                    $response = PaylineSDK::responseToArray($client->updatePaymentRecord($WSRequest));
+                    $response = PaylineSDK::responseToArray($this->client->updatePaymentRecord($WSRequest));
                     break;
                 case 'getBillingRecord':
                     $logRequest = array(
@@ -1055,7 +1062,7 @@ class PaylineSDK
                         'paymentRecordId' => $array['paymentRecordId'],
                         'billingRecordId' => $array['billingRecordId']
                     );
-                    $response = self::responseToArray($client->getBillingRecord($WSRequest));
+                    $response = self::responseToArray($this->client->getBillingRecord($WSRequest));
                     break;
                 case 'updateBillingRecord':
                     $logRequest = array(
@@ -1063,21 +1070,21 @@ class PaylineSDK
                         'paymentRecordId' => $array['paymentRecordId'],
                         'billingRecordId' => $array['billingRecordId']
                     );
-                    $response = self::responseToArray($client->updateBillingRecord($WSRequest));
+                    $response = self::responseToArray($this->client->updateBillingRecord($WSRequest));
                     break;
                 case 'disablePaymentRecord':
                     $logRequest = array(
                         'contractNumber' => $array['contractNumber'],
                         'paymentRecordId' => $array['paymentRecordId']
                     );
-                    $response = self::responseToArray($client->disablePaymentRecord($WSRequest));
+                    $response = self::responseToArray($this->client->disablePaymentRecord($WSRequest));
                     break;
                 case 'disableWallet':
                     $logRequest = array(
                         'contractNumber' => $array['contractNumber'],
                         'walletIdList' => implode(';', $array['walletIds'])
                     );
-                    $response = self::responseToArray($client->disableWallet($WSRequest));
+                    $response = self::responseToArray($this->client->disableWallet($WSRequest));
                     break;
                 case 'doAuthorization':
                     $logRequest = array(
@@ -1085,7 +1092,7 @@ class PaylineSDK
                         'payment.contractNumber' => $array['payment']['contractNumber'],
                         'payment.amount' => $array['payment']['amount']
                     );
-                    $response = self::responseToArray($client->doAuthorization($WSRequest));
+                    $response = self::responseToArray($this->client->doAuthorization($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'doCapture':
@@ -1093,7 +1100,7 @@ class PaylineSDK
                         'transactionID' => $array['transactionID'],
                         'payment.amount' => $array['payment']['amount']
                     );
-                    $response = self::responseToArray($client->doCapture($WSRequest));
+                    $response = self::responseToArray($this->client->doCapture($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'doCredit':
@@ -1102,7 +1109,7 @@ class PaylineSDK
                         'order.ref' => $array['order']['ref'],
                         'card.number' => $this->hideChars($array['card']['number'], 4, 4)
                     );
-                    $response = self::responseToArray($client->doCredit($WSRequest));
+                    $response = self::responseToArray($this->client->doCredit($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'doDebit':
@@ -1111,7 +1118,7 @@ class PaylineSDK
                         'order.ref' => $array['order']['ref'],
                         'card.number' => $this->hideChars($array['card']['number'], 4, 4)
                     );
-                    $response = self::responseToArray($client->doDebit($WSRequest));
+                    $response = self::responseToArray($this->client->doDebit($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'doImmediateWalletPayment':
@@ -1120,7 +1127,7 @@ class PaylineSDK
                         'walletId' => $array['walletId'],
                         'order.ref' => $array['order']['ref']
                     );
-                    $response = self::responseToArray($client->doImmediateWalletPayment($WSRequest));
+                    $response = self::responseToArray($this->client->doImmediateWalletPayment($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'doReAuthorization':
@@ -1128,7 +1135,7 @@ class PaylineSDK
                         'transactionID' => $array['transactionID'],
                         'amount' => $array['payment']['amount']
                     );
-                    $response = self::responseToArray($client->doReAuthorization($WSRequest));
+                    $response = self::responseToArray($this->client->doReAuthorization($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'doRecurrentWalletPayment':
@@ -1137,7 +1144,7 @@ class PaylineSDK
                         'walletId' => $array['walletId'],
                         'order.ref' => $array['order']['ref']
                     );
-                    $response = self::responseToArray($client->doRecurrentWalletPayment($WSRequest));
+                    $response = self::responseToArray($this->client->doRecurrentWalletPayment($WSRequest));
                     if ($response['result']['code'] == '02500') {
                         $logResponse['paymentRecordId'] = $response['paymentRecordId'];
                     }
@@ -1147,14 +1154,14 @@ class PaylineSDK
                         'transactionID' => $array['transactionID'],
                         'payment.amount' => $array['payment']['amount']
                     );
-                    $response = self::responseToArray($client->doRefund($WSRequest));
+                    $response = self::responseToArray($this->client->doRefund($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'doReset':
                     $logRequest = array(
                         'transactionID' => $array['transactionID']
                     );
-                    $response = self::responseToArray($client->doReset($WSRequest));
+                    $response = self::responseToArray($this->client->doReset($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'doScheduledWalletPayment':
@@ -1163,19 +1170,19 @@ class PaylineSDK
                         'walletId' => $array['walletId'],
                         'order.ref' => $array['order']['ref']
                     );
-                    $response = self::responseToArray($client->doScheduledWalletPayment($WSRequest));
+                    $response = self::responseToArray($this->client->doScheduledWalletPayment($WSRequest));
                     if ($response['result']['code'] == '02500') {
                         $logResponse['paymentRecordId'] = $response['paymentRecordId'];
                     }
                     break;
                 case 'doScoringCheque':
-                    $response = self::responseToArray($client->doScoringCheque($WSRequest));
+                    $response = self::responseToArray($this->client->doScoringCheque($WSRequest));
                     break;
                 case 'doWebPayment':
                     $logRequest = array(
                         'order.ref' => $array['order']['ref']
                     );
-                    $response = self::responseToArray($client->doWebPayment($WSRequest));
+                    $response = self::responseToArray($this->client->doWebPayment($WSRequest));
                     if ($response['result']['code'] == '00000') {
                         $logResponse['token'] = $response['token'];
                     }
@@ -1184,21 +1191,21 @@ class PaylineSDK
                     $logRequest = array(
                         'walletId' => $array['walletId']
                     );
-                    $response = self::responseToArray($client->enableWallet($WSRequest));
+                    $response = self::responseToArray($this->client->enableWallet($WSRequest));
                     break;
                 case 'getAlertDetails':
                     $logRequest = array(
                         'alertId' => $array['AlertId'],
                         'transactionId' => $array['TransactionId']
                     );
-                    $response = self::responseToArray($client->getAlertDetails($WSRequest));
+                    $response = self::responseToArray($this->client->getAlertDetails($WSRequest));
                     break;
                 case 'getBalance':
                     $logRequest = array(
                         'contractNumber' => $array['contractNumber'],
                         'cardID' => $this->hideChars($array['cardID'], 4, 4)
                     );
-                    $response = self::responseToArray($client->getBalance($WSRequest));
+                    $response = self::responseToArray($this->client->getBalance($WSRequest));
                     break;
                 case 'getCards':
                     $logRequest = array(
@@ -1206,27 +1213,27 @@ class PaylineSDK
                         'walletId' => $array['walletId'],
                         'cardInd' => $array['cardInd']
                     );
-                    $response = self::responseToArray($client->getCards($WSRequest));
+                    $response = self::responseToArray($this->client->getCards($WSRequest));
                     break;
                 case 'getEncryptionKey':
-                    $response = self::responseToArray($client->getEncryptionKey($WSRequest));
+                    $response = self::responseToArray($this->client->getEncryptionKey($WSRequest));
                     break;
                 case 'getMerchantSettings':
-                    $response = self::responseToArray($client->getMerchantSettings($WSRequest));
+                    $response = self::responseToArray($this->client->getMerchantSettings($WSRequest));
                     break;
                 case 'getPaymentRecord':
                     $logRequest = array(
                         'contractNumber' => $array['contractNumber'],
                         'paymentRecordId' => $array['paymentRecordId']
                     );
-                    $response = self::responseToArray($client->getPaymentRecord($WSRequest));
+                    $response = self::responseToArray($this->client->getPaymentRecord($WSRequest));
                     break;
                 case 'getToken':
                     $logRequest = array(
                         'contractNumber' => $array['contractNumber'],
                         'cardNumber' => $this->hideChars($array['cardNumber'], 4, 4)
                     );
-                    $response = self::responseToArray($client->getToken($WSRequest));
+                    $response = self::responseToArray($this->client->getToken($WSRequest));
                     if ($response['result']['code'] == '02500') {
                         $logResponse['token'] = $response['token'];
                     }
@@ -1235,7 +1242,7 @@ class PaylineSDK
                     $logRequest = array(
                         'transactionId' => $array['transactionId']
                     );
-                    $response = self::responseToArray($client->getTransactionDetails($WSRequest));
+                    $response = self::responseToArray($this->client->getTransactionDetails($WSRequest));
                     break;
                 case 'getWallet':
                     $logRequest = array(
@@ -1243,13 +1250,13 @@ class PaylineSDK
                         'walletId' => $array['walletId'],
                         'cardInd' => $array['cardInd']
                     );
-                    $response = self::responseToArray($client->getWallet($WSRequest));
+                    $response = self::responseToArray($this->client->getWallet($WSRequest));
                     break;
                 case 'getWebPaymentDetails':
                     $logRequest = array(
                         'token' => $array['token']
                     );
-                    $response = self::responseToArray($client->getWebPaymentDetails($WSRequest));
+                    $response = self::responseToArray($this->client->getWebPaymentDetails($WSRequest));
                     if (isset($response['transaction']['id'])) {
                         $logResponse['transaction.id'] = $response['transaction']['id'];
                     }
@@ -1258,7 +1265,7 @@ class PaylineSDK
                     $logRequest = array(
                         'token' => $array['token']
                     );
-                    $response = self::responseToArray($client->getWebWallet($WSRequest));
+                    $response = self::responseToArray($this->client->getWebWallet($WSRequest));
                     if (isset($response['wallet']['card'])) {
                         $logResponse['wallet.card.number'] = $this->hideChars($response['wallet']['card']['number'], 4, 4);
                     }
@@ -1268,7 +1275,7 @@ class PaylineSDK
                         'contractNumber' => $array['contractNumber'],
                         'buyer.walletId' => $array['buyer']['walletId']
                     );
-                    $response = self::responseToArray($client->manageWebWallet($WSRequest));
+                    $response = self::responseToArray($this->client->manageWebWallet($WSRequest));
                     if ($response['result']['code'] == '00000') {
                         $logResponse['token'] = $response['token'];
                     }
@@ -1280,25 +1287,25 @@ class PaylineSDK
                             $logRequest[$key] = $value;
                         }
                     }
-                    $response = self::responseToArray($client->transactionsSearch($WSRequest));
+                    $response = self::responseToArray($this->client->transactionsSearch($WSRequest));
                     break;
                 case 'unBlock':
                     $logRequest = array(
                         'transactionID' => $array['transactionID']
                     );
-                    $response = self::responseToArray($client->unBlock($WSRequest));
+                    $response = self::responseToArray($this->client->unBlock($WSRequest));
                     break;
                 case 'updateWallet':
                     $logRequest = array(
                         'walletId' => $array['wallet']['walletId']
                     );
-                    $response = self::responseToArray($client->updateWallet($WSRequest));
+                    $response = self::responseToArray($this->client->updateWallet($WSRequest));
                     break;
                 case 'updateWebWallet':
                     $logRequest = array(
                         'walletId' => $array['walletId']
                     );
-                    $response = self::responseToArray($client->updateWebWallet($WSRequest));
+                    $response = self::responseToArray($this->client->updateWebWallet($WSRequest));
                     if ($response['result']['code'] == '00000') {
                         $logResponse['token'] = $response['token'];
                     }
@@ -1308,14 +1315,14 @@ class PaylineSDK
                         'contractNumber' => $array['contractNumber'],
                         'card.number' => $this->hideChars($array['card']['number'], 4, 4)
                     );
-                    $response = self::responseToArray($client->verifyAuthentication($WSRequest));
+                    $response = self::responseToArray($this->client->verifyAuthentication($WSRequest));
                     break;
                 case 'verifyEnrollment':
                     $logRequest = array(
                         'payment.contractNumber' => $array['payment']['contractNumber'],
                         'card.number' => $this->hideChars($array['card']['number'], 4, 4)
                     );
-                    $response = self::responseToArray($client->verifyEnrollment($WSRequest));
+                    $response = self::responseToArray($this->client->verifyEnrollment($WSRequest));
                     break;
                 case 'doBankTransfer':
                     $logRequest = array(
@@ -1323,7 +1330,7 @@ class PaylineSDK
                         'creditor.bic' => $this->hideChars($array['creditor']['bic'], 4, 1),
                         'creditor.iban' => $this->hideChars($array['creditor']['iban'], 8, 1)
                     );
-                    $response = self::responseToArray($client->doBankTransfer($WSRequest));
+                    $response = self::responseToArray($this->client->doBankTransfer($WSRequest));
                     $logResponse['transaction.id'] = $response['transaction']['id'];
                     break;
                 case 'isRegistered':
@@ -1331,7 +1338,7 @@ class PaylineSDK
                         'order.ref' => $array['order']['ref'],
                         'payment.contractNumber' => $array['payment']['contractNumber']
                     );
-                    $response = self::responseToArray($client->isRegistered($WSRequest));
+                    $response = self::responseToArray($this->client->isRegistered($WSRequest));
                     $logResponse['token'] = $response['token'];
                     break;
             }
@@ -1339,10 +1346,10 @@ class PaylineSDK
             $this->logger->info($Method . 'Request', $logRequest);
             $this->logger->info($Method . 'Response', $logResponse);
             if ($this->soapclient_options['trace'] === true) {
-                $this->logger->debug($Method . ' Last Request ' . $client->__getLastRequest());
-                $this->logger->debug($Method . ' Last Request Headers ' . $client->__getLastRequestHeaders());
-                $this->logger->debug($Method . ' Last Response ' .  $client->__getLastResponse());
-                $this->logger->debug($Method . ' Last Response Headers ' .  $client->__getLastResponseHeaders());
+                $this->logger->debug($Method . ' Last Request ' . $this->client->__getLastRequest());
+                $this->logger->debug($Method . ' Last Request Headers ' . $this->client->__getLastRequestHeaders());
+                $this->logger->debug($Method . ' Last Response ' .  $this->client->__getLastResponse());
+                $this->logger->debug($Method . ' Last Response Headers ' .  $this->client->__getLastResponseHeaders());
             }
             return $response;
         } catch (\Exception $e) {
@@ -2526,4 +2533,41 @@ class PaylineSDK
         }
         return new \SoapVar($object, SOAP_ENC_OBJECT, $typeName, self::PAYLINE_NAMESPACE);
     }
+
+    /**
+     * Returns last SOAP request
+     *
+     * @return string
+     */    
+    public function getLastRequest() {
+        return ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastRequest() : false;
+    }
+
+    /**
+     * Returns the SOAP headers from the last request
+     *
+     * @return string
+     */ 
+    public function getLastRequestHeaders() {
+        return ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastRequestHeaders() : false;
+    }
+
+    /**
+     * Returns last SOAP response
+     *
+     * @return string
+     */ 
+    public function getLastResponse() {
+        return ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastResponse() : false;
+    }
+
+    /**
+     * Returns the SOAP headers from the last response
+     *
+     * @return string
+     */ 
+    public function getLastResponseHeaders() {
+        return ($this->client && $this->soapclient_options['trace'] === true) ? $this->client->__getLastResponseHeaders() : false;
+    }
+
 }
