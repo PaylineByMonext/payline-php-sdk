@@ -1,4 +1,16 @@
-* 4.64.1 (2020-01-06)
+
+* 4.66 (2021-01-06)
+  * wsdl upgrade
+  * remove createMerchant
+  * add transactionID in createWallet
+  * add amount and currency in doReset
+  * add linkedTransactionId and recurring in doAuthorization
+  * add miscData in doRefund
+  * add amount, currency, privateDataList and sequenceNumber in doReset
+  * add recurring in verifyEnrollment
+  * add recurring, merchantScore and skipSmartDisplay in doWebPayment
+    
+* 4.64.1 (2021-01-06)
   * wsdl upgrade and split wsdl in three files    
   * new properties authorizedCurrency, authorizedAmount in Authorization
   * new property challengeWindowSize in threeDSInfo
