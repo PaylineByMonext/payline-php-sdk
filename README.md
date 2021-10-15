@@ -59,6 +59,8 @@ Requirements
 Compliant with PHP 5.3 and over
 Requires monolog/monolog, just let Composer do the job
 
+In order to make http call for failover, ext-curl is mark has required, it can be commented if you disable failover or us 
+
 
 Author
 ------
