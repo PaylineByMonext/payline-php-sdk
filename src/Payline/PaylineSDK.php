@@ -41,7 +41,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.66';
+    const SDK_RELEASE = 'PHP SDK 4.68';
 
     /**
      * development environment flag
