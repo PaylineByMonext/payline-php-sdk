@@ -1,34 +1,41 @@
 {
-	"name" : "monext/payline-sdk",
-	"description" : "Payline library for PHP",
-	"keywords" : [
-		"Monext",
-		"Payline",
-		"payment"
-	],
-	"type" : "library",
-	"license" : "LGPL-3.0",
-	"authors" : [{
-			"name" : "Fabien SUAREZ",
-			"email" : "fabien.suarez@payline.com",
-			"homepage" : "http://www.payline.com"
-		}
-	],
-	"require" : {
-		"php" : ">=5.3.0",
-		"ext-soap": "*",
-		"monolog/monolog" : "1.* || ~2.0",
-      	"ext-openssl": "*",
-		"ext-mbstring": "*"
-	},
-	"support" : {
-		"email" : "support@payline.com",
-		"docs" : "http://support.payline.com"
-	},
-	"autoload" : {
-		"psr-4" : {
-			"Payline\\" : "src/Payline"
-		}
-
-	}
+    "name": "monext/payline-sdk",
+    "description": "Payline library for PHP",
+    "keywords": [
+        "Monext",
+        "Payline",
+        "payment"
+    ],
+    "type": "library",
+    "license": "LGPL-3.0",
+    "authors": [
+        {
+            "name": "Fabien SUAREZ",
+            "email": "fabien.suarez@payline.com",
+            "homepage": "http://www.payline.com"
+        },
+        {
+            "name": "Vincent Pietri",
+            "email": "vincent.pietri@tbdgroup.com",
+            "homepage": "https://www.tbdgroup.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-soap": "*",
+        "ext-curl": "*",
+        "monolog/monolog": "1.* || ~2.0",
+        "ext-openssl": "*",
+        "ext-mbstring": "*",
+        "symfony/cache": "^3.4"
+    },
+    "support": {
+        "email": "support@payline.com",
+        "docs": "http://support.payline.com"
+    },
+    "autoload": {
+        "psr-4": {
+            "Payline\\": "src/Payline"
+        }
+    }
 }

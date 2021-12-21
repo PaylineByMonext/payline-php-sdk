@@ -1,4 +1,24 @@
-* 4.64.1 (2020-01-06)
+* 4.68 (2021-09-27)
+  * wsdl upgrade 
+  * add merchantURL and merchantCountryCode in verifyEnrollment
+  * ADD FAILOVER mechanism
+  * add method setSoapOptions to change SoapClient options
+  * add method setFailoverOptions to change failover behavior and cache usage
+  * add getSoapLastContent to retrieve last SOAP context
+  * fix warnings on undefined array keys in SDK
+
+* 4.66 (2021-01-06)
+  * wsdl upgrade
+  * remove createMerchant
+  * add transactionID in createWallet
+  * add amount and currency in doReset
+  * add linkedTransactionId and recurring in doAuthorization
+  * add miscData in doRefund
+  * add amount, currency, privateDataList and sequenceNumber in doReset
+  * add recurring in verifyEnrollment
+  * add recurring, merchantScore and skipSmartDisplay in doWebPayment
+    
+* 4.64.1 (2021-01-06)
   * wsdl upgrade and split wsdl in three files    
   * new properties authorizedCurrency, authorizedAmount in Authorization
   * new property challengeWindowSize in threeDSInfo
@@ -34,8 +54,8 @@
   * new miscData parameter for doWebPayment
   * new returnUrl parameter for verifyEnrollment
  
- * 4.52 (2017-10-16)
-  * new avs child node in transaction object
+* 4.52 (2017-10-16)
+* new avs child node in transaction object
   
 * 4.51 (2017-08-11)
   * no structural changes
@@ -63,14 +83,14 @@
   
 * 4.47 (2016-06-16)
   * new buyer properties :
-  	- deviceFingerprint
-  	- isBot
-  	- isIncognito
-  	- isBehindProxy
-  	- isFromTor
-  	- isEmulator
-  	- isRooted
-  	- hasTimezoneMismatch
+      - deviceFingerprint
+      - isBot
+      - isIncognito
+      - isBehindProxy
+      - isFromTor
+      - isEmulator
+      - isRooted
+      - hasTimezoneMismatch
   * new property cardBrand for payment and wallet objets
   * new property version for getCardsRequest
 
@@ -82,22 +102,22 @@
   * add of PaResStatus and VeResStatus (Authentication3DSecure class)
   * response format : child nodes of cardinality higher to 1 are sent in an integer-indexed array, in any cases (1 element of index 0 if node has only 1 child).
   This applies to nodes :
-	- cards (son of cardsList)
-	- billingRecord (son of billingRecordList)
-	- walletId (son of walletIdList)
-	- transaction (son of transactionList)
-	- pointOfSell (son of listPointOfSell)
-	- contract (son of contracts)
-	- customPaymentPageCode (son of customPaymentPageCodeList)
-	- function (son of functions)
-	- details (son of details)
-	- privateData (son of privateDataList)
-	- associatedTransactions (son of associatedTransactionsList)
-	- statusHistory (son of statusHistoryList)
-	- paymentAdditional (son of paymentAdditionalList)
-	- CustomerTrans (son of CustomerTransHist)
-	- PaymentMeansTrans (son of PaymentMeansTransHist)
-	- AlertsTrans (son of AlertsTransHist) 
+    - cards (son of cardsList)
+    - billingRecord (son of billingRecordList)
+    - walletId (son of walletIdList)
+    - transaction (son of transactionList)
+    - pointOfSell (son of listPointOfSell)
+    - contract (son of contracts)
+    - customPaymentPageCode (son of customPaymentPageCodeList)
+    - function (son of functions)
+    - details (son of details)
+    - privateData (son of privateDataList)
+    - associatedTransactions (son of associatedTransactionsList)
+    - statusHistory (son of statusHistoryList)
+    - paymentAdditional (son of paymentAdditionalList)
+    - CustomerTrans (son of CustomerTransHist)
+    - PaymentMeansTrans (son of PaymentMeansTransHist)
+    - AlertsTrans (son of AlertsTransHist) 
 
 * 4.45.1 (2016-03-10)
 
