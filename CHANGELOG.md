@@ -1,3 +1,11 @@
+* 4.69 (2022-01-18)
+  * wsdl upgrade
+  * add threeDSInfo and travelFileNumber in doAuthorization
+  * add threeDSInfo and travelFileNumber in doImmediateWalletPayment
+  * remove duplicate code on sub object creation 
+  * remove CRLF ending files
+  * add reset methode to reuse SDK instance
+  
 * 4.68 (2021-09-27)
   * wsdl upgrade 
   * add merchantURL and merchantCountryCode in verifyEnrollment

@@ -105,6 +105,7 @@
 						<element name="subMerchant" nillable="true" type="tns1:subMerchant"/>
 						<element name="buyer" nillable="true" type="tns1:buyer"/>
 						<element name="linkedTransactionId" nillable="true" type="xsd:string"/>
+						<element minOccurs="0" name="travelFileNumber" nillable="true" type="xsd:string"/>
 					</sequence>
 				</complexType>
 			</element>
@@ -132,6 +133,8 @@
 						<element name="subMerchant" nillable="true" type="tns1:subMerchant"/>
 						<element name="asynchronousRetryTimeout" nillable="true" type="xsd:string"/>
 						<element name="linkedTransactionId" nillable="true" type="xsd:string"/>
+						<element name="threeDSInfo" nillable="true" type="tns1:threeDSInfo"/>
+						<element minOccurs="0" name="travelFileNumber" nillable="true" type="xsd:string"/>
 						<element name="recurring" nillable="true" type="tns1:recurring"/>
 					</sequence>
 				</complexType>
@@ -154,6 +157,7 @@
 						<element name="privateDataList" nillable="true" type="tns1:privateDataList"/>
 						<element name="contractNumber" nillable="false" type="xsd:string"/>
 						<element name="linkedTransactionId" nillable="true" type="xsd:string"/>
+						<element minOccurs="0" name="travelFileNumber" nillable="true" type="xsd:string"/>
 						<element minOccurs="0" name="authentication3DSecure" nillable="true" type="tns1:authentication3DSecure"/>
 						<element name="resultContainer" nillable="true" type="xsd:string"/>
 					</sequence>
@@ -564,6 +568,8 @@
 						<element name="authentication3DSecure" nillable="true" type="tns1:authentication3DSecure"/>
 						<element name="subMerchant" nillable="true" type="tns1:subMerchant"/>
 						<element name="linkedTransactionId" nillable="true" type="xsd:string"/>
+						<element name="threeDSInfo" nillable="true" type="tns1:threeDSInfo"/>
+						<element minOccurs="0" name="travelFileNumber" nillable="true" type="xsd:string"/>
 					</sequence>
 				</complexType>
 			</element>
@@ -990,6 +996,7 @@
 						<element name="pointOfSell" nillable="false" type="tns1:pointOfSell"/>
 						<element name="routingRule" nillable="false" type="tns1:routingRule"/>
 						<element name="linkedTransactionId" nillable="true" type="xsd:string"/>
+						<element minOccurs="0" name="travelFileNumber" nillable="true" type="xsd:string"/>
 					</sequence>
 				</complexType>
 			</element>
