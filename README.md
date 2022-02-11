@@ -56,11 +56,10 @@ About
 Requirements
 ------------
 
-Compliant with PHP 5.3 and over
-Requires monolog/monolog, just let Composer do the job
+Compliant with PHP 5.6 and over
+Requires monolog/monolog and symfony/cache, just let Composer do the job
 
-In order to make http call for failover, ext-curl is mark has required, it can be commented if you disable failover or us 
-
+In order to make http call for failover, ext-curl is mark has required, it can be commented if you disable failover or set allow_url_fopen to true in php.ini (in order to use file_get_contents)
 
 Author
 ------
