@@ -1583,7 +1583,7 @@ class PaylineSDK
      */
     public function addPrivateData(array $array)
     {
-        $this->privateData[] = $this->buildSoapObject($array, new PrivateData());
+        $this->privateData[] = $this->buildSoapObject($array, new PrivateData(), self::SOAP_PRIVATE_DATA);
     }
 
     /*
