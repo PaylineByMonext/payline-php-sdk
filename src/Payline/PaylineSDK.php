@@ -41,7 +41,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.68';
+    const SDK_RELEASE = 'PHP SDK 4.69';
 
     /**
      * development environment flag
@@ -317,33 +317,33 @@ class PaylineSDK
     /**
      * @var Logger
      */
-    private $logger;
+    protected $logger;
 
     /**
      * @var $loggerPath
      */
-    private $loggerPath;
+    protected $loggerPath;
 
 
     /**
      * tool / e-commerce module using this library
      */
-    private $usedBy = null;
+    protected $usedBy = null;
 
     /**
      * array containing order details
      */
-    private $orderDetails;
+    protected $orderDetails;
 
     /**
      * array containing private data
      */
-    private $privateData;
+    protected $privateData;
 
     /**
      * array containing parent-child nodes associations
      */
-    private $parentNode = array(
+    protected $parentNode = array(
         'cards'                    => 'cardsList',
         'billingRecord'            => 'billingRecordList',
         'walletId'                 => 'walletIdList',
@@ -522,6 +522,20 @@ class PaylineSDK
         return $this;
     }
 
+
+    /**
+     * @return $this
+     */
+    public function reset()
+    {
+        $this->lastSoapCallData = array();
+        $this->resetOrderDetails();
+        $this->resetPrivateData();
+        return $this;
+    }
+
+
+
     public function resetFailoverOptions()
     {
         $this->failoverOptions = array();
@@ -535,6 +549,7 @@ class PaylineSDK
     public function resetOrderDetails()
     {
         $this->orderDetails = array();
+        return $this;
     }
 
 
@@ -544,6 +559,7 @@ class PaylineSDK
     public function resetPrivateData()
     {
         $this->privateData = array();
+        return $this;
     }
 
     /**
@@ -587,14 +603,7 @@ class PaylineSDK
      */
     protected function order(array $array)
     {
-        $order = new Order();
-        if ($array) {
-            foreach ($array as $k => $v) {
-                if (property_exists($order, $k) && (strlen($v))) {
-                    $order->$k = $v;
-                }
-            }
-        }
+        $order = $this->fillObject($array, new Order());
         // insert orderDetails
         $order->details = $this->orderDetails;
         return new \SoapVar($order, SOAP_ENC_OBJECT, self::SOAP_ORDER, self::PAYLINE_NAMESPACE);
@@ -609,14 +618,7 @@ class PaylineSDK
      */
     protected function card(array $array)
     {
-        $card = new Card();
-        if ($array) {
-            foreach ($array as $k => $v) {
-                if (property_exists($card, $k) && (strlen($v))) {
-                    $card->$k = $v;
-                }
-            }
-        }
+        $card = $this->fillObject($array, new Card());
         $card->paymentData = null;
         if (isset($array['paymentData'])) {
             $card->paymentData = $this->paymentData($array['paymentData']);
@@ -645,14 +647,8 @@ class PaylineSDK
         $merchantAuthentication = !empty($array['merchantAuthentication']) ? $array['merchantAuthentication'] : $merchantAuthentication;
 
 
-        $buyer = new Buyer();
-        if ($buyerArray) {
-            foreach ($buyerArray as $k => $v) {
-                if (property_exists($buyer, $k) && (strlen($v))) {
-                    $buyer->$k = $v;
-                }
-            }
-        }
+
+        $buyer = $this->fillObject($buyerArray, new Buyer());
         $buyer->shippingAdress = $this->address($shippingAdress);
         $buyer->billingAddress = $this->address($billingAddress);
         $buyer->merchantAuthentication = $this->merchantAuthentication($merchantAuthentication);
@@ -699,14 +695,7 @@ class PaylineSDK
         $addressOwner = !empty($array['ownerAddress']) ? $array['ownerAddress'] : $addressOwner;
 
         if ($ownerArray !== null) {
-            $owner = new Owner();
-            if ($ownerArray) {
-                foreach ($ownerArray as $k => $v) {
-                    if (property_exists($owner, $k) && (strlen($v))) {
-                        $owner->$k = $v;
-                    }
-                }
-            }
+            $owner = $this->fillObject($ownerArray, new Owner());
             $owner->billingAddress = $this->addressOwner($addressOwner);
             return new \SoapVar($owner, SOAP_ENC_OBJECT, self::SOAP_OWNER, self::PAYLINE_NAMESPACE);
         } else {
@@ -753,7 +742,7 @@ class PaylineSDK
     /**
      * build Wallet instance from $array and make SoapVar object for wallet
      *
-     * @param array $inWallet
+     * @param array $array
      *            the array keys are listed in Wallet CLASS.
      * @param array $address
      *            the array keys are listed in Address CLASS.
@@ -761,17 +750,9 @@ class PaylineSDK
      *            the array keys are listed in Card CLASS.
      * @return SoapVar representation of Wallet instance
      */
-    protected function wallet(array $inWallet, array $address, array $card)
+    protected function wallet(array $array, array $address, array $card)
     {
-        $wallet = new Wallet();
-        if ($inWallet) {
-            foreach ($inWallet as $k => $v) {
-                if (property_exists($wallet, $k) && (strlen($v))) {
-                    $wallet->$k = $v;
-                }
-            }
-        }
-
+        $wallet = $this->fillObject($array, new Wallet());
         $wallet->shippingAddress = $this->address($address);
         $wallet->card = $this->card($card);
         return new \SoapVar($wallet, SOAP_ENC_OBJECT, self::SOAP_WALLET, self::PAYLINE_NAMESPACE);
@@ -852,14 +833,7 @@ class PaylineSDK
      */
     protected function threeDSInfo(array $array, array $arrayBrowser, array $arraySdk)
     {
-        $threeDSInfo = new ThreeDSInfo();
-        if ($array) {
-            foreach ($array as $k => $v) {
-                if (property_exists($threeDSInfo, $k) && (strlen($v))) {
-                    $threeDSInfo->$k = $v;
-                }
-            }
-        }
+        $threeDSInfo = $this->fillObject($array, new ThreeDSInfo());
         $threeDSInfo->sdk = $this->sdk($arraySdk);
         $threeDSInfo->browser = $this->browser($arrayBrowser);
         return new \SoapVar($threeDSInfo, SOAP_ENC_OBJECT, self::SOAP_THREEDSINFO, self::PAYLINE_NAMESPACE);
@@ -1093,6 +1067,12 @@ class PaylineSDK
             $array['walletId'] = null;
         }
 
+        if (!isset($array['travelFileNumber'])) {
+            $array['travelFileNumber'] = null;
+        }
+
+
+
         //todo preparation of the key refacto
         $mappingKeys = array(
             '3DSecure' => 'authentication3DSecure',
@@ -1108,28 +1088,46 @@ class PaylineSDK
         }
     }
 
+
+    /**
+     * Complete $WSRequest according wsdl definition
+     * (much more efficient than parsing with xpath)
+     *
+     * @param array $array
+     * @param $WSRequest
+     * @param $PaylineAPI
+     * @param $Method
+     * @return mixed
+     */
     protected function completeWSRequest(array $array, $WSRequest, $PaylineAPI, $Method)
     {
-        $client = new SoapClient(__DIR__ . '/wsdl/' . $PaylineAPI . '.wsdl');
-        $types = $client->__getTypes();
-        foreach ($types as $type) {
-            if(strpos($type,'struct ' . $Method . 'Request') ===0) {
-                if(preg_match_all('/ (\w+) (\w+)/', $type, $match)) {
-                    foreach ($match[2] as $requestIndex => $requestKey) {
-                        if(isset($WSRequest[$requestKey])) {
-                            continue;
-                        }
-
-                        if($match[1][$requestIndex] == "string") {
-                            $requestValue = isset($array[$requestKey]) ? $array[$requestKey] : null;
-                            $WSRequest[$requestKey] = $requestValue;
-                        } elseif(method_exists($this, $requestKey)) {
-                            $WSRequest[$requestKey] = $this->$requestKey($array);
+        try {
+            $client = new SoapClient(__DIR__ . '/wsdl/' . $PaylineAPI . '.wsdl');
+            $types = $client->__getTypes();
+            foreach ($types as $type) {
+                if (strpos($type, 'struct ' . $Method . 'Request') === 0) {
+                    if (preg_match_all('/ (\w+) (\w+)/', $type, $match)) {
+                        foreach ($match[2] as $elementIndex => $elementKey) {
+                            if (isset($WSRequest[$elementKey])) {
+                                continue;
+                            }
+                            if ($match[1][$elementIndex] == "string") {
+                                $elementValue = isset($array[$elementKey]) ? $array[$elementKey] : null;
+                                $WSRequest[$elementKey] = $elementValue;
+                            } elseif (method_exists($this, $elementKey)) {
+                                $WSRequest[$elementKey] = $this->$elementKey($array);
+                            }
                         }
                     }
                 }
             }
+        } catch (\SoapFault $fault) {
+            $this->logger->error('Exception occured while completeWSRequest for ' . $Method, array(
+                'code'     => $fault->getCode(),
+                'message'  => $fault->getMessage()
+            ));
         }
+
         return $WSRequest;
     }
 
@@ -1149,7 +1147,6 @@ class PaylineSDK
     protected function webServiceRequest(array $array, array $WSRequest, $PaylineAPI, $Method)
     {
         $WSRequest = $this->completeWSRequest($array, $WSRequest, $PaylineAPI, $Method);
-
         $logRequest = array();
         $logResponse = array(
             'result.code' => null
@@ -1574,15 +1571,7 @@ class PaylineSDK
      */
     public function addOrderDetail(array $newOrderDetail)
     {
-        $orderDetail = new OrderDetail();
-        if ($newOrderDetail) {
-            foreach ($newOrderDetail as $k => $v) {
-                if (property_exists($orderDetail, $k) && (strlen($v))) {
-                    $orderDetail->$k = $v;
-                }
-            }
-        }
-        $this->orderDetails[] = new \SoapVar($orderDetail, SOAP_ENC_OBJECT, self::SOAP_ORDERDETAIL, self::PAYLINE_NAMESPACE);
+        $this->orderDetails[] = $this->buildSoapObject($newOrderDetail, new OrderDetail(), self::SOAP_ORDERDETAIL);
     }
 
     /**
@@ -1594,15 +1583,7 @@ class PaylineSDK
      */
     public function addPrivateData(array $array)
     {
-        $private = new PrivateData();
-        if ($array) {
-            foreach ($array as $k => $v) {
-                if (property_exists($private, $k) && (strlen($v))) {
-                    $private->$k = $v;
-                }
-            }
-        }
-        $this->privateData[] = new \SoapVar($private, SOAP_ENC_OBJECT, self::SOAP_PRIVATE_DATA, self::PAYLINE_NAMESPACE);
+        $this->privateData[] = $this->buildSoapObject($array, new PrivateData());
     }
 
     /*
@@ -1622,6 +1603,8 @@ class PaylineSDK
     public function doAuthorization(array $array)
     {
         $this->formatRequest($array);
+        $threeDSInfo = array_key_exists('threeDSInfo', $array) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
+
         $WSRequest = array(
             'transient'                 => isset($array['transient']) ? $array['transient'] : null,
             'payment'                   => $this->payment($array['payment']),
@@ -1635,6 +1618,8 @@ class PaylineSDK
             'subMerchant'               => $this->subMerchant($array['subMerchant']),
             'asynchronousRetryTimeout'  => $array['asynchronousRetryTimeout'],
             'linkedTransactionId'       => $array['linkedTransactionId'],
+            'threeDSInfo'               => $threeDSInfo,
+            'travelFileNumber'          => $array['travelFileNumber'],
             'recurring'                 => $array['recurring']
         );
 
@@ -1880,6 +1865,8 @@ class PaylineSDK
     public function doImmediateWalletPayment(array $array)
     {
         $this->formatRequest($array);
+        $threeDSInfo = array_key_exists('threeDSInfo', $array) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
+
         $WSRequest = array(
             'payment'                => $this->payment($array['payment']),
             'order'                  => $this->order($array['order']),
@@ -1890,6 +1877,8 @@ class PaylineSDK
             'privateDataList'        => $this->privateData,
             'authentication3DSecure' => $this->authentication3DSecure($array['3DSecure']),
             'subMerchant'            => $this->subMerchant($array['subMerchant']),
+            'threeDSInfo'               => $threeDSInfo,
+            'travelFileNumber'          => $array['travelFileNumber'],
         );
 
         if (isset($array['payment']['mode'])) {
@@ -2651,7 +2640,7 @@ class PaylineSDK
      */
     protected function buildSoapObject(array $array, $object, $typeName)
     {
-        $this->fillObject($array, $object);
+        $object = $this->fillObject($array, $object);
         return new \SoapVar($object, SOAP_ENC_OBJECT, $typeName, self::PAYLINE_NAMESPACE);
     }
 
@@ -2665,12 +2654,27 @@ class PaylineSDK
     {
         if ($array) {
             foreach ($array as $k => $v) {
-                if (property_exists($object, $k) && (strlen($v))) {
+                if (property_exists($object, $k) && $this->userDataIsNotEmpty($v)) {
                     $object->$k = $v;
                 }
             }
         }
         return $object;
+    }
+
+
+    /**
+     * Test user data
+     *
+     * @param $data
+     * @return bool
+     */
+    protected function userDataIsNotEmpty($data) {
+
+        if($data instanceof \Countable ) {
+            return (count($data)>0);
+        }
+        return !empty($data);
     }
 
     /**
