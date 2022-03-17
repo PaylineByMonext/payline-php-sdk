@@ -305,7 +305,11 @@ class WebserviceClient
             unset($options['stream_context_to_create']);
         }
 
-        $sdkClient = new SoapClient($this->sdkWsdl, $options);
+        if ($options['soap_client'] instanceof SoapClient)  {
+            $sdkClient = $options['soap_client'];
+        } else {
+            $sdkClient = new SoapClient($this->sdkWsdl, $options);
+        }
         $sdkClient->__setLocation($location);
 
         return $sdkClient;
