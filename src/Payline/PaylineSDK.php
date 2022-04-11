@@ -1874,6 +1874,7 @@ class PaylineSDK
             'walletId'               => isset($array['walletId']) ? $array['walletId'] : null,
             'cardInd'                => isset($array['cardInd']) ? $array['cardInd'] : null,
             'cvx'                    => isset($array['walletCvx']) ? $array['walletCvx'] : null,
+            'linkedTransactionId'    => $array['linkedTransactionId'],
             'privateDataList'        => $this->privateData,
             'authentication3DSecure' => $this->authentication3DSecure($array['3DSecure']),
             'subMerchant'            => $this->subMerchant($array['subMerchant']),
