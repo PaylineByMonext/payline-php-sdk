@@ -41,7 +41,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.69';
+    const SDK_RELEASE = 'PHP SDK 4.70';
 
     /**
      * development environment flag
@@ -527,6 +527,7 @@ class PaylineSDK
      * - use
      * - connection_timeout
      * - trace
+     * - soap_client (use of custom Soap client will disable failover mechanism)
      *
      *
      * @param null $value
@@ -1635,6 +1636,7 @@ class PaylineSDK
             $ERROR['result']['shortMessage']     = self::ERR_SHORT_MESSAGE;
             $ERROR['result']['partnerCode']      = null;
             $ERROR['result']['partnerCodeLabel'] = null;
+            
             return $ERROR;
         } finally {
             $this->lastSoapCallData = $client->retrieveSoapLastContent();

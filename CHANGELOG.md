@@ -1,4 +1,4 @@
-* 4.70 (2022-?????)
+* 4.70 (2022-05-23)
   * wsdl upgrade
   * expose parameters by method ( getDefaultWSRequest )
   * fix doAuthorizationRedirect call
