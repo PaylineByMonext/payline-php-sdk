@@ -201,7 +201,7 @@ class WebserviceClient
             }
         }
 
-        if( isset($options['disabled']) && empty($options['disabled']) ) {
+        if( isset($options['disabled']) && !empty($options['disabled']) ) {
             $this->setUseFailover(false);
         }
 
