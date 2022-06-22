@@ -1,9 +1,12 @@
 <?php
 
 namespace Payline;
+
+use Psr\Log\LogLevel;
 use SoapClient;
 use SoapVar;
-
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 
@@ -16,11 +19,16 @@ class WebserviceClient
     CONST ERROR_CODE_TIMEOUT = 'TIMEOUT';
     //CONST ERROR_INTERNAL_SERVER_ERROR = 'Internal Server Error';
 
+    /**
+     * @var Logger
+     */
+    private $logger;
+
     /** @var array $endpointsUrls */
     private $endpointsUrls;
 
     /** @var bool $useFailvover */
-    private $useFailvover = false;
+    private $useFailvover = true;
 
     /**
      * Main Soap URL used for all SDK methods except method that can used failover endpoint ($servicesWithFailover)
@@ -93,6 +101,11 @@ class WebserviceClient
     private $exeptionErrorList = array(
     );
 
+    private $sdkWsdl;
+
+    /** @var array $soapOptions  */
+    private $soapOptions;
+
     /** @var array $failoverOptions */
     private $failoverOptions;
 
@@ -111,10 +124,49 @@ class WebserviceClient
      * @param array|null $options
      * @throws \SoapFault
      */
-    public function __construct($wsdl, array $options = null)
+    public function __construct($paylineAPI, $sdkDefaultLocation, $endpointsDirectoryLocation, array $soapOptions = null, array $params = null)
     {
-        $this->sdkWsdl = $wsdl;
-        $this->sdkOptions = $options;
+        $this->setSdkAPI($paylineAPI);
+        $this->setSdkDefaultLocation($sdkDefaultLocation);
+        $this->setEndpointsDirectoryLocation($endpointsDirectoryLocation);
+
+        $this->sdkWsdl = __DIR__ . '/wsdl/' . $paylineAPI . '.wsdl';
+        if(!empty($params['wsdl'])) {
+            $this->sdkWsdl = $params['wsdl'];
+        }
+
+        $this->soapOptions = $soapOptions;
+
+        if(!empty($params['logger_path'])) {
+            $logLevel = !empty($params['log_level']) ? $params['log_level'] : \Monolog\Logger::INFO;
+            $this->logger = new Logger('PaylineSDK:WSClient');
+            $this->logger->pushHandler(new StreamHandler($params['logger_path'], $logLevel)); // set default log folder
+        }
+
+        if(!empty($this->soapOptions['soap_client'])) {
+            if ($this->soapOptions['soap_client'] instanceof SoapClient)  {
+                $this->setUseFailover(false);
+            } else {
+                throw new \Exception('soap_client is not an instance of SoapClient');
+            }
+        }
+    }
+
+    /**
+     * Adds a log record at an arbitrary level.
+     *
+     * This method allows for compatibility with common interfaces.
+     *
+     * @param mixed             $level   The log level
+     * @param string|Stringable $message The log message
+     * @param mixed[]           $context The log context
+     *
+     * @phpstan-param Level|LevelName|LogLevel::* $level
+     */
+    public function log($level, $message, array $context = []) {
+        if($this->logger) {
+            $this->logger->log($level, $message, $context);
+        }
     }
 
 
@@ -147,6 +199,10 @@ class WebserviceClient
                     throw new \Exception(sprintf('Cannot set property "%s" via setFailoverOptions', $optionKey));
                 }
             }
+        }
+
+        if( isset($options['disabled']) && !empty($options['disabled']) ) {
+            $this->setUseFailover(false);
         }
 
         $this->failoverOptions = $options;
@@ -224,8 +280,8 @@ class WebserviceClient
             $systemTimeout = min($systemTimeout, (int)ini_get('max_execution_time'));
         }
 
-        if(!empty($this->sdkOptions['connection_timeout'])) {
-            $systemTimeout = min($systemTimeout, (int)$this->sdkOptions['connection_timeout']);
+        if(!empty($this->soapOptions['connection_timeout'])) {
+            $systemTimeout = min($systemTimeout, (int)$this->soapOptions['connection_timeout']);
         }
 
         return (int)$systemTimeout;
@@ -284,7 +340,7 @@ class WebserviceClient
         $defaultOptions['connection_timeout'] = $this->getMinSoapTimeout();
         $defaultOptions['trace'] = false;
 
-        $options = array_merge($defaultOptions, $this->sdkOptions);
+        $options = array_merge($defaultOptions, $this->soapOptions);
         if(!empty($extraOptions)) {
             $options = $this->array_merge_recursive_distinct($options, $extraOptions);
         }
@@ -306,6 +362,10 @@ class WebserviceClient
         }
 
         $sdkClient = new SoapClient($this->sdkWsdl, $options);
+        if(!empty($options['soap_client']) && $options['soap_client'] instanceof SoapClient) {
+            $sdkClient = $options['soap_client'];
+        }
+
         $sdkClient->__setLocation($location);
 
         return $sdkClient;
@@ -485,17 +545,6 @@ class WebserviceClient
             return $response;
         } catch ( \SoapFault $fault) {
             $this->saveCallData($sdkClient);
-            /*
-            var_dump('-------- failover SoapFault',
-                'faultcode=> ' . $fault->faultcode,
-                ' faultstring=> ' . $fault->faultstring,
-                ' RequestHeaders: ',
-                $sdkClient->__getLastRequestHeaders(),
-                ' ResponseHeaders: ',
-                $sdkClient->__getLastResponseHeaders(),
-                '-----------------------');
-            */
-
             $identifiedSoapError = false;
             $lastResponseHeader = $sdkClient->__getLastResponseHeaders();
             if(empty($lastResponseHeader)
@@ -512,16 +561,6 @@ class WebserviceClient
 
             throw $fault;
         } catch ( \Exception $e) {
-            /*
-            var_dump('-------- failover Exception: ' . $e->getCode() . ' ' . $e->getMessage(),
-                $sdkClient->__getLastRequestHeaders(),
-                $sdkClient->__getLastResponseHeaders(),
-                '-----------------------');
-            if($this->useSercicesEndpointsFailoverOnException($method, $this->tryNum +1, $callStart, $e)) {
-                return $this->__call($method, $args);
-            }
-            */
-
             throw $e;
         }
     }

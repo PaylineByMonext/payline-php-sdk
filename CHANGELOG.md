@@ -1,3 +1,10 @@
+* 4.70 (2022-05-23)
+  * wsdl upgrade
+  * expose parameters by method ( getDefaultWSRequest )
+  * fix doAuthorizationRedirect call
+  * fix custom soap_client option in WebserviceClient
+  * support php 8 fix : "strcmp(): Passing null to parameter #2" in isChildFromList
+
 * 4.69 (2022-01-18)
   * wsdl upgrade
   * add threeDSInfo and travelFileNumber in doAuthorization

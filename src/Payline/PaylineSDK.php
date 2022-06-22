@@ -41,7 +41,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.69';
+    const SDK_RELEASE = 'PHP SDK 4.70';
 
     /**
      * development environment flag
@@ -362,6 +362,50 @@ class PaylineSDK
         'AlertsTrans'              => 'AlertsTransHist'
     );
 
+    protected $apiByMethod = array(
+        'doAuthorization'=>self::DIRECT_API,
+        'doCapture'=>self::DIRECT_API,
+        'doReAuthorization'=>self::DIRECT_API,
+        'doDebit'=>self::DIRECT_API,
+        'doRefund'=>self::DIRECT_API,
+        'doReset'=>self::DIRECT_API,
+        'doCredit'=>self::DIRECT_API,
+        'createWallet'=>self::DIRECT_API,
+        'updateWallet'=>self::DIRECT_API,
+        'getWallet'=>self::DIRECT_API,
+        'getCards'=>self::DIRECT_API,
+        'disableWallet'=>self::DIRECT_API,
+        'enableWallet'=>self::DIRECT_API,
+        'doImmediateWalletPayment'=>self::DIRECT_API,
+        'doScheduledWalletPayment'=>self::DIRECT_API,
+        'doRecurrentWalletPayment'=>self::DIRECT_API,
+        'getPaymentRecord'=>self::DIRECT_API,
+        'disablePaymentRecord'=>self::DIRECT_API,
+        'verifyEnrollment'=>self::DIRECT_API,
+        'verifyAuthentication'=>self::DIRECT_API,
+        'doScoringCheque'=>self::DIRECT_API,
+        'getEncryptionKey'=>self::DIRECT_API,
+        'getMerchantSettings'=>self::DIRECT_API,
+        'getBalance'=>self::DIRECT_API,
+        'getToken'=>self::DIRECT_API,
+        'unBlock'=>self::DIRECT_API,
+        'updatePaymentRecord'=>self::DIRECT_API,
+        'getBillingRecord'=>self::DIRECT_API,
+        'updateBillingRecord'=>self::DIRECT_API,
+        'doBankTransfer'=>self::DIRECT_API,
+        'isRegistered'=>self::DIRECT_API,
+        'doWebPayment'=>self::WEB_API,
+        'doAuthorizationRedirect'=>self::WEB_API,
+        'getWebPaymentDetails'=>self::WEB_API,
+        'manageWebWallet'=>self::WEB_API,
+        'createWebWallet'=>self::WEB_API,
+        'updateWebWallet'=>self::WEB_API,
+        'getWebWallet'=>self::WEB_API,
+        'getTransactionDetails'=>self::EXTENDED_API,
+        'transactionsSearch'=>self::EXTENDED_API,
+        'getAlertDetails'=>self::EXTENDED_API
+    );
+
     protected $servicesEndpoint;
 
     protected $soapclientOptions = array();
@@ -410,15 +454,16 @@ class PaylineSDK
             $pathLog = realpath(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR;
         }
 
-        $this->loggerPath = $pathLog;
+
         if ($externalLogger) {
             $this->logger = $externalLogger;
         } else {
             $this->logger = new Logger('PaylineSDK');
         }
 
+        $this->loggerPath = $pathLog . $logfileDate . '.log';
 
-        $this->logger->pushHandler(new StreamHandler($pathLog . $logfileDate . '.log', $logLevel)); // set default log folder
+        $this->logger->pushHandler(new StreamHandler($this->loggerPath, $logLevel)); // set default log folder
 
         $this->logger->info('__construct', array(
             'merchant_id' => $this->hideChars($merchant_id, 6, 1),
@@ -482,6 +527,7 @@ class PaylineSDK
      * - use
      * - connection_timeout
      * - trace
+     * - soap_client (use of custom Soap client will disable failover mechanism)
      *
      *
      * @param null $value
@@ -498,7 +544,13 @@ class PaylineSDK
         return $this;
     }
 
-
+    public function getSoapOptions($key = null)
+    {
+        if($key) {
+            return isset($this->soapclientOptions[$key]) ? $this->soapclientOptions[$key] : null;
+        }
+        return  $this->soapclientOptions;
+    }
 
     /**
      * @param $key
@@ -520,6 +572,14 @@ class PaylineSDK
             throw new \Exception('Cannot set Failover option');
         }
         return $this;
+    }
+
+    public function getFailoverOptions($key = null)
+    {
+        if($key) {
+            return isset($this->failoverOptions[$key]) ? $this->failoverOptions[$key] : null;
+        }
+        return  $this->failoverOptions;
     }
 
 
@@ -646,8 +706,6 @@ class PaylineSDK
         $billingAddress = !empty($array['billingAddress']) ? $array['billingAddress'] : $billingAddress;
         $merchantAuthentication = !empty($array['merchantAuthentication']) ? $array['merchantAuthentication'] : $merchantAuthentication;
 
-
-
         $buyer = $this->fillObject($buyerArray, new Buyer());
         $buyer->shippingAdress = $this->address($shippingAdress);
         $buyer->billingAddress = $this->address($billingAddress);
@@ -750,10 +808,15 @@ class PaylineSDK
      *            the array keys are listed in Card CLASS.
      * @return SoapVar representation of Wallet instance
      */
-    protected function wallet(array $array, array $address, array $card)
+    protected function wallet(array $array, array $shippingAdress = array(), array $card = array())
     {
+
+        $buyerArray = !empty($array['buyer']) ? $array['buyer'] : $array;
+        $shippingAdress = !empty($array['shippingAddress']) ? $array['shippingAddress'] : $shippingAdress;
+        $card = !empty($array['card']) ? $array['card'] : $card;
+
         $wallet = $this->fillObject($array, new Wallet());
-        $wallet->shippingAddress = $this->address($address);
+        $wallet->shippingAddress = $this->address($shippingAdress);
         $wallet->card = $this->card($card);
         return new \SoapVar($wallet, SOAP_ENC_OBJECT, self::SOAP_WALLET, self::PAYLINE_NAMESPACE);
     }
@@ -831,8 +894,12 @@ class PaylineSDK
      *      the array keys liste in Sdk CLASS.
      * @return  SoapVar representation of ThreeDSInfo instance
      */
-    protected function threeDSInfo(array $array, array $arrayBrowser, array $arraySdk)
+    protected function threeDSInfo(array $array, array $arrayBrowser = array(), array $arraySdk = array())
     {
+
+        $arrayBrowser = !empty($array['browser']) ? $array['browser'] : $arrayBrowser;
+        $arraySdk = !empty($array['sdk']) ? $array['sdk'] : $arraySdk;
+
         $threeDSInfo = $this->fillObject($array, new ThreeDSInfo());
         $threeDSInfo->sdk = $this->sdk($arraySdk);
         $threeDSInfo->browser = $this->browser($arrayBrowser);
@@ -903,7 +970,11 @@ class PaylineSDK
      * @return boolean whether $nodeName is child from a list or not
      */
     protected function isChildFromList($nodeName,$parentName){
+
         if(array_key_exists($nodeName, $this->parentNode)){
+            if(is_null($parentName)) {
+                return is_null($this->parentNode[$nodeName]);
+            }
             if(strcmp($this->parentNode[$nodeName],$parentName) == 0){
                 return true;
             }
@@ -1122,13 +1193,40 @@ class PaylineSDK
                 }
             }
         } catch (\SoapFault $fault) {
-            $this->logger->error('Exception occured while completeWSRequest for ' . $Method, array(
+            $this->logger->error('SoapFault occured while completeWSRequest for ' . $Method, array(
                 'code'     => $fault->getCode(),
                 'message'  => $fault->getMessage()
+            ));
+        } catch (\Exception $e) {
+            $this->logger->error('Exception occured while completeWSRequest for ' . $Method, array(
+                'code'     => $e->getCode(),
+                'message'  => $e->getMessage()
             ));
         }
 
         return $WSRequest;
+    }
+
+
+    public function getDefaultWSRequest($Method)
+    {
+        if( $PaylineAPI = $this->getApiForMethod($Method) ) {
+            return $this->completeWSRequest(array(), array(), $PaylineAPI, $Method);
+        }
+        return array();
+    }
+
+
+    /**
+     * @param $method
+     * @return false|string
+     */
+    protected function getApiForMethod($Method)
+    {
+        if(array_key_exists($Method, $this->apiByMethod)) {
+            return $this->apiByMethod[$Method];
+        }
+        return false;
     }
 
 
@@ -1161,16 +1259,17 @@ class PaylineSDK
                 'header' => array('version' => $this->usedBy . ' - ' . self::SDK_RELEASE)
             );
 
-            $client = new WebserviceClient(__DIR__ . '/wsdl/' . $PaylineAPI . '.wsdl', $this->soapclientOptions);
+            $client = new WebserviceClient($PaylineAPI,
+                $this->webServicesEndpoint,
+                $this->servicesEndpoint,
+                $this->soapclientOptions,
+                array('logger_path'=>$this->loggerPath,
+                    'log_level'=>$this->logLevel,
+                    'wsdl' => __DIR__ . '/wsdl/' . $PaylineAPI . '.wsdl'
+                )
+            );
 
-            $useFailover = empty($this->failoverOptions['disabled']);
-
-            $failoverOptions = array_merge($this->failoverOptions, array('logger_path'=>$this->loggerPath));
-            $client->setSdkDefaultLocation($this->webServicesEndpoint)
-                ->setSdkAPI($PaylineAPI)
-                ->setUseFailover($useFailover)
-                ->setEndpointsDirectoryLocation($this->servicesEndpoint)
-                ->setFailoverOptions($failoverOptions);
+            $client->setFailoverOptions($this->failoverOptions);
 
             $WSRequest['version'] = isset($array['version']) && strlen($array['version']) ? $array['version'] : '';
             $WSRequest['media'] = isset($array['media']) && strlen($array['media']) ? $array['media'] : '';
@@ -1537,6 +1636,7 @@ class PaylineSDK
             $ERROR['result']['shortMessage']     = self::ERR_SHORT_MESSAGE;
             $ERROR['result']['partnerCode']      = null;
             $ERROR['result']['partnerCodeLabel'] = null;
+            
             return $ERROR;
         } finally {
             $this->lastSoapCallData = $client->retrieveSoapLastContent();
@@ -1874,6 +1974,7 @@ class PaylineSDK
             'walletId'               => isset($array['walletId']) ? $array['walletId'] : null,
             'cardInd'                => isset($array['cardInd']) ? $array['cardInd'] : null,
             'cvx'                    => isset($array['walletCvx']) ? $array['walletCvx'] : null,
+            'linkedTransactionId'    => $array['linkedTransactionId'],
             'privateDataList'        => $this->privateData,
             'authentication3DSecure' => $this->authentication3DSecure($array['3DSecure']),
             'subMerchant'            => $this->subMerchant($array['subMerchant']),
@@ -2273,7 +2374,7 @@ class PaylineSDK
                 $WSRequest['recurring'] = $this->recurring($array['recurring']);
             }
         }
-        return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'doWebPayment');
+        return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'doAuthorizationRedirect');
     }
 
 

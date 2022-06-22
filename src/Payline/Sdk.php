@@ -23,4 +23,6 @@ class Sdk {
     public $referenceNumber;
 
     public $transID;
+
+    public $encData;
 }
