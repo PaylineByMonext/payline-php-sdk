@@ -2100,6 +2100,7 @@ class PaylineSDK
             'order'             => $order,
             'buyer'             => $buyer,
             'subMerchant'       => $subMerchant,
+	    'transient'         => isset($array['transient']) ? $array['transient'] : null,
             'threeDSInfo'       => $threeDSInfo,
             'merchantScore'     => $merchantScore,
             'privateDataList'   => $this->privateData
