@@ -41,7 +41,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.71';
+    const SDK_RELEASE = 'PHP SDK 4.72';
 
     /**
      * development environment flag
@@ -953,6 +953,10 @@ class PaylineSDK
      */
     protected function hideChars($inString, $n1, $n2)
     {
+        if(empty($inString)) {
+            return '';
+        }
+
         $inStringLength = strlen($inString);
         if ($inStringLength < ($n1 + $n2)) {
             return $inString;
