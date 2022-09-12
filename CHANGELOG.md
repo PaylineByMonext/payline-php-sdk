@@ -1,5 +1,13 @@
 ----------------------------------------
 
+* 4.72 (2022-09-09)
+  * Update WSDL from 4.71 to 4.72
+  * add miscData in doCapture
+  * add miscData in doRefund
+  * fix error on strlen in hideChar method
+
+----------------------------------------
+
 * 4.71 (2022-06-16)
   * Update WSDL from 4.70 to 4.71
   * changer parameter type for sdk/maxTimeout

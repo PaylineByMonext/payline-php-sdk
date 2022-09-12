@@ -46,6 +46,8 @@ class Buyer
 
     public $legalStatus;
 
+    public $legalDocumentType;
+
     public $legalDocument;
 
     public $birthDate;
