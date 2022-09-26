@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the Payline package.
  *
@@ -8,9 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
-class MerchantAuthentication {
-    public $method;
+namespace Payline\Objects\Buyer;
 
-    public $date;
+class ShippingAdress extends \Payline\Objects\Address
+{
+
 }
