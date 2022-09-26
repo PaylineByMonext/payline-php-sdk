@@ -7,12 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
+namespace Payline\Objects;
 
-class PrivateData
+class BankAccountData
 {
 
-    public $key;
+    public $countryCode;
 
-    public $value;
+    public $bankCode;
+
+    public $accountNumber;
+
+    public $key;
 }

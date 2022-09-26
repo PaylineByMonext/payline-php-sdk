@@ -7,14 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
+namespace Payline\Objects\Buyer;
 
-class Creditor
+class BillingAddress extends  \Payline\Objects\Address
 {
 
-    public $bic;
-
-    public $iban;
-
-    public $name;
 }

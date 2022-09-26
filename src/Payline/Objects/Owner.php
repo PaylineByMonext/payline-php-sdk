@@ -7,28 +7,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
+namespace Payline\Objects;
 
-class Wallet
+class Owner
 {
-
-    public $walletId;
 
     public $lastName;
 
     public $firstName;
 
-    public $email;
+    public $billingAddress;
 
-    public $shippingAddress;
-
-    public $card;
-
-    public $comment;
-
-    public $default;
-
-    public $cardStatus;
-
-    public $cardBrand;
+    public $issueCardDate;
 }

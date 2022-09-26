@@ -7,9 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
+namespace Payline\Objects;
 
-class ThreeDSInfo {
+class ThreeDSInfo  //extends AbstractObject
+{
     public $challengeInd;
 
     public $threeDSReqPriorAuthData;

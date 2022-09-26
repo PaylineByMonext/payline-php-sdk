@@ -7,11 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
+namespace Payline\Objects;
 
 class Order
 {
-
     public $ref;
 
     public $origin;
@@ -30,7 +29,7 @@ class Order
 
     public $comment;
 
-    public $details;
+    public $details = [];
 
     public $deliveryTime;
 

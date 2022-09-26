@@ -7,16 +7,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
+namespace Payline\Objects;
 
-class Owner
+class AddressOwner
 {
 
-    public $lastName;
+    public $street;
 
-    public $firstName;
+    public $cityName;
 
-    public $billingAddress;
+    public $zipCode;
 
-    public $issueCardDate;
+    public $country;
+
+    public $phone;
 }

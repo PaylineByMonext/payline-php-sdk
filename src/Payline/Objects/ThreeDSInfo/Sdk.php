@@ -8,8 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
-class Sdk {
+namespace Payline\Objects\ThreeDSInfo;
+
+class Sdk
+{
     public $deviceRenderingOptionsIF;
 
     public $deviceRenderOptionsUI;
