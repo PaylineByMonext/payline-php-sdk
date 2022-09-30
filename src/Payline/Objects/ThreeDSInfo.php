@@ -9,7 +9,7 @@
  */
 namespace Payline\Objects;
 
-class ThreeDSInfo  //extends AbstractObject
+class ThreeDSInfo
 {
     public $challengeInd;
 

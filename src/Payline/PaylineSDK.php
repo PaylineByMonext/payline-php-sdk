@@ -1234,33 +1234,6 @@ class PaylineSDK
         $this->privateData[] = $this->buildSoapObject($array, new PrivateData(), self::SOAP_PRIVATE_DATA);
     }
 
-    /**
-     * refactoring ws parameters
-     *
-        'card		            =>$this->card(!empty($array['card']) && is_array($array['card']) ? $array['card'] : array())
-        'contractNumberWalletList	=>$array['contractNumberWalletList']
-        'recurring		        =>$array['recurring']
-     *
-     */
-
-    /**
-     * Magic method __call is not compatible whith method_exists :-(
-     */
-//    public function __call($wsMethodName, $wsMethodArguments)
-//    {
-//        if ($wsAPI = $this->getApiForMethod($wsMethodName)) {
-//
-//            $this->formatRequest($wsMethodArguments);
-//            $wsMethodArguments['order']['details'] = $this->orderDetails;
-//            $wsMethodArguments['privateDataList'] = $this->privateData;
-//
-//            $wsRequest = $this->completeWSRequest($wsMethodArguments, array(), $wsAPI, $wsMethodName);
-//            return $this->webServiceRequest($wsMethodArguments, $wsRequest, $wsAPI, $wsMethodName);
-//        }
-//
-//        throw new \BadMethodCallException('Method "' . $wsMethodName . '" is not a WS service');
-//    }
-
 
     /*
      * *************************************************************************
