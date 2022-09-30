@@ -7,7 +7,7 @@ class SoapVarFactory
     const ROOT_CLASSNAME = "Payline\\Objects\\";
 
     /**
-     * namespace used in web services desciptor
+     * namespace used in web services descriptor
      */
     const PAYLINE_NAMESPACE = 'http://obj.ws.payline.experian.com';
 
