@@ -449,6 +449,11 @@ class WebserviceClient
                                 'method'=>"GET"
                             )
                         );
+                        // Take proxy parameters into account (from soap options in webclient)
+                        if ($this->soapOptions['proxy_host'] != null) {
+                            $opts['http']['proxy'] = $this->soapOptions['proxy_host'].':'.$this->soapOptions['proxy_port'];
+                            $opts['http']['request_fulluri'] = true;
+                        }
                         $context = stream_context_create($opts);
                         $jsonContent = file_get_contents($this->endpointsDirectoryLocation, false, $context);
                         break;
