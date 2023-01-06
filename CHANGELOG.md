@@ -1,5 +1,10 @@
 ----------------------------------------
 
+* 4.72.1 (2023-01-09)
+  * fix missing namespace on address for buyer and wallet
+
+----------------------------------------
+
 * 4.72 (2022-09-09)
   * Update WSDL from 4.71 to 4.72
   * add miscData in doCapture
