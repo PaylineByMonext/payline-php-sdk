@@ -46,7 +46,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.72';
+    const SDK_RELEASE = 'PHP SDK 4.72.1';
 
     /**
      * development environment flag
@@ -869,6 +869,11 @@ class PaylineSDK
         if (!isset($array['buyer']['billingAddress'])) {
             $array['buyer']['billingAddress'] = $array['billingAddress'];
         }
+
+        if (!isset($array['buyer']['shippingAdress']) && isset($array['buyer']['shippingAddress'])) {
+            $array['buyer']['shippingAdress'] = $array['buyer']['shippingAddress'];
+        }
+
         if (!isset($array['buyer']['shippingAdress'])) {
             $array['buyer']['shippingAdress'] = $array['shippingAddress'];
         }

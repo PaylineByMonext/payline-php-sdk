@@ -7,6 +7,11 @@ class SoapVarFactory
     const ROOT_CLASSNAME = "Payline\\Objects\\";
 
     /**
+     * SOAP name of address object
+     */
+    const SOAP_ADDRESS = 'address';
+
+    /**
      * namespace used in web services descriptor
      */
     const PAYLINE_NAMESPACE = 'http://obj.ws.payline.experian.com';
@@ -35,6 +40,8 @@ class SoapVarFactory
         if ($newClassName = $this->getPaylineClassname($elementKey, $baseClassname)) {
             $newObject = new $newClassName();
 
+            $soapVarType = $this->getSoapVarType($elementKey, $baseClassname);
+
             if($data && is_array($data)) {
                 //TODO: Move list test in fillObject method
                 if(preg_match('/(.*)List$/', $elementKey,$matchClassList)) {
@@ -44,7 +51,7 @@ class SoapVarFactory
                     if($itemClassName) {
                         foreach ($data as $itemData) {
                             if(is_array($itemData)) {
-                                $pseudoListObject[] = $this->getSoapVar($this->fillObject($itemData, new $itemClassName()), $itemElementKey);
+                                $pseudoListObject[] = $this->getSoapVar($this->fillObject($itemData, new $itemClassName()), $soapVarType);
                             } else {
                                 $pseudoListObject[] = $itemData;
                             }
@@ -57,10 +64,24 @@ class SoapVarFactory
 
                 $this->fillObject($data, $newObject);
             }
-            return $this->getSoapVar($newObject, $elementKey);
+
+
+            return $this->getSoapVar($newObject, $soapVarType);
         }
 
         return $newObject;
+    }
+
+    protected function getSoapVarType($elementKey, $baseClassname) {
+        $soapVarType = $elementKey;
+        if($className = $this->getPaylineClassname($elementKey, $baseClassname) ) {
+
+            if(is_subclass_of($className, '\Payline\Objects\Address')) {
+                $soapVarType = self::SOAP_ADDRESS;
+            }
+        }
+
+        return $soapVarType;
     }
 
     /**
@@ -68,8 +89,8 @@ class SoapVarFactory
      * @param $elementKey
      * @return \SoapVar
      */
-    protected function getSoapVar($newObject, $elementKey) {
-        return new \SoapVar($newObject, SOAP_ENC_OBJECT, $elementKey, self::PAYLINE_NAMESPACE);
+    protected function getSoapVar($newObject, $varType) {
+        return new \SoapVar($newObject, SOAP_ENC_OBJECT, $varType, self::PAYLINE_NAMESPACE);
     }
 
     /**
