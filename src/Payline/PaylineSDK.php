@@ -9,30 +9,35 @@
  */
 namespace Payline;
 
-use Payline\MerchantAuthentication;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-use Payline\Browser;
 use SoapClient;
 use SoapVar;
-use Payline\Payment;
-use Payline\Order;
-use Payline\OrderDetail;
-use Payline\Card;
-use Payline\PaymentData;
-use Payline\Buyer;
-use Payline\Address;
-use Payline\AddressOwner;
-use Payline\Owner;
-use Payline\Authentication3DSecure;
-use Payline\BillingRecordForUpdate;
-use Payline\Wallet;
-use Payline\Authorization;
-use Payline\Creditor;
-use Payline\Cheque;
-use Payline\Recurring;
-use Payline\ThreeDSInfo;
-use Payline\Sdk;
+
+use Payline\Objects\Buyer;
+use Payline\Objects\Buyer\BillingAddress;
+use Payline\Objects\Buyer\MerchantAuthentication;
+use Payline\Objects\Buyer\ShippingAdress;
+use Payline\Objects\Card;
+use Payline\Objects\Card\PaymentData;
+use Payline\Objects\Owner;
+use Payline\Objects\Owner\BillingAddress as AddressOwner;
+use Payline\Objects\ThreeDSInfo;
+use Payline\Objects\ThreeDSInfo\Browser;
+use Payline\Objects\ThreeDSInfo\Sdk;
+use Payline\Objects\Authentication3DSecure;
+use Payline\Objects\Authorization;
+use Payline\Objects\BankAccountData;
+use Payline\Objects\BillingRecordForUpdate;
+use Payline\Objects\Cheque;
+use Payline\Objects\Creditor;
+use Payline\Objects\Order;
+use Payline\Objects\OrderDetail;
+use Payline\Objects\Payment;
+use Payline\Objects\PrivateData;
+use Payline\Objects\Recurring;
+use Payline\Objects\SubMerchant;
+use Payline\Objects\Wallet;
 
 class PaylineSDK
 {
@@ -41,7 +46,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.70';
+    const SDK_RELEASE = 'PHP SDK 4.72';
 
     /**
      * development environment flag
@@ -89,11 +94,6 @@ class PaylineSDK
     const WEB_API = 'WebPaymentAPI';
 
     /**
-     * namespace used in web services desciptor
-     */
-    const PAYLINE_NAMESPACE = 'http://obj.ws.payline.experian.com';
-
-    /**
      * SOAP name of authorization object
      */
     const SOAP_AUTHORIZATION = 'authorization';
@@ -104,19 +104,9 @@ class PaylineSDK
     const SOAP_CARD = 'card';
 
     /**
-     * SOAP name of order object
-     */
-    const SOAP_ORDER = 'order';
-
-    /**
      * SOAP name of orderDetail object
      */
     const SOAP_ORDERDETAIL = 'orderDetail';
-
-    /**
-     * SOAP name of payment object
-     */
-    const SOAP_PAYMENT = 'payment';
 
     /**
      * SOAP name of paymentData object
@@ -129,34 +119,9 @@ class PaylineSDK
     const SOAP_PRIVATE_DATA = 'privateData';
 
     /**
-     * SOAP name of buyer object
-     */
-    const SOAP_BUYER = 'buyer';
-
-    /**
-     * SOAP name of owner object
-     */
-    const SOAP_OWNER = 'owner';
-
-    /**
      * SOAP name of address object
      */
     const SOAP_ADDRESS = 'address';
-
-    /**
-     * SOAP name of addressOwner object
-     */
-    const SOAP_ADDRESS_OWNER = 'addressOwner';
-
-    /**
-     * SOAP name of authentication3DSecure object
-     */
-    const SOAP_AUTHENTICATION_3DSECURE = 'authentication3DSecure';
-
-    /**
-     * SOAP name of bankAccountData object
-     */
-    const SOAP_BANK_ACCOUNT_DATA = 'bankAccountData';
 
     /**
      * SOAP name of cheque object
@@ -177,26 +142,6 @@ class PaylineSDK
      * SOAP name of recurring object
      */
     const SOAP_RECURRING = 'recurring';
-
-    /**
-     * SOAP name of subMerchant object
-     */
-    const SOAP_SUBMERCHANT = 'subMerchant';
-
-    /**
-     * SOAP name of threeDSInfo object
-     */
-    const SOAP_THREEDSINFO = 'threeDSInfo';
-
-    /**
-     * SOAP name of browser object
-     */
-    const SOAP_BROWSER = 'browser';
-
-    /**
-     * SOAP name of sdk object
-     */
-    const SOAP_SDK = 'sdk';
 
     /**
      * SOAP name of merchantAuthentication object
@@ -574,6 +519,10 @@ class PaylineSDK
         return $this;
     }
 
+    /**
+     * @param $key
+     * @return array|mixed|null
+     */
     public function getFailoverOptions($key = null)
     {
         if($key) {
@@ -581,7 +530,6 @@ class PaylineSDK
         }
         return  $this->failoverOptions;
     }
-
 
     /**
      * @return $this
@@ -595,13 +543,11 @@ class PaylineSDK
     }
 
 
-
     public function resetFailoverOptions()
     {
         $this->failoverOptions = array();
         return $this;
     }
-
 
     /**
      * reset OrderDetails
@@ -611,7 +557,6 @@ class PaylineSDK
         $this->orderDetails = array();
         return $this;
     }
-
 
     /**
      * reset Private Data
@@ -631,19 +576,8 @@ class PaylineSDK
     }
 
     /**
-     * build Payment instance from $array and make SoapVar object for payment
-     *
-     * @param array $array
-     *            the array keys are listed in Payment class
-     * @return SoapVar representation of Payment instance
-     */
-    protected function payment(array $array)
-    {
-        return $this->buildSoapObject($array, new Payment(), self::SOAP_PAYMENT);
-    }
-
-    /**
      * build PaymentData instance from $array and make SoapVar object for payment
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in PaymentData class
@@ -654,23 +588,10 @@ class PaylineSDK
         return $this->buildSoapObject($array, new PaymentData(), self::SOAP_PAYMENT_DATA);
     }
 
-    /**
-     * build Order instance from $array and make SoapVar object for order
-     *
-     * @param array $array
-     *            the array keys are listed in Order CLASS.
-     * @return SoapVar representation of Order instance
-     */
-    protected function order(array $array)
-    {
-        $order = $this->fillObject($array, new Order());
-        // insert orderDetails
-        $order->details = $this->orderDetails;
-        return new \SoapVar($order, SOAP_ENC_OBJECT, self::SOAP_ORDER, self::PAYLINE_NAMESPACE);
-    }
 
     /**
      * build Card instance from $array and make SoapVar object for card
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in Card CLASS.
@@ -680,41 +601,17 @@ class PaylineSDK
     {
         $card = $this->fillObject($array, new Card());
         $card->paymentData = null;
+
         if (isset($array['paymentData'])) {
             $card->paymentData = $this->paymentData($array['paymentData']);
         }
-        return new \SoapVar($card, SOAP_ENC_OBJECT, self::SOAP_CARD, self::PAYLINE_NAMESPACE);
+        return new \SoapVar($card, SOAP_ENC_OBJECT, self::SOAP_CARD, SoapVarFactory::PAYLINE_NAMESPACE);
     }
 
-    /**
-     * build Buyer instance from $array, $shippingAdress and $billingAddress, and make SoapVar object for buyer
-     *
-     * @param array $array
-     *            the array keys are listed in Buyer CLASS.
-     * @param array $shippingAdress
-     *            the array keys are listed in Address CLASS.
-     * @param array $billingAddress
-     *            the array keys are listed in Address CLASS.
-     * @param array $merchantAuthentication
-     *            the array keys are listed in MerchantAuthentication CLASS.
-     * @return SoapVar representation of Buyer instance
-     */
-    protected function buyer(array $array, array $shippingAdress = array(), array $billingAddress = array(), array $merchantAuthentication = array())
-    {
-        $buyerArray = !empty($array['buyer']) ? $array['buyer'] : $array;
-        $shippingAdress = !empty($array['shippingAddress']) ? $array['shippingAddress'] : $shippingAdress;
-        $billingAddress = !empty($array['billingAddress']) ? $array['billingAddress'] : $billingAddress;
-        $merchantAuthentication = !empty($array['merchantAuthentication']) ? $array['merchantAuthentication'] : $merchantAuthentication;
-
-        $buyer = $this->fillObject($buyerArray, new Buyer());
-        $buyer->shippingAdress = $this->address($shippingAdress);
-        $buyer->billingAddress = $this->address($billingAddress);
-        $buyer->merchantAuthentication = $this->merchantAuthentication($merchantAuthentication);
-        return new \SoapVar($buyer, SOAP_ENC_OBJECT, self::SOAP_BUYER, self::PAYLINE_NAMESPACE);
-    }
 
     /**
      * build Address instance from $array and make SoapVar object for address.
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in Address CLASS.
@@ -725,68 +622,11 @@ class PaylineSDK
         return $this->buildSoapObject($array, new Address(), self::SOAP_ADDRESS);
     }
 
-    /**
-     * build AddressOwner instance from $array and make SoapVar object for addressOwner.
-     *
-     * @param array $array
-     *            the array keys are listed in AddressOwner CLASS.
-     * @return SoapVar representation of AddressOwner instance
-     */
-    protected function addressOwner(array $array)
-    {
-        return $this->buildSoapObject($array, new AddressOwner(), self::SOAP_ADDRESS_OWNER);
-    }
 
-    /**
-     * build Owner instance from $array and make SoapVar object for owner
-     *
-     * @param array $array
-     *            the array keys are listed in Owner CLASS.
-     * @param array $addressOwner
-     *            the array keys are listed in AddressOwner CLASS.
-     * @return SoapVar representation of Owner instance
-     *
-     */
-    protected function owner(array $array, array $addressOwner = array())
-    {
-        $ownerArray = !empty($array['owner']) ? $array['owner'] : $array;
-        $addressOwner = !empty($array['ownerAddress']) ? $array['ownerAddress'] : $addressOwner;
-
-        if ($ownerArray !== null) {
-            $owner = $this->fillObject($ownerArray, new Owner());
-            $owner->billingAddress = $this->addressOwner($addressOwner);
-            return new \SoapVar($owner, SOAP_ENC_OBJECT, self::SOAP_OWNER, self::PAYLINE_NAMESPACE);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * build Authentication3DSecure instance from $array and make SoapVar object for authentication3DSecure
-     *
-     * @param array $array
-     *            the array keys are listed in Authentication3DSecure CLASS.
-     * @return SoapVar representation of Authentication3DSecure instance
-     */
-    protected function authentication3DSecure(array $array)
-    {
-        return $this->buildSoapObject($array, new Authentication3DSecure(), self::SOAP_AUTHENTICATION_3DSECURE);
-    }
-
-    /**
-     * build BankAccountData instance from $array and make SoapVar object for authentication3DSecure
-     *
-     * @param array $array
-     *            the array keys are listed in BankAccountData CLASS.
-     * @return SoapVar representation of BankAccountData instance
-     */
-    protected function bankAccountData(array $array)
-    {
-        return $this->buildSoapObject($array, new BankAccountData(), self::SOAP_BANK_ACCOUNT_DATA);
-    }
 
     /**
      * build BillingRecordForUpdate instance from $array and make SoapVar object for billingRecordForUpdate
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in BillingRecordForUpdate CLASS.
@@ -799,6 +639,7 @@ class PaylineSDK
 
     /**
      * build Wallet instance from $array and make SoapVar object for wallet
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in Wallet CLASS.
@@ -808,21 +649,22 @@ class PaylineSDK
      *            the array keys are listed in Card CLASS.
      * @return SoapVar representation of Wallet instance
      */
-    protected function wallet(array $array, array $shippingAdress = array(), array $card = array())
+    protected function wallet(array $array, array $shippingAddress = array(), array $card = array())
     {
 
         $buyerArray = !empty($array['buyer']) ? $array['buyer'] : $array;
-        $shippingAdress = !empty($array['shippingAddress']) ? $array['shippingAddress'] : $shippingAdress;
+        $shippingAddress = !empty($array['shippingAddress']) ? $array['shippingAddress'] : $shippingAddress;
         $card = !empty($array['card']) ? $array['card'] : $card;
 
         $wallet = $this->fillObject($array, new Wallet());
-        $wallet->shippingAddress = $this->address($shippingAdress);
+//        $wallet->shippingAddress = $this->address($shippingAddress);
         $wallet->card = $this->card($card);
-        return new \SoapVar($wallet, SOAP_ENC_OBJECT, self::SOAP_WALLET, self::PAYLINE_NAMESPACE);
+        return new \SoapVar($wallet, SOAP_ENC_OBJECT, self::SOAP_WALLET, SoapVarFactory::PAYLINE_NAMESPACE);
     }
 
     /**
      * build Authorization instance from $array and make SoapVar object for authorization
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in Authorization CLASS.
@@ -837,6 +679,7 @@ class PaylineSDK
 
     /**
      * build Creditor instance from $array and make SoapVar object for creditor
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in Creditor CLASS.
@@ -849,6 +692,7 @@ class PaylineSDK
 
     /**
      * build Cheque instance from $array and make SoapVar object for cheque
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in Cheque CLASS.
@@ -861,6 +705,7 @@ class PaylineSDK
 
     /**
      * build Recurring instance from $array and make SoapVar object for recurring
+     * @deprecated
      *
      * @param array $array
      *            the array keys are listed in Recurring CLASS.
@@ -872,53 +717,8 @@ class PaylineSDK
     }
 
     /**
-     * build SubMerchant instance from $array and make SoapVar object for subMerchant
-     *
-     * @param array $array
-     *            the array keys are listed in SubMerchant CLASS.
-     * @return SoapVar representation of SubMerchant instance
-     */
-    protected function subMerchant(array $array)
-    {
-        return $this->buildSoapObject($array, new SubMerchant(), self::SOAP_SUBMERCHANT);
-    }
-
-    /**
-     * build ThreeDSInfo instance froù $array and make SoapVar object for threeDSInfo
-     *
-     * @param array $array
-     *      the array keys liste in ThreeDSInfo CLASS.
-     * @param array $arrayBrowser
-     *      the array keys liste in Browser CLASS.
-     * @param array $arraySdk
-     *      the array keys liste in Sdk CLASS.
-     * @return  SoapVar representation of ThreeDSInfo instance
-     */
-    protected function threeDSInfo(array $array, array $arrayBrowser = array(), array $arraySdk = array())
-    {
-
-        $arrayBrowser = !empty($array['browser']) ? $array['browser'] : $arrayBrowser;
-        $arraySdk = !empty($array['sdk']) ? $array['sdk'] : $arraySdk;
-
-        $threeDSInfo = $this->fillObject($array, new ThreeDSInfo());
-        $threeDSInfo->sdk = $this->sdk($arraySdk);
-        $threeDSInfo->browser = $this->browser($arrayBrowser);
-        return new \SoapVar($threeDSInfo, SOAP_ENC_OBJECT, self::SOAP_THREEDSINFO, self::PAYLINE_NAMESPACE);
-    }
-
-    /**
-     * build Browser instance from $array and make SoapVar object for browser
-     *
-     * @param array $array
-     *      the array keys list in Browser CLASS.
-     * @return  SoapVar representation of Browser instance
-     */
-    protected function browser(array $array) {
-        return $this->buildSoapObject($array, new Browser(), self::SOAP_BROWSER);
-    }
-
-    /**
      * build MerchantAuthentication instance from $array and make SoapVar object for merchantAuthentication
+     * @deprecated
      *
      * @param array $array
      *      the array keys list in MerchantAuthentication CLASS.
@@ -928,18 +728,6 @@ class PaylineSDK
         return $this->buildSoapObject($array, new MerchantAuthentication(), self::SOAP_MERCHANT_AUTHENTICATION);
     }
 
-
-
-    /**
-     * build Sdk instance from $array and make SoapVar object for sdk
-     *
-     * @param array $array
-     *      the array keys list in Sdk CLASS.
-     * @return  SoapVar representation of Sdk instance
-     */
-    protected function sdk(array $array) {
-        return $this->buildSoapObject($array, new Sdk(), self::SOAP_SDK);
-    }
 
     /**
      * Hide characters in a string
@@ -953,6 +741,10 @@ class PaylineSDK
      */
     protected function hideChars($inString, $n1, $n2)
     {
+        if(empty($inString)) {
+            return '';
+        }
+
         $inStringLength = strlen($inString);
         if ($inStringLength < ($n1 + $n2)) {
             return $inString;
@@ -1020,13 +812,25 @@ class PaylineSDK
      * @param array $array
      *            associative array containing web services parameters
      */
-    private static function formatRequest(&$array)
+    private function formatRequest(&$array)
     {
-        if (!isset($array['buyer'])) {
-            $array['buyer'] = array();
+        //Key renaming
+        $mappingKeys = array(
+            '3DSecure' => 'authentication3DSecure',
+            'contracts' => 'selectedContractList',
+            'secondContracts' => 'secondSelectedContractList',
+            'walletContracts' => 'contractNumberWalletList',
+            'walletIds' => 'walletIdList',
+        );
+        foreach ($mappingKeys as $enterKey => $exitKey) {
+            if(isset($array[$enterKey]) && !isset($array[$exitKey])) {
+                $array[$exitKey] = $array[$enterKey];
+                unset($array[$enterKey]);
+            }
         }
-        if (!isset($array['3DSecure'])) {
-            $array['3DSecure'] = array();
+
+        if (!isset($array['authentication3DSecure'])) {
+            $array['authentication3DSecure'] = array();
         }
         if (!isset($array['bankAccountData'])) {
             $array['bankAccountData'] = array();
@@ -1046,26 +850,59 @@ class PaylineSDK
         if (!isset($array['securityMode']) || !strlen($array['securityMode'])) {
             $array['securityMode'] = null;
         }
+
         if (!isset($array['billingAddress'])) {
             $array['billingAddress'] = array();
         }
         if (!isset($array['shippingAddress'])) {
             $array['shippingAddress'] = array();
         }
-        if (!isset($array['owner'])) {
-            $array['owner'] = array();
+
+        if (!isset($array['merchantAuthentication'])) {
+            $array['merchantAuthentication'] = array();
         }
+
+        if (!isset($array['buyer'])) {
+            $array['buyer'] = array();
+        }
+
+        if (!isset($array['buyer']['billingAddress'])) {
+            $array['buyer']['billingAddress'] = $array['billingAddress'];
+        }
+        if (!isset($array['buyer']['shippingAdress'])) {
+            $array['buyer']['shippingAdress'] = $array['shippingAddress'];
+        }
+
+        if (!isset($array['buyer']['merchantAuthentication'])) {
+            $array['buyer']['merchantAuthentication'] = $array['merchantAuthentication'];
+        }
+
+
         if (!isset($array['ownerAddress'])) {
             $array['ownerAddress'] = array();
         }
-        if (!isset($array['contracts']) || !strlen($array['contracts'][0]) || !is_array($array['contracts'])) {
-            $array['contracts'] = null;
+
+        if (!isset($array['owner'])) {
+            $array['owner'] = array();
         }
-        if (!isset($array['secondContracts']) || !strlen($array['secondContracts'][0]) || !is_array($array['secondContracts'])) {
-            $array['secondContracts'] = null;
+
+        if (!isset($array['owner']['ownerAddress'])) {
+            $array['owner']['ownerAddress'] = $array['ownerAddress'];
         }
-        if (!isset($array['walletContracts']) || !strlen($array['walletContracts'][0]) || !is_array($array['walletContracts'])) {
-            $array['walletContracts'] = null;
+
+        //ownerAddress do not exist in wsdl
+        if (!isset($array['owner']['billingAddress'])) {
+            $array['owner']['billingAddress'] = $array['ownerAddress'];
+        }
+
+        if (!isset($array['selectedContractList']) || !strlen($array['selectedContractList'][0]) || !is_array($array['selectedContractList'])) {
+            $array['selectedContractList'] = null;
+        }
+        if (!isset($array['secondSelectedContractList']) || !strlen($array['secondSelectedContractList'][0]) || !is_array($array['secondSelectedContractList'])) {
+            $array['secondSelectedContractList'] = null;
+        }
+        if (!isset($array['contractNumberWalletList']) || !strlen($array['contractNumberWalletList'][0]) || !is_array($array['contractNumberWalletList'])) {
+            $array['contractNumberWalletList'] = null;
         }
         if (!isset($array['customPaymentPageCode']) || !strlen($array['customPaymentPageCode'])) {
             $array['customPaymentPageCode'] = null;
@@ -1082,8 +919,8 @@ class PaylineSDK
         if (!isset($array['orderDate']) || !strlen($array['orderDate'])) {
             $array['orderDate'] = null;
         }
-        if (!isset($array['walletIds']) || !strlen($array['walletIds'][0] || !is_array($array['walletIds']))) {
-            $array['walletIds'] = null;
+        if (!isset($array['walletIdList']) || !strlen($array['walletIdList'][0] || !is_array($array['walletIdList']))) {
+            $array['walletIdList'] = null;
         }
         if (!isset($array['merchantName'])) {
             $array['merchantName'] = null;
@@ -1097,18 +934,20 @@ class PaylineSDK
         if (!isset($array['asynchronousRetryTimeout'])) {
             $array['asynchronousRetryTimeout'] = null;
         }
-        if (!isset($array['merchantAuthentication'])) {
-            $array['merchantAuthentication'] = array();
-        }
+
         if (!isset($array['browser'])) {
             $array['browser'] = array();
         }
         if (!isset($array['sdk'])) {
             $array['sdk'] = array();
         }
-        if (!isset($array['threeDSInfo'])) {
-            $array['threeDSInfo'] = array();
+        if (!isset($array['threeDSInfo']['sdk'])) {
+            $array['threeDSInfo']['sdk'] = $array['sdk'];
         }
+        if (!isset($array['threeDSInfo']['browser'])) {
+            $array['threeDSInfo']['browser'] = $array['browser'];
+        }
+
         if (!isset($array['updatePersonalDetails'])) {
             $array['updatePersonalDetails'] = null;
         }
@@ -1142,23 +981,34 @@ class PaylineSDK
             $array['travelFileNumber'] = null;
         }
 
-
-
-        //todo preparation of the key refacto
-        $mappingKeys = array(
-            '3DSecure' => 'authentication3DSecure',
-            'contracts' => 'selectedContractList',
-            'secondContracts' => 'secondSelectedContractList',
-            'walletContracts' => 'contractNumberWalletList',
-            'walletIds' => 'walletIdList',
-        );
-        foreach ($mappingKeys as $enterKey => $exitKey) {
-            if(isset($array[$enterKey])) {
-                $array[$exitKey] = $array[$enterKey];
-            }
+        if (!isset($array['version']) || !strlen($array['version'])) {
+            $array['version'] = '';
         }
+
+        if (!isset($array['media']) || !strlen($array['media'])) {
+            $array['media'] = '';
+        }
+
+        $array['order']['details'] = $this->orderDetails;
+        $array['privateDataList'] = $this->privateData;
     }
 
+
+    protected function createSoapVarObject($elementKey, $array) {
+
+        try {
+            $objectFactory = new SoapVarFactory();
+            $object =  $objectFactory->create($elementKey, $array);
+        } catch (\Exception $e) {
+            $this->logger->error('Exception occured while createSoapVarObject for elementKey: ' . $elementKey, array(
+                'code'     => $e->getCode(),
+                'message'  => $e->getMessage()
+            ));
+            return null;
+        }
+
+        return $object;
+    }
 
     /**
      * Complete $WSRequest according wsdl definition
@@ -1185,13 +1035,14 @@ class PaylineSDK
                             if ($match[1][$elementIndex] == "string") {
                                 $elementValue = isset($array[$elementKey]) ? $array[$elementKey] : null;
                                 $WSRequest[$elementKey] = $elementValue;
-                            } elseif (method_exists($this, $elementKey)) {
-                                $WSRequest[$elementKey] = $this->$elementKey($array);
+                            } else {
+                                $WSRequest[$elementKey] = $this->createSoapVarObject($elementKey, $array);
                             }
                         }
                     }
                 }
             }
+
         } catch (\SoapFault $fault) {
             $this->logger->error('SoapFault occured while completeWSRequest for ' . $Method, array(
                 'code'     => $fault->getCode(),
@@ -1244,11 +1095,9 @@ class PaylineSDK
      */
     protected function webServiceRequest(array $array, array $WSRequest, $PaylineAPI, $Method)
     {
+
         $WSRequest = $this->completeWSRequest($array, $WSRequest, $PaylineAPI, $Method);
-        $logRequest = array();
-        $logResponse = array(
-            'result.code' => null
-        );
+
         try {
             if(!$this->webServicesEndpoint){
                 throw new \Exception('Endpoint error (check `environment` parameter of PaylineSDK constructor)');
@@ -1271,350 +1120,49 @@ class PaylineSDK
 
             $client->setFailoverOptions($this->failoverOptions);
 
-            $WSRequest['version'] = isset($array['version']) && strlen($array['version']) ? $array['version'] : '';
-            $WSRequest['media'] = isset($array['media']) && strlen($array['media']) ? $array['media'] : '';
+            $logRequest = array(
+                'transactionID' => isset($array['transactionID']) ? $array['transactionID'] : null,
+                'order.ref' => isset($array['order']['ref']) ? $array['order']['ref'] : null,
+                'payment.contractNumber' => isset($array['payment']['contractNumber']) ? $array['payment']['contractNumber'] : null,
+                'payment.amount' => isset($array['payment']['amount']) ? $array['payment']['amount'] : null,
+                'contractNumber' => isset($array['contractNumber']) ? $array['contractNumber'] : null,
+                'walletId' => isset($array['wallet']['walletId']) ? $array['wallet']['walletId'] : null,
+                'walletIdList' => isset($array['walletIdList']) ? implode(';', $array['walletIdList']) : null,
+                'card.number' => isset($array['card']['number']) ? $this->hideChars($array['card']['number'], 4, 4) : null,
+                'paymentRecordId ' => isset($array['paymentRecordId']) ? $array['transactionID'] : null,
+                'billingRecordId' => isset($array['billingRecordId']) ? $array['transactionID'] : null,
+                'alertId' => isset($array['AlertId']) ? $array['AlertId'] : null,
+                'token' => isset($array['token']) ? $array['token'] : null,
+                'orderID' => isset($array['orderID']) ? $array['orderID'] : null,
+                'creditor.bic' => isset($array['creditor']['bic']) ? $this->hideChars($array['creditor']['bic'], 4, 1) : null ,
+                'creditor.iban' => isset($array['creditor']['iban']) ? $this->hideChars($array['creditor']['iban'], 8, 1) : null
+            );
+            $logRequest = array_filter($logRequest);
 
-            switch ($Method) {
-                case 'createWallet':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'walletId' => $array['wallet']['walletId'],
-                        'card.number' => $this->hideChars($array['card']['number'], 4, 4)
-                    );
-                    $response = self::responseToArray($client->createWallet($WSRequest));
-                    break;
-                case 'createWebWallet':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'walletId' => $array['buyer']['walletId']
-                    );
-                    $response = self::responseToArray($client->createWebWallet($WSRequest));
-                    if ($response['result']['code'] == '00000') {
-                        $logResponse['token'] = $response['token'];
-                    }
-                    break;
-                case 'updatePaymentRecord':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'paymentRecordId ' => $array['paymentRecordId']
-                    );
-                    $response = PaylineSDK::responseToArray($client->updatePaymentRecord($WSRequest));
-                    break;
-                case 'getBillingRecord':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'paymentRecordId' => $array['paymentRecordId'],
-                        'billingRecordId' => $array['billingRecordId']
-                    );
-                    $response = self::responseToArray($client->getBillingRecord($WSRequest));
-                    break;
-                case 'updateBillingRecord':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'paymentRecordId' => $array['paymentRecordId'],
-                        'billingRecordId' => $array['billingRecordId']
-                    );
-                    $response = self::responseToArray($client->updateBillingRecord($WSRequest));
-                    break;
-                case 'disablePaymentRecord':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'paymentRecordId' => $array['paymentRecordId']
-                    );
-                    $response = self::responseToArray($client->disablePaymentRecord($WSRequest));
-                    break;
-                case 'disableWallet':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'walletIdList' => implode(';', $array['walletIds'])
-                    );
-                    $response = self::responseToArray($client->disableWallet($WSRequest));
-                    break;
-                case 'doAuthorization':
-                    $logRequest = array(
-                        'order.ref' => $array['order']['ref'],
-                        'payment.contractNumber' => $array['payment']['contractNumber'],
-                        'payment.amount' => $array['payment']['amount']
-                    );
 
-                    $response = self::responseToArray($client->doAuthorization($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'doCapture':
-                    $logRequest = array(
-                        'transactionID' => $array['transactionID'],
-                        'payment.amount' => $array['payment']['amount']
-                    );
-                    $response = self::responseToArray($client->doCapture($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'doCredit':
-                    $logRequest = array(
-                        'payment.contractNumber' => $array['payment']['contractNumber'],
-                        'order.ref' => $array['order']['ref'],
-                        'card.number' => $this->hideChars($array['card']['number'], 4, 4)
-                    );
-                    $response = self::responseToArray($client->doCredit($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'doDebit':
-                    $logRequest = array(
-                        'payment.contractNumber' => $array['payment']['contractNumber'],
-                        'order.ref' => $array['order']['ref'],
-                        'card.number' => $this->hideChars($array['card']['number'], 4, 4)
-                    );
-                    $response = self::responseToArray($client->doDebit($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'doImmediateWalletPayment':
-                    $logRequest = array(
-                        'payment.contractNumber' => $array['payment']['contractNumber'],
-                        'walletId' => $array['walletId'],
-                        'order.ref' => $array['order']['ref']
-                    );
-                    $response = self::responseToArray($client->doImmediateWalletPayment($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'doReAuthorization':
-                    $logRequest = array(
-                        'transactionID' => $array['transactionID'],
-                        'amount' => $array['payment']['amount']
-                    );
-                    $response = self::responseToArray($client->doReAuthorization($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'doRecurrentWalletPayment':
-                    $logRequest = array(
-                        'payment.contractNumber' => $array['payment']['contractNumber'],
-                        'walletId' => $array['walletId'],
-                        'order.ref' => $array['order']['ref']
-                    );
-                    $response = self::responseToArray($client->doRecurrentWalletPayment($WSRequest));
-                    if ($response['result']['code'] == '02500') {
-                        $logResponse['paymentRecordId'] = $response['paymentRecordId'];
-                    }
-                    break;
-                case 'doRefund':
-                    $logRequest = array(
-                        'transactionID' => $array['transactionID'],
-                        'payment.amount' => $array['payment']['amount']
-                    );
-                    $response = self::responseToArray($client->doRefund($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'doReset':
-                    $logRequest = array(
-                        'transactionID' => $array['transactionID']
-                    );
-                    $response = self::responseToArray($client->doReset($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'doScheduledWalletPayment':
-                    $logRequest = array(
-                        'payment.contractNumber' => $array['payment']['contractNumber'],
-                        'walletId' => $array['walletId'],
-                        'order.ref' => $array['order']['ref']
-                    );
-                    $response = self::responseToArray($client->doScheduledWalletPayment($WSRequest));
-                    if ($response['result']['code'] == '02500') {
-                        $logResponse['paymentRecordId'] = $response['paymentRecordId'];
-                    }
-                    break;
-                case 'doScoringCheque':
-                    $response = self::responseToArray($client->doScoringCheque($WSRequest));
-                    break;
-                case 'doWebPayment':
-                    $logRequest = array(
-                        'order.ref' => $array['order']['ref']
-                    );
-                    $response = self::responseToArray($client->doWebPayment($WSRequest));
-                    if ($response['result']['code'] == '00000') {
-                        $logResponse['token'] = $response['token'];
-                    }
-                    break;
-                case 'enableWallet':
-                    $logRequest = array(
-                        'walletId' => $array['walletId']
-                    );
-                    $response = self::responseToArray($client->enableWallet($WSRequest));
-                    break;
-                case 'getAlertDetails':
-                    $logRequest = array(
-                        'alertId' => $array['AlertId'],
-                        'transactionId' => $array['TransactionId']
-                    );
-                    $response = self::responseToArray($client->getAlertDetails($WSRequest));
-                    break;
-                case 'getBalance':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'cardID' => $this->hideChars($array['cardID'], 4, 4)
-                    );
-                    $response = self::responseToArray($client->getBalance($WSRequest));
-                    break;
-                case 'getCards':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'walletId' => $array['walletId'],
-                        'cardInd' => $array['cardInd']
-                    );
-                    $response = self::responseToArray($client->getCards($WSRequest));
-                    break;
-                case 'getEncryptionKey':
-                    $response = self::responseToArray($client->getEncryptionKey($WSRequest));
-                    break;
-                case 'getMerchantSettings':
-                    $response = self::responseToArray($client->getMerchantSettings($WSRequest));
-                    break;
-                case 'getPaymentRecord':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'paymentRecordId' => $array['paymentRecordId']
-                    );
-                    $response = self::responseToArray($client->getPaymentRecord($WSRequest));
-                    break;
-                case 'getToken':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'cardNumber' => $this->hideChars($array['cardNumber'], 4, 4)
-                    );
-                    $response = self::responseToArray($client->getToken($WSRequest));
-                    if ($response['result']['code'] == '02500') {
-                        $logResponse['token'] = $response['token'];
-                    }
-                    break;
-                case 'getTransactionDetails':
-                    $logRequest = array(
-                        'transactionId' => $array['transactionId']
-                    );
-                    $response = self::responseToArray($client->getTransactionDetails($WSRequest));
-                    break;
-                case 'getWallet':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'walletId' => $array['walletId'],
-                        'cardInd' => $array['cardInd']
-                    );
-                    $response = self::responseToArray($client->getWallet($WSRequest));
-                    break;
-                case 'getWebPaymentDetails':
-                    $logRequest = array(
-                        'token' => $array['token']
-                    );
-                    $response = self::responseToArray($client->getWebPaymentDetails($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'getWebWallet':
-                    $logRequest = array(
-                        'token' => $array['token']
-                    );
-                    $response = self::responseToArray($client->getWebWallet($WSRequest));
-                    if (isset($response['wallet']['card'])) {
-                        $logResponse['wallet.card.number'] = $this->hideChars($response['wallet']['card']['number'], 4, 4);
-                    }
-                    break;
-                case 'manageWebWallet':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'buyer.walletId' => $array['buyer']['walletId']
-                    );
-                    $response = self::responseToArray($client->manageWebWallet($WSRequest));
-                    if ($response['result']['code'] == '00000') {
-                        $logResponse['token'] = $response['token'];
-                    }
-                    break;
-                case 'transactionsSearch':
-                    $logRequest = array();
-                    foreach ($array as $key => $value) {
-                        if ($value != '') {
-                            $logRequest[$key] = $value;
-                        }
-                    }
-                    $response = self::responseToArray($client->transactionsSearch($WSRequest));
-                    break;
-                case 'unBlock':
-                    $logRequest = array(
-                        'transactionID' => $array['transactionID']
-                    );
-                    $response = self::responseToArray($client->unBlock($WSRequest));
-                    break;
-                case 'updateWallet':
-                    $logRequest = array(
-                        'walletId' => $array['wallet']['walletId']
-                    );
-                    $response = self::responseToArray($client->updateWallet($WSRequest));
-                    break;
-                case 'updateWebWallet':
-                    $logRequest = array(
-                        'walletId' => $array['walletId']
-                    );
-                    $response = self::responseToArray($client->updateWebWallet($WSRequest));
-                    if ($response['result']['code'] == '00000') {
-                        $logResponse['token'] = $response['token'];
-                    }
-                    break;
-                case 'verifyAuthentication':
-                    $logRequest = array(
-                        'contractNumber' => $array['contractNumber'],
-                        'card.number' => !empty($array['card']) && is_array($array['card']) ? $this->hideChars($array['card']['number'], 4, 4) : '?'
-                    );
-                    $response = self::responseToArray($client->verifyAuthentication($WSRequest));
-                    break;
-                case 'verifyEnrollment':
-                    $logRequest = array(
-                        'payment.contractNumber' => $array['payment']['contractNumber'],
-                        'card.number' => $this->hideChars($array['card']['number'], 4, 4)
-                    );
-                    $response = self::responseToArray($client->verifyEnrollment($WSRequest));
-                    break;
-                case 'doBankTransfer':
-                    $logRequest = array(
-                        'orderID' => $array['orderID'],
-                        'creditor.bic' => $this->hideChars($array['creditor']['bic'], 4, 1),
-                        'creditor.iban' => $this->hideChars($array['creditor']['iban'], 8, 1)
-                    );
-                    $response = self::responseToArray($client->doBankTransfer($WSRequest));
-                    if (isset($response['transaction']['id'])) {
-                        $logResponse['transaction.id'] = $response['transaction']['id'];
-                    }
-                    break;
-                case 'isRegistered':
-                    $logRequest = array(
-                        'order.ref' => $array['order']['ref'],
-                        'payment.contractNumber' => $array['payment']['contractNumber']
-                    );
-                    $response = self::responseToArray($client->isRegistered($WSRequest));
-                    $logResponse['token'] = $response['token'];
-                    break;
-                case 'doAuthorizationRedirect':
-                    $logRequest = array(
-                        'order.ref' => $array['order']['ref'],
-                        'payment.contractNumber' => $array['payment']['contractNumber']
-                    );
-                    $response = self::responseToArray($client->doAuthorizationRedirect($WSRequest));
-                    break;
+            $response = self::responseToArray($client->$Method($WSRequest));
+
+            $logResponse = array(
+                'result.code' => $response['result']['code']
+            );
+
+            if ($response['result']['code'] == '00000' && isset($response['token'])) {
+                $logResponse['token'] = $response['token'];
+            } elseif ($response['result']['code'] == '02500' && isset($response['paymentRecordId'])) {
+                $logResponse['paymentRecordId'] = $response['paymentRecordId'];
             }
-            $logResponse['result.code'] = $response['result']['code'];
+
+            if (isset($response['transaction']['id'])) {
+                $logResponse['transaction.id'] = $response['transaction']['id'];
+            }
+
+            if (isset($response['wallet']['card'])) {
+                $logResponse['wallet.card.number'] = $this->hideChars($response['wallet']['card']['number'], 4, 4);
+            }
+
             $this->logger->info($Method . 'Request', $logRequest);
             $this->logger->info($Method . 'Response', $logResponse);
+
             if ($this->logLevel == \Monolog\Logger::DEBUG && $this->soapclientOptions['trace'] === true) {
                 foreach ($this->getSoapLastContent(null, false) as $callNum=>$callData) {
                     foreach ($callData as $callKey => $callValue) {
@@ -1686,11 +1234,10 @@ class PaylineSDK
         $this->privateData[] = $this->buildSoapObject($array, new PrivateData(), self::SOAP_PRIVATE_DATA);
     }
 
+
     /*
      * *************************************************************************
-     *
      * DirectPaymentAPI
-     *
      * *************************************************************************
      */
 
@@ -1703,27 +1250,7 @@ class PaylineSDK
     public function doAuthorization(array $array)
     {
         $this->formatRequest($array);
-        $threeDSInfo = array_key_exists('threeDSInfo', $array) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
-
-        $WSRequest = array(
-            'transient'                 => isset($array['transient']) ? $array['transient'] : null,
-            'payment'                   => $this->payment($array['payment']),
-            'bankAccountData'           => $this->bankAccountData($array['bankAccountData']),
-            'card'                      => $this->card($array['card']),
-            'order'                     => $this->order($array['order']),
-            'buyer'                     => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'                     => $this->owner($array['owner'], $array['ownerAddress']),
-            'privateDataList'           => $this->privateData,
-            'authentication3DSecure'    => $this->authentication3DSecure($array['3DSecure']),
-            'subMerchant'               => $this->subMerchant($array['subMerchant']),
-            'asynchronousRetryTimeout'  => $array['asynchronousRetryTimeout'],
-            'linkedTransactionId'       => $array['linkedTransactionId'],
-            'threeDSInfo'               => $threeDSInfo,
-            'travelFileNumber'          => $array['travelFileNumber'],
-            'recurring'                 => $array['recurring']
-        );
-
-
+        $WSRequest = array();
 
         if (isset($array['payment']['mode'])) {
             if (($array['payment']['mode'] == "REC") || ($array['payment']['mode'] == "NX")) {
@@ -1743,12 +1270,9 @@ class PaylineSDK
      */
     public function doCapture(array $array)
     {
-        $WSRequest = array(
-            'transactionID'   => $array['transactionID'],
-            'payment'         => $this->payment($array['payment']),
-            'privateDataList' => $this->privateData,
-            'sequenceNumber'  => $array['sequenceNumber']
-        );
+        $this->formatRequest($array);
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doCapture');
     }
 
@@ -1760,12 +1284,9 @@ class PaylineSDK
      */
     public function doReAuthorization(array $array)
     {
-        $WSRequest = array(
-            'transactionID'   => $array['transactionID'],
-            'payment'         => $this->payment($array['payment']),
-            'order'           => $this->order($array['order']),
-            'privateDataList' => $this->privateData
-        );
+        $this->formatRequest($array);
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doReAuthorization');
     }
 
@@ -1778,16 +1299,10 @@ class PaylineSDK
     public function doDebit(array $array)
     {
         $this->formatRequest($array);
+
         $WSRequest = array(
-            'payment'                => $this->payment($array['payment']),
-            'card'                   => $this->card($array['card']),
-            'order'                  => $this->order($array['order']),
             'privateDataList'        => $this->privateData,
-            'buyer'                  => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'                  => $this->owner($array),
-            'authentication3DSecure' => $this->authentication3DSecure($array['3DSecure']),
             'authorization'          => $this->authorization($array['authorization']),
-            'subMerchant'            => $this->subMerchant($array['subMerchant'])
         );
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doDebit');
     }
@@ -1801,15 +1316,8 @@ class PaylineSDK
     public function doRefund($array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'transactionID'   => $array['transactionID'],
-            'payment'         => $this->payment($array['payment']),
-            'comment'         => $array['comment'],
-            'privateDataList' => $this->privateData,
-            'details'         => $this->orderDetails,
-            'sequenceNumber'  => $array['sequenceNumber'],
-            'miscData'        => $array['miscData']
-        );
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doRefund');
     }
 
@@ -1822,20 +1330,10 @@ class PaylineSDK
     public function doReset(array $array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'transactionID' => $array['transactionID'],
-            'comment'       => $array['comment'],
-            'amount'       => $array['amount'],
-            'currency'       => $array['currency'],
-            'privateDataList' => $this->privateData,
-            'sequenceNumber'       => $array['sequenceNumber'],
-        );
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doReset');
     }
-
-
-
-
 
     /**
      * calls doCredit web service
@@ -1846,16 +1344,8 @@ class PaylineSDK
     public function doCredit(array $array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'payment'         => $this->payment($array['payment']),
-            'card'            => $this->card($array['card']),
-            'buyer'           => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'           => $this->owner($array),
-            'privateDataList' => $this->privateData,
-            'order'           => $this->order($array['order']),
-            'comment'         => $array['comment'],
-            'subMerchant'     => $this->subMerchant($array['subMerchant'])
-        );
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doCredit');
     }
 
@@ -1868,22 +1358,13 @@ class PaylineSDK
     public function createWallet(array $array)
     {
         $this->formatRequest($array);
+
         $WSRequest = array(
-            'contractNumber'           => $array['contractNumber'],
             'wallet'                   => $this->wallet($array['wallet'], $array['address'], $array['card']),
-            'buyer'                    => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'                    => $this->owner($array['owner'], $array['ownerAddress']),
-            'privateDataList'          => $this->privateData,
-            'authentication3DSecure'   => $this->authentication3DSecure($array['3DSecure']),
-            'contractNumberWalletList' => $array['walletContracts'],
-            'transactionID'            => $array['transactionID']
+            'contractNumberWalletList' => $array['contractNumberWalletList']
         );
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'createWallet');
     }
-
-
-
-
 
     /**
      * calls updateWallet web service
@@ -1894,15 +1375,10 @@ class PaylineSDK
     public function updateWallet(array $array)
     {
         $this->formatRequest($array);
+
         $WSRequest = array(
-            'contractNumber'           => $array['contractNumber'],
-            'cardInd'                  => $array['cardInd'],
             'wallet'                   => $this->wallet($array['wallet'], $array['address'], $array['card']),
-            'buyer'                    => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'                    => $this->owner($array['owner'], $array['ownerAddress']),
-            'privateDataList'          => $this->privateData,
-            'authentication3DSecure'   => $this->authentication3DSecure($array['3DSecure']),
-            'contractNumberWalletList' => $array['walletContracts']
+            'contractNumberWalletList' => $array['contractNumberWalletList']
         );
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'updateWallet');
     }
@@ -1915,7 +1391,10 @@ class PaylineSDK
      */
     public function getWallet(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'getWallet');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'getWallet');
     }
 
     /**
@@ -1926,7 +1405,10 @@ class PaylineSDK
      */
     public function getCards(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'getCards');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'getCards');
     }
 
     /**
@@ -1937,11 +1419,9 @@ class PaylineSDK
      */
     public function disableWallet(array $array)
     {
-        $WSRequest = array(
-            'contractNumber' => $array['contractNumber'],
-            'walletIdList'   => $array['walletIds'],
-            'cardInd'        => $array['cardInd']
-        );
+        $this->formatRequest($array);
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'disableWallet');
     }
 
@@ -1953,7 +1433,10 @@ class PaylineSDK
      */
     public function enableWallet(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'enableWallet');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'enableWallet');
     }
 
     /**
@@ -1965,22 +1448,7 @@ class PaylineSDK
     public function doImmediateWalletPayment(array $array)
     {
         $this->formatRequest($array);
-        $threeDSInfo = array_key_exists('threeDSInfo', $array) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
-
-        $WSRequest = array(
-            'payment'                => $this->payment($array['payment']),
-            'order'                  => $this->order($array['order']),
-            'buyer'                  => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'walletId'               => isset($array['walletId']) ? $array['walletId'] : null,
-            'cardInd'                => isset($array['cardInd']) ? $array['cardInd'] : null,
-            'cvx'                    => isset($array['walletCvx']) ? $array['walletCvx'] : null,
-            'linkedTransactionId'    => $array['linkedTransactionId'],
-            'privateDataList'        => $this->privateData,
-            'authentication3DSecure' => $this->authentication3DSecure($array['3DSecure']),
-            'subMerchant'            => $this->subMerchant($array['subMerchant']),
-            'threeDSInfo'               => $threeDSInfo,
-            'travelFileNumber'          => $array['travelFileNumber'],
-        );
+        $WSRequest = array();
 
         if (isset($array['payment']['mode'])) {
             if (($array['payment']['mode'] == "REC") || ($array['payment']['mode'] == "NX")) {
@@ -1999,17 +1467,11 @@ class PaylineSDK
     public function doScheduledWalletPayment(array $array)
     {
         $this->formatRequest($array);
+
         $WSRequest = array(
-            'payment'         => $this->payment($array['payment']),
             'orderRef'        => $array['orderRef'],
             'orderDate'       => $array['orderDate'],
-            'scheduledDate'   => $array['scheduledDate'],
-            'walletId'        => $array['walletId'],
-            'cardInd'         => $array['cardInd'],
-            'order'           => $this->order($array['order']),
-            'privateDataList' => $this->privateData,
-            'subMerchant'     => $this->subMerchant($array['subMerchant']),
-            'authentication3DSecure' => $this->authentication3DSecure($array['3DSecure']),
+            'scheduledDate'   => $array['scheduledDate']
         );
         if (isset($array['payment']['mode'])) {
             if (($array['payment']['mode'] == "REC") || ($array['payment']['mode'] == "NX")) {
@@ -2028,16 +1490,11 @@ class PaylineSDK
     public function doRecurrentWalletPayment(array $array)
     {
         $this->formatRequest($array);
+
         $WSRequest = array(
-            'payment'         => $this->payment($array['payment']),
             'orderRef'        => $array['orderRef'],
             'orderDate'       => $array['orderDate'],
-            'scheduledDate'   => $array['scheduledDate'],
-            'walletId'        => $array['walletId'],
-            'cardInd'         => $array['cardInd'],
-            'privateDataList' => $this->privateData,
-            'authentication3DSecure' => $this->authentication3DSecure($array['3DSecure']),
-            'order'           => $this->order($array['order'])
+            'scheduledDate'   => $array['scheduledDate']
         );
         if (isset($array['payment']['mode'])) {
             if (($array['payment']['mode'] == "REC") || ($array['payment']['mode'] == "NX")) {
@@ -2055,7 +1512,10 @@ class PaylineSDK
      */
     public function getPaymentRecord(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'getPaymentRecord');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'getPaymentRecord');
     }
 
     /**
@@ -2066,7 +1526,10 @@ class PaylineSDK
      */
     public function disablePaymentRecord(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'disablePaymentRecord');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'disablePaymentRecord');
     }
 
     /**
@@ -2078,35 +1541,8 @@ class PaylineSDK
     public function verifyEnrollment(array $array)
     {
         $this->formatRequest($array);
-        $order = array_key_exists('order', $array) ? $this->order($array['order']) : null;
-        $buyer = array_key_exists('buyer', $array) ? $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']) : null;
-        $subMerchant = array_key_exists('subMerchant', $array) ? $this->subMerchant($array['subMerchant']) : null;
-        $threeDSInfo = array_key_exists('threeDSInfo', $array) ? $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']) : null;
-        $merchantScore = array_key_exists('merchantScore', $array) ? $array['merchantScore'] :  null;
-        $merchantURL = array_key_exists('merchantURL', $array) ? $array['merchantURL'] :  null;
-        $merchantCountryCode = array_key_exists('merchantCountryCode', $array) ? $array['merchantCountryCode'] :  null;
-        $WSRequest = array(
-            'card'              => $this->card($array['card']),
-            'payment'           => $this->payment($array['payment']),
-            'orderRef'          => $array['orderRef'],
-            'mdFieldValue'      => isset($array['mdFieldValue']) ? $array['mdFieldValue'] : null,
-            'userAgent'         => isset($array['userAgent']) ? $array['userAgent'] : null,
-            'walletId'          => $array['walletId'],
-            'walletCardInd'     => isset($array['walletCardInd']) ? $array['walletCardInd'] : null,
-            'merchantName'      => $array['merchantName'],
-            'merchantURL'         => $merchantURL,
-            'merchantCountryCode' => $merchantCountryCode,
-            'returnURL'         => $array['returnURL'],
-            'order'             => $order,
-            'buyer'             => $buyer,
-            'subMerchant'       => $subMerchant,
-            'threeDSInfo'       => $threeDSInfo,
-            'merchantScore'     => $merchantScore,
-            'privateDataList'   => $this->privateData
-        );
-        if (isset($array['generateVirtualCvx'])) {
-            $WSRequest['generateVirtualCvx'] = $array['generateVirtualCvx'];
-        }
+        $WSRequest = array();
+
         if (isset($array['payment']['mode'])) {
             if (($array['payment']['mode'] == "REC") || ($array['payment']['mode'] == "NX")) {
                 $WSRequest['recurring'] = $this->recurring($array['recurring']);
@@ -2123,13 +1559,9 @@ class PaylineSDK
      */
     public function verifyAuthentication(array $array)
     {
-        $WSRequest = array(
-            'contractNumber'    => $array['contractNumber'],
-            'pares'             => $array['pares'],
-            'md'                => $array['md'],
-            'card'              => $this->card(!empty($array['card']) && is_array($array['card']) ? $array['card'] : array()),
-            'privateDataList'   => $this->privateData
-        );
+        $this->formatRequest($array);
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'verifyAuthentication');
     }
 
@@ -2141,11 +1573,11 @@ class PaylineSDK
      */
     public function doScoringCheque(array $array)
     {
+        $this->formatRequest($array);
+
         $WSRequest = array(
-            'payment'         => $this->payment($array['payment']),
             'cheque'          => $this->cheque($array['cheque']),
-            'order'           => $this->order($array['order']),
-            'privateDataList' => $this->privateData
+
         );
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doScoringCheque');
     }
@@ -2158,7 +1590,9 @@ class PaylineSDK
      */
     public function getEncryptionKey(array $array)
     {
+        $this->formatRequest($array);
         $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'getEncryptionKey');
     }
 
@@ -2170,7 +1604,9 @@ class PaylineSDK
      */
     public function getMerchantSettings(array $array)
     {
+        $this->formatRequest($array);
         $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'getMerchantSettings');
     }
 
@@ -2182,7 +1618,10 @@ class PaylineSDK
      */
     public function getBalance(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'getBalance');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'getBalance');
     }
 
     /**
@@ -2193,7 +1632,10 @@ class PaylineSDK
      */
     public function getToken(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'getToken');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'getToken');
     }
 
     /**
@@ -2204,7 +1646,10 @@ class PaylineSDK
      */
     public function unBlock(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'unBlock');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'unBlock');
     }
 
     /**
@@ -2215,9 +1660,9 @@ class PaylineSDK
      */
     public function updatePaymentRecord(array $array)
     {
+        $this->formatRequest($array);
+
         $WSRequest = array(
-            'contractNumber'  => $array['contractNumber'],
-            'paymentRecordId' => $array['paymentRecordId'],
             'recurring'       => $this->recurring($array['recurring'])
         );
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'updatePaymentRecord');
@@ -2231,7 +1676,10 @@ class PaylineSDK
      */
     public function getBillingRecord(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::DIRECT_API, 'getBillingRecord');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'getBillingRecord');
     }
 
     /**
@@ -2242,10 +1690,9 @@ class PaylineSDK
      */
     public function updateBillingRecord(array $array)
     {
+        $this->formatRequest($array);
+
         $WSRequest = array(
-            'contractNumber'         => $array['contractNumber'],
-            'paymentRecordId'        => $array['paymentRecordId'],
-            'billingRecordId'        => $array['billingRecordId'],
             'billingRecordForUpdate' => $this->billingRecordForUpdate($array['billingRecordForUpdate'])
         );
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'updateBillingRecord');
@@ -2260,14 +1707,11 @@ class PaylineSDK
     public function doBankTransfer(array $array)
     {
         $this->formatRequest($array);
+
         $WSRequest = array(
-            'payment'       => $this->payment($array['payment']),
             'creditor'      => $this->creditor($array['creditor']),
-            'comment'       => $array['comment'],
-            'transactionID' => $array['transactionID'],
-            'orderID'       => $array['orderID'],
-            'privateDataList' => $this->privateData
         );
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doBankTransfer');
     }
 
@@ -2280,21 +1724,14 @@ class PaylineSDK
     public function isRegistered(array $array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'payment'           => $this->payment($array['payment']),
-            'order'             => $this->order($array['order']),
-            'privateDataList'   => $this->privateData,
-            'buyer'             => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'miscData'          => $array['miscData']
-        );
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'isRegistered');
     }
 
     /*
      * *************************************************************************
-     *
      * WebPaymentAPI
-     *
      * *************************************************************************
      */
 
@@ -2307,32 +1744,7 @@ class PaylineSDK
     public function doWebPayment(array $array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'payment'                    => $this->payment($array['payment']),
-            'returnURL'                  => $array['returnURL'],
-            'cancelURL'                  => $array['cancelURL'],
-            'order'                      => $this->order($array['order']),
-            'notificationURL'            => $array['notificationURL'],
-            'selectedContractList'       => $array['contracts'],
-            'secondSelectedContractList' => $array['secondContracts'],
-            'privateDataList'            => $this->privateData,
-            'languageCode'               => $array['languageCode'],
-            'customPaymentPageCode'      => $array['customPaymentPageCode'],
-            'buyer'                      => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'                      => $this->owner($array['owner'], $array['ownerAddress']),
-            'securityMode'               => $array['securityMode'],
-            'recurring'                  => $array['recurring'],
-            'customPaymentTemplateURL'   => $array['customPaymentTemplateURL'],
-            'contractNumberWalletList'   => $array['walletContracts'],
-            'merchantName'               => $array['merchantName'],
-            'subMerchant'                => $this->subMerchant($array['subMerchant']),
-            'miscData'                   => $array['miscData'],
-            'asynchronousRetryTimeout'   => $array['asynchronousRetryTimeout'],
-            'threeDSInfo'                => $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk']),
-            'merchantScore'              => $array['merchantScore'],
-            'skipSmartDisplay'           => $array['skipSmartDisplay']
-        );
-
+        $WSRequest = array();
 
         if (isset($array['payment']['mode'])) {
             if (($array['payment']['mode'] == "REC") || ($array['payment']['mode'] == "NX")) {
@@ -2351,23 +1763,7 @@ class PaylineSDK
     public function doAuthorizationRedirect(array $array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'payment'                    => $this->payment($array['payment']),
-            'returnURL'                  => $array['returnURL'],
-            'cancelURL'                  => $array['cancelURL'],
-            'order'                      => $this->order($array['order']),
-            'notificationURL'            => $array['notificationURL'],
-            'privateDataList'            => $this->privateData,
-            'languageCode'               => $array['languageCode'],
-            'buyer'                      => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'                      => $this->owner($array['owner'], $array['ownerAddress']),
-            'securityMode'               => $array['securityMode'],
-            'merchantName'               => $array['merchantName'],
-            'subMerchant'                => $this->subMerchant($array['subMerchant']),
-            'miscData'                   => $array['miscData'],
-            'asynchronousRetryTimeout'   => $array['asynchronousRetryTimeout'],
-            'authentication3DSecure'     => $this->authentication3DSecure($array['3DSecure'])
-        );
+        $WSRequest = array();
 
         if (isset($array['payment']['mode'])) {
             if (($array['payment']['mode'] == "REC") || ($array['payment']['mode'] == "NX")) {
@@ -2377,9 +1773,6 @@ class PaylineSDK
         return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'doAuthorizationRedirect');
     }
 
-
-
-
     /**
      * calls doWebPayment web service
      *
@@ -2388,7 +1781,10 @@ class PaylineSDK
      */
     public function getWebPaymentDetails(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::WEB_API, 'getWebPaymentDetails');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'getWebPaymentDetails');
     }
 
     /**
@@ -2400,24 +1796,8 @@ class PaylineSDK
     public function manageWebWallet(array $array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'contractNumber'           => $array['contractNumber'],
-            'selectedContractList'     => $array['contracts'],
-            'updatePersonalDetails'    => $array['updatePersonalDetails'],
-            'buyer'                    => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'                    => $this->owner($array['owner'], $array['ownerAddress']),
-            'languageCode'             => $array['languageCode'],
-            'customPaymentPageCode'    => $array['customPaymentPageCode'],
-            'securityMode'             => $array['securityMode'],
-            'returnURL'                => $array['returnURL'],
-            'cancelURL'                => $array['cancelURL'],
-            'notificationURL'          => $array['notificationURL'],
-            'privateDataList'          => $this->privateData,
-            'customPaymentTemplateURL' => $array['customPaymentTemplateURL'],
-            'contractNumberWalletList' => $array['walletContracts'],
-            'merchantName'             => $array['merchantName'],
-            'threeDSInfo'              => $this->threeDSInfo($array['threeDSInfo'], $array['browser'], $array['sdk'])
-        );
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'manageWebWallet');
     }
 
@@ -2430,22 +1810,8 @@ class PaylineSDK
     public function createWebWallet(array $array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'contractNumber'           => $array['contractNumber'],
-            'selectedContractList'     => $array['contracts'],
-            'updatePersonalDetails'    => $array['updatePersonalDetails'],
-            'buyer'                    => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'owner'                    => $this->owner($array),
-            'languageCode'             => $array['languageCode'],
-            'customPaymentPageCode'    => $array['customPaymentPageCode'],
-            'securityMode'             => $array['securityMode'],
-            'returnURL'                => $array['returnURL'],
-            'cancelURL'                => $array['cancelURL'],
-            'notificationURL'          => $array['notificationURL'],
-            'privateDataList'          => $this->privateData,
-            'customPaymentTemplateURL' => $array['customPaymentTemplateURL'],
-            'contractNumberWalletList' => $array['walletContracts']
-        );
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'createWebWallet');
     }
 
@@ -2458,24 +1824,8 @@ class PaylineSDK
     public function updateWebWallet(array $array)
     {
         $this->formatRequest($array);
-        $WSRequest = array(
-            'contractNumber'           => $array['contractNumber'],
-            'cardInd'                  => $array['cardInd'],
-            'walletId'                 => $array['walletId'],
-            'updatePersonalDetails'    => $array['updatePersonalDetails'],
-            'updateOwnerDetails'       => $array['updateOwnerDetails'],
-            'updatePaymentDetails'     => $array['updatePaymentDetails'],
-            'buyer'                    => $this->buyer($array['buyer'], $array['shippingAddress'], $array['billingAddress'], $array['merchantAuthentication']),
-            'languageCode'             => $array['languageCode'],
-            'customPaymentPageCode'    => $array['customPaymentPageCode'],
-            'securityMode'             => $array['securityMode'],
-            'returnURL'                => $array['returnURL'],
-            'cancelURL'                => $array['cancelURL'],
-            'notificationURL'          => $array['notificationURL'],
-            'privateDataList'          => $this->privateData,
-            'customPaymentTemplateURL' => $array['customPaymentTemplateURL'],
-            'contractNumberWalletList' => $array['walletContracts']
-        );
+        $WSRequest = array();
+
         return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'updateWebWallet');
     }
 
@@ -2487,14 +1837,15 @@ class PaylineSDK
      */
     public function getWebWallet(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::WEB_API, 'getWebWallet');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'getWebWallet');
     }
 
     /*
      * *************************************************************************
-     *
      * ExtendedAPI
-     *
      * *************************************************************************
      */
 
@@ -2507,7 +1858,9 @@ class PaylineSDK
     public function getTransactionDetails(array $array)
     {
         $this->formatRequest($array);
-        return $this->webServiceRequest($array, $array, self::EXTENDED_API, 'getTransactionDetails');
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::EXTENDED_API, 'getTransactionDetails');
     }
 
     /**
@@ -2518,7 +1871,10 @@ class PaylineSDK
      */
     public function transactionsSearch(array $array)
     {
-        return $this->webServiceRequest($array, $array, self::EXTENDED_API, 'transactionsSearch');
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::EXTENDED_API, 'transactionsSearch');
     }
 
     /**
@@ -2527,15 +1883,25 @@ class PaylineSDK
      * @param array $array
      *            associative array containing getAlertDetails parameters
      */
-    public function getAlertDetails(array $array) {
-        return $this->webServiceRequest($array, $array, self::EXTENDED_API, 'getAlertDetails');
+    public function getAlertDetails(array $array)
+    {
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::EXTENDED_API, 'getAlertDetails');
     }
+
+
+    /**
+     * ************************************************************************
+     * End API methods
+     * ************************************************************************
+     */
+
 
     /*
      * ************************************************************************
-     *
      * Ad hoc functions for AJAX API (getToken servlet)
-     *
      * ************************************************************************
      */
 
@@ -2734,6 +2100,15 @@ class PaylineSDK
     }
 
     /**
+     * ************************************************************************
+     * Building Soap Objects
+     * @deprecated, should use SoapVarFactory
+     * ************************************************************************
+     */
+
+    /**
+     *  @deprecated
+     *
      * @param array $array
      * @param $object
      * @param $typeName
@@ -2742,11 +2117,12 @@ class PaylineSDK
     protected function buildSoapObject(array $array, $object, $typeName)
     {
         $object = $this->fillObject($array, $object);
-        return new \SoapVar($object, SOAP_ENC_OBJECT, $typeName, self::PAYLINE_NAMESPACE);
+        return new \SoapVar($object, SOAP_ENC_OBJECT, $typeName, SoapVarFactory::PAYLINE_NAMESPACE);
     }
 
-
     /**
+     *  @deprecated
+     *
      * @param array $array
      * @param $object
      * @return mixed
@@ -2763,9 +2139,9 @@ class PaylineSDK
         return $object;
     }
 
-
     /**
      * Test user data
+     * @deprecated
      *
      * @param $data
      * @return bool
@@ -2777,6 +2153,13 @@ class PaylineSDK
         }
         return !empty($data);
     }
+
+
+    /**
+     * ************************************************************************
+     * Other tools
+     * ************************************************************************
+     */
 
     /**
      * Pretty print XML
@@ -2794,7 +2177,6 @@ class PaylineSDK
             $xml = $dom->saveXML();
         }
     }
-
 
     /**
      * @param string $key

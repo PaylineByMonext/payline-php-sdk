@@ -7,15 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Payline;
+namespace Payline\Objects;
 
-class Authorization
+class Cheque
 {
+
     public $number;
-
-    public $date;
-
-    public $authorizedAmount;
-
-    public $authorizedCurrency;
 }

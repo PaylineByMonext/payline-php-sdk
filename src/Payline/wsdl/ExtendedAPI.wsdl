@@ -178,6 +178,7 @@
 						<element name="privateDataList" nillable="true" type="tns1:privateDataList"/>
 						<element name="sequenceNumber" nillable="true" type="xsd:string"/>
 						<element name="media" nillable="true" type="xsd:string"/>
+						<element name="miscData" nillable="true" type="xsd:string"/>
 					</sequence>
 				</complexType>
 			</element>
@@ -241,6 +242,7 @@
 						<element name="sequenceNumber" nillable="true" type="xsd:string"/>
 						<element name="media" nillable="true" type="xsd:string"/>
 						<element minOccurs="0" name="details" nillable="true" type="tns1:details"/>
+						<element name="miscData" nillable="true" type="xsd:string"/>
 					</sequence>
 				</complexType>
 			</element>
@@ -1861,6 +1863,7 @@
 					<element name="mobilePhone" nillable="true" type="xsd:string"/>
 					<element name="customerId" nillable="true" type="xsd:string"/>
 					<element name="legalStatus" nillable="true" type="xsd:string"/>
+					<element name="legalDocumentType" nillable="true" type="xsd:string"/>
 					<element name="legalDocument" nillable="true" type="xsd:string"/>
 					<element name="birthDate" nillable="true" type="xsd:string"/>
 					<element name="fingerprintID" nillable="true" type="xsd:string"/>
@@ -2872,7 +2875,7 @@
                     <element name="deviceRenderOptionsUI" nillable="true" type="xsd:string"/>
                     <element name="appID" nillable="true" type="xsd:string"/>
                     <element name="ephemPubKey" nillable="true" type="xsd:string"/>
-                    <element name="maxTimeout" nillable="true" type="xsd:integer"/>
+                    <element name="maxTimeout" nillable="true" type="xsd:string"/>
                     <element name="referenceNumber" nillable="true" type="xsd:string"/>
                     <element name="transID" nillable="true" type="xsd:string"/>
                     <element name="encData" nillable="true" type="xsd:string"/>
