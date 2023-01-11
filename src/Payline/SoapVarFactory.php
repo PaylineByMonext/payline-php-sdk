@@ -4,6 +4,9 @@ namespace Payline;
 
 class SoapVarFactory
 {
+    /**
+     * Basename namespace for WSDLs objects
+     */
     const ROOT_CLASSNAME = "Payline\\Objects\\";
 
     /**
@@ -72,6 +75,15 @@ class SoapVarFactory
         return $newObject;
     }
 
+    /**
+     * Get SOAP var type
+     * Should be same type as base classname
+     * Manage exceptions: Buyer/BillingAddress, Buyer/ShippingAdress and Wallet/ShippingAddress
+     *
+     * @param $elementKey
+     * @param $baseClassname
+     * @return mixed|string
+     */
     protected function getSoapVarType($elementKey, $baseClassname) {
         $soapVarType = $elementKey;
         if($className = $this->getPaylineClassname($elementKey, $baseClassname) ) {
