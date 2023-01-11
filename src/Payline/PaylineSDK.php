@@ -870,6 +870,7 @@ class PaylineSDK
             $array['buyer']['billingAddress'] = $array['billingAddress'];
         }
 
+        //Backward Compatibility, take account of misspelling. "shippingAdress" versus "shippingAddress"
         if (!isset($array['buyer']['shippingAdress']) && isset($array['buyer']['shippingAddress'])) {
             $array['buyer']['shippingAdress'] = $array['buyer']['shippingAddress'];
         }
