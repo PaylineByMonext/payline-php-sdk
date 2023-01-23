@@ -46,7 +46,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.72.1';
+    const SDK_RELEASE = 'PHP SDK 4.73';
 
     /**
      * development environment flag
@@ -1104,6 +1104,9 @@ class PaylineSDK
 
         $WSRequest = $this->completeWSRequest($array, $WSRequest, $PaylineAPI, $Method);
 
+        $client = false;
+        $logRequest = array();
+
         try {
             if(!$this->webServicesEndpoint){
                 throw new \Exception('Endpoint error (check `environment` parameter of PaylineSDK constructor)');
@@ -1178,7 +1181,9 @@ class PaylineSDK
             }
             return $response;
         } catch (\Exception $e) {
-            $this->logger->info($Method . 'Request', $logRequest);
+            if($logRequest) {
+                $this->logger->info($Method . 'Request', $logRequest);
+            }
             $this->logger->error('Exception occured at ' . $Method . ' call', array(
                 'code'     => $e->getCode(),
                 'message'  => $e->getMessage(),
@@ -1193,7 +1198,9 @@ class PaylineSDK
             
             return $ERROR;
         } finally {
-            $this->lastSoapCallData = $client->retrieveSoapLastContent();
+            if($client) {
+                $this->lastSoapCallData = $client->retrieveSoapLastContent();
+            }
         }
     }
 

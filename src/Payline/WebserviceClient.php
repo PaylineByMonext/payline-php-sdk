@@ -341,6 +341,11 @@ class WebserviceClient
         $defaultOptions['trace'] = false;
 
         $options = array_merge($defaultOptions, $this->soapOptions);
+        if(empty($options['proxy_login'])) {
+            unset($options['proxy_login']);
+            unset($options['proxy_password']);
+        }
+
         if(!empty($extraOptions)) {
             $options = $this->array_merge_recursive_distinct($options, $extraOptions);
         }
@@ -367,6 +372,9 @@ class WebserviceClient
         }
 
         $sdkClient->__setLocation($location);
+
+        unset($options['proxy_login']);
+        unset($options['proxy_password']);
 
         return $sdkClient;
     }
@@ -440,6 +448,18 @@ class WebserviceClient
                         $ch = curl_init();
                         curl_setopt($ch, CURLOPT_URL, $this->endpointsDirectoryLocation);
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+                        // Use proxy parameters (from soap options in webclient)
+                        if (!empty($this->soapOptions['proxy_host'])) {
+                            $proxy = $this->soapOptions['proxy_host'].':'.$this->soapOptions['proxy_port'];
+                            curl_setopt($ch, CURLOPT_PROXY, $proxy);
+
+                            if(!empty($this->soapOptions['proxy_login']) && !empty($this->soapOptions['proxy_password'])) {
+                                $proxyAuth = $this->soapOptions['proxy_login'] . ':' . $this->soapOptions['proxy_password'];
+                                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxyAuth);
+                            }
+                        }
+
                         $jsonContent = curl_exec($ch);
                         curl_close($ch);
                         break;
@@ -449,13 +469,21 @@ class WebserviceClient
                                 'method'=>"GET"
                             )
                         );
+                        // Use proxy parameters (from soap options in webclient)
+                        if (!empty($this->soapOptions['proxy_host'])) {
+                            $opts['http']['proxy'] = $this->soapOptions['proxy_host'].':'.$this->soapOptions['proxy_port'];
+                            $opts['http']['request_fulluri'] = true;
+                            if(!empty($this->soapOptions['proxy_login']) && !empty($this->soapOptions['proxy_password'])) {
+                                $proxyAuth = base64_encode($this->soapOptions['proxy_login'] . ':' . $this->soapOptions['proxy_password']);
+                                $opts['http']['header'] = "Proxy-Authorization: Basic " . $proxyAuth;
+                            }
+                        }
                         $context = stream_context_create($opts);
                         $jsonContent = file_get_contents($this->endpointsDirectoryLocation, false, $context);
                         break;
                     default:
                         break;
                 }
-
 
                 if(!empty($jsonContent)) {
                     $endpointData = json_decode($jsonContent, true);

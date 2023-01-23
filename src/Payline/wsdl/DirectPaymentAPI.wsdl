@@ -1109,6 +1109,7 @@
 						<element minOccurs="0" name="virtualCvx" nillable="true" type="xsd:string"/>
 						<element minOccurs="0" name="token" nillable="true" type="xsd:string"/>
 						<element name="privateDataList" nillable="true" type="tns1:privateDataList"/>
+						<element minOccurs="0" name="sdkChallenge" nillable="true" type="tns1:sdkChallenge"/>
 					</sequence>
 				</complexType>
 			</element>
@@ -1192,6 +1193,7 @@
 					</annotation>
                     <sequence>
                         <element name="version" nillable="true" type="xsd:string"/>
+						<element name="merchantKeyName" nillable="true" type="xsd:string"/>
                     </sequence>
 				</complexType>
 			</element>
@@ -1643,6 +1645,7 @@
 				<sequence>
 					<element name="keyId" nillable="false" type="xsd:integer"/>
 					<element name="modulus" nillable="false" type="xsd:string"/>
+					<element name="merchantKeyName" nillable="false" type="xsd:string"/>
 					<element name="publicExponent" nillable="false" type="xsd:string"/>
 					<element name="expirationDate" nillable="false" type="xsd:string"/>
                     <element name="cipher" nillable="true" type="xsd:string"/>
@@ -2892,6 +2895,28 @@
             <element name="date" nillable="true" type="xsd:string"/>
             </sequence>
             </complexType>
+			<complexType name="sdkChallenge">
+				<annotation>
+					<documentation>
+						This element contains information about SDK 3DS Challenge.
+					</documentation>
+				</annotation>
+				<sequence>
+					<element name="cardType" type="xsd:string"/>
+					<element name="threeDSServerTransID" type="xsd:string"/>
+					<element name="threeDSVersion" type="xsd:string"/>
+					<element name="authenticationType" type="xsd:string"/>
+					<element name="transStatus" type="xsd:string"/>
+					<element name="sdkTransID" type="xsd:string"/>
+					<element name="dsTransID" type="xsd:string"/>
+					<element name="acsTransID" type="xsd:string"/>
+					<element name="acsRenderingType" type="xsd:string"/>
+					<element name="acsReferenceNumber" type="xsd:string"/>
+					<element name="acsSignedContent" type="xsd:string"/>
+					<element name="acsOperatorID" type="xsd:string"/>
+					<element name="acsChallengeMandated" type="xsd:string"/>
+				</sequence>
+			</complexType>
 		</schema>
   </wsdl:types>
   <wsdl:message name="getTransactionDetailsRequest">
