@@ -1,5 +1,12 @@
 ----------------------------------------
 
+* 4.73 (2023-01-20)
+  * Update WSDL from 4.72 to 4.73
+  * Fix proxy usage
+  * Fix exception log
+
+----------------------------------------
+
 * 4.72.1 (2023-01-09)
   * fix missing namespace on address for buyer and wallet
 
