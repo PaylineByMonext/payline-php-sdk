@@ -835,19 +835,19 @@ class PaylineSDK
         if (!isset($array['bankAccountData'])) {
             $array['bankAccountData'] = array();
         }
-        if (!isset($array['cancelURL']) || !strlen($array['cancelURL'])) {
+        if (empty($array['cancelURL'])) {
             $array['cancelURL'] = null;
         }
-        if (!isset($array['notificationURL']) || !strlen($array['notificationURL'])) {
+        if (empty($array['notificationURL'])) {
             $array['notificationURL'] = null;
         }
-        if (!isset($array['returnURL']) || !strlen($array['returnURL'])) {
+        if (empty($array['returnURL'])) {
             $array['returnURL'] = null;
         }
-        if (!isset($array['languageCode']) || !strlen($array['languageCode'])) {
+        if (empty($array['languageCode'])) {
             $array['languageCode'] = null;
         }
-        if (!isset($array['securityMode']) || !strlen($array['securityMode'])) {
+        if (empty($array['securityMode'])) {
             $array['securityMode'] = null;
         }
 
@@ -901,31 +901,31 @@ class PaylineSDK
             $array['owner']['billingAddress'] = $array['ownerAddress'];
         }
 
-        if (!isset($array['selectedContractList']) || !strlen($array['selectedContractList'][0]) || !is_array($array['selectedContractList'])) {
+        if (empty($array['selectedContractList'][0])) {
             $array['selectedContractList'] = null;
         }
-        if (!isset($array['secondSelectedContractList']) || !strlen($array['secondSelectedContractList'][0]) || !is_array($array['secondSelectedContractList'])) {
+        if (empty($array['secondSelectedContractList'][0]) || !is_array($array['secondSelectedContractList'])) {
             $array['secondSelectedContractList'] = null;
         }
-        if (!isset($array['contractNumberWalletList']) || !strlen($array['contractNumberWalletList'][0]) || !is_array($array['contractNumberWalletList'])) {
+        if (empty($array['contractNumberWalletList'][0]) || !is_array($array['contractNumberWalletList'])) {
             $array['contractNumberWalletList'] = null;
         }
-        if (!isset($array['customPaymentPageCode']) || !strlen($array['customPaymentPageCode'])) {
+        if (empty($array['customPaymentPageCode'])) {
             $array['customPaymentPageCode'] = null;
         }
-        if (!isset($array['customPaymentTemplateURL']) || !strlen($array['customPaymentTemplateURL'])) {
+        if (empty($array['customPaymentTemplateURL'])) {
             $array['customPaymentTemplateURL'] = null;
         }
         if (!isset($array['recurring'])) {
             $array['recurring'] = null;
         }
-        if (!isset($array['orderRef']) || !strlen($array['orderRef'])) {
+        if (empty($array['orderRef'])) {
             $array['orderRef'] = null;
         }
-        if (!isset($array['orderDate']) || !strlen($array['orderDate'])) {
+        if (empty($array['orderDate'])) {
             $array['orderDate'] = null;
         }
-        if (!isset($array['walletIdList']) || !strlen($array['walletIdList'][0] || !is_array($array['walletIdList']))) {
+        if (empty($array['walletIdList'][0])) {
             $array['walletIdList'] = null;
         }
         if (!isset($array['merchantName'])) {
@@ -987,11 +987,11 @@ class PaylineSDK
             $array['travelFileNumber'] = null;
         }
 
-        if (!isset($array['version']) || !strlen($array['version'])) {
+        if (empty($array['version'])) {
             $array['version'] = '';
         }
 
-        if (!isset($array['media']) || !strlen($array['media'])) {
+        if (empty($array['media'])) {
             $array['media'] = '';
         }
 
@@ -1742,6 +1742,20 @@ class PaylineSDK
         return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'isRegistered');
     }
 
+    /**
+     * calls prepareSession web service
+     *
+     * @param array $array
+     *            associative array containing prepareSession parameters
+     */
+    public function prepareSession(array $array)
+    {
+        $this->formatRequest($array);
+        $WSRequest = array();
+
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'prepareSession');
+    }
+
     /*
      * *************************************************************************
      * WebPaymentAPI
@@ -1903,6 +1917,9 @@ class PaylineSDK
 
         return $this->webServiceRequest($array, $WSRequest, self::EXTENDED_API, 'getAlertDetails');
     }
+
+
+
 
 
     /**
