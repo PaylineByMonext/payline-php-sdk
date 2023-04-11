@@ -1,3 +1,11 @@
+---------------------------------------- 
+
+* 4.8.9 (2023-03-31)
+  * Update WSDL from 4.73 to 4.74
+  * Add service prepareSession
+  * Add par, tokenRequestorCryptogram, tokenRequestorId, last4, panType on card object
+  * Allow to use monolog/monolog:3.*
+
 ----------------------------------------
 
 * 4.73 (2023-01-20)
@@ -39,7 +47,7 @@
   * wsdl upgrade
   * add threeDSInfo and travelFileNumber in doAuthorization
   * add threeDSInfo and travelFileNumber in doImmediateWalletPayment
-  * remove duplicate code on sub object creation
+  * remove duplicate code on sub object creation 
   * remove CRLF ending files
   * add reset methode to reuse SDK instance
 

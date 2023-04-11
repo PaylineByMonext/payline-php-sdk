@@ -26,7 +26,7 @@
         "ext-curl": "*",
         "ext-openssl": "*",
         "ext-mbstring": "*",
-        "monolog/monolog": "1.* || ~2.0",
+        "monolog/monolog": "1.* || ~2.0 || ~3.0",
         "symfony/cache": ">=3.4"
     },
     "support": {

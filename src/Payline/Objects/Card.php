@@ -34,4 +34,15 @@ class Card
     public $token;
     
     public $paymentData;
+
+    public $card;
+
+    public $tokenRequestorCryptogram;
+
+    public $tokenRequestorId;
+
+    public $last4;
+
+    public $panType;
+
 }
