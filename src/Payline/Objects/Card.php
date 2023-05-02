@@ -35,7 +35,7 @@ class Card
     
     public $paymentData;
 
-    public $card;
+    public $par;
 
     public $tokenRequestorCryptogram;
 
