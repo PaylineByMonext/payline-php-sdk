@@ -158,6 +158,12 @@ class SoapVarFactory
         if($data instanceof \Countable ) {
             return (count($data)>0);
         }
+
+        //@see https://github.com/PaylineByMonext/payline-php-sdk/issues/101
+        if($data===0 || $data==='0') {
+            return true;
+        }
+
         return !empty($data);
     }
 }

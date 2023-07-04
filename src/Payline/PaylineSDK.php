@@ -9,6 +9,7 @@
  */
 namespace Payline;
 
+
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use SoapClient;
@@ -257,8 +258,16 @@ class PaylineSDK
      * error code/shortMessage returned when Payline can't be reached
      */
     const ERR_CODE = 'XXXXX';
+
     const ERR_SHORT_MESSAGE = 'ERROR';
 
+
+    /**
+     * monext endpoint webservice url
+     * @var string
+     */
+    protected $webServicesEndpoint;
+    
     /**
      * @var Logger
      */
@@ -284,6 +293,7 @@ class PaylineSDK
      * array containing private data
      */
     protected $privateData;
+
 
     /**
      * array containing parent-child nodes associations
@@ -407,8 +417,14 @@ class PaylineSDK
         }
 
         $this->loggerPath = $pathLog . $logfileDate . '.log';
-
+        try {
+            if(is_writable($pathLog) || is_writable(dirname($pathLog))) {
         $this->logger->pushHandler(new StreamHandler($this->loggerPath, $logLevel)); // set default log folder
+            }
+        } catch (\Exception $e) {
+            $this->loggerPath = null;
+            //No logger can be used
+        }
 
         $this->logger->info('__construct', array(
             'merchant_id' => $this->hideChars($merchant_id, 6, 1),
@@ -643,7 +659,7 @@ class PaylineSDK
      *
      * @param array $array
      *            the array keys are listed in Wallet CLASS.
-     * @param array $address
+     * @param array $shippingAddress
      *            the array keys are listed in Address CLASS.
      * @param array $card
      *            the array keys are listed in Card CLASS.
@@ -651,13 +667,9 @@ class PaylineSDK
      */
     protected function wallet(array $array, array $shippingAddress = array(), array $card = array())
     {
-
-        $buyerArray = !empty($array['buyer']) ? $array['buyer'] : $array;
-        $shippingAddress = !empty($array['shippingAddress']) ? $array['shippingAddress'] : $shippingAddress;
         $card = !empty($array['card']) ? $array['card'] : $card;
 
         $wallet = $this->fillObject($array, new Wallet());
-//        $wallet->shippingAddress = $this->address($shippingAddress);
         $wallet->card = $this->card($card);
         return new \SoapVar($wallet, SOAP_ENC_OBJECT, self::SOAP_WALLET, SoapVarFactory::PAYLINE_NAMESPACE);
     }
@@ -1075,7 +1087,7 @@ class PaylineSDK
 
 
     /**
-     * @param $method
+     * @param $Method
      * @return false|string
      */
     protected function getApiForMethod($Method)
@@ -1782,7 +1794,7 @@ class PaylineSDK
     }
 
     /**
-     * calls doAuthorizationRedirectRequest web service
+     * calls doAuthorizationRedirect web service
      *
      * @param array $array
      *            associative array containing doAuthorizationRedirectRequest parameters
@@ -2020,7 +2032,7 @@ class PaylineSDK
      *            decrypted message sent by getToken servlet
      * @param string $filename
      * @param string $error
-     * @param unknown $maxlength
+     * @param int $maxlength
      * @return NULL|boolean|string
      */
     public function gzdecode($data, &$filename = '', &$error = '', $maxlength = null)
@@ -2191,12 +2203,13 @@ class PaylineSDK
      * ************************************************************************
      */
 
+
     /**
      * Pretty print XML
      *
-     * @param string $xml
-     *            content of the xml file to make pretty
-     * @return boolean|string
+     * @param $xml
+     * @param $key
+     * @return void
      */
     protected function beautifulerXML(&$xml, $key) {
         if(in_array($key, array('Request', 'Response')) && $xml) {

@@ -1,3 +1,13 @@
+----------------------------------------
+
+* 4.75 (2023-07-04)
+  * Update WSDL from 4.74 to 4.75
+  * Add miscData to doCredit
+  * Add miscData to doDebit
+  * Allow to pass 0 amount on payment in doWebPayment
+  * Prevent permission error on log directory
+  * Fix php warning (Creation of dynamic property) on PHP8.2
+
 ---------------------------------------- 
 
 * 4.74 (2023-03-31)
