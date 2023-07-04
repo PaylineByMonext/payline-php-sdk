@@ -31,7 +31,7 @@ See sample code [here](doc/usage.md)
 Docs
 -----
 
-More information available on 
+More information available on
 - https://docs.payline.com/display/DT/PHP+SDK
 - http://support.payline.com
 
