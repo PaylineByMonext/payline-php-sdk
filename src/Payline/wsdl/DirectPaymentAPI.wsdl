@@ -208,6 +208,7 @@
 						<element name="buyer" nillable="true" type="tns1:buyer"/>
 						<element name="owner" nillable="true" type="tns1:owner"/>
 						<element name="privateDataList" nillable="true" type="tns1:privateDataList"/>
+						<element name="miscData" nillable="true" type="xsd:string"/>
 						<element name="authentication3DSecure" nillable="true" type="tns1:authentication3DSecure"/>
 						<element name="authorization" nillable="false" type="tns1:authorization"/>
 						<element name="media" nillable="true" type="xsd:string"/>
@@ -312,6 +313,7 @@
 						<element name="buyer" nillable="true" type="tns1:buyer"/>
 						<element name="owner" nillable="true" type="tns1:owner"/>
 						<element name="privateDataList" nillable="true" type="tns1:privateDataList"/>
+						<element name="miscData" nillable="true" type="xsd:string"/>
 						<element name="media" nillable="true" type="xsd:string"/>
 						<element name="subMerchant" nillable="true" type="tns1:subMerchant"/>
 					</sequence>
