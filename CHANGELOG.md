@@ -7,6 +7,7 @@
   * Allow to pass 0 amount on payment in doWebPayment
   * Prevent permission error on log directory
   * Fix php warning (Creation of dynamic property) on PHP8.2
+  * Add Missing Payline\Objects\WalletIdList
 
 ---------------------------------------- 
 
