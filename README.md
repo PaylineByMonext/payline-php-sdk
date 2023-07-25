@@ -8,7 +8,7 @@ PaylineSDK - Payline library for PHP
 Installation
 -----
 
-Use composer to install the monexte package
+Use composer to install the monext package
 ```shell
 composer require monext/payline-sdk
 ````
