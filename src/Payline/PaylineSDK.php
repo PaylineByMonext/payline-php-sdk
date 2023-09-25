@@ -47,7 +47,7 @@ class PaylineSDK
      * Payline release corresponding to this version of the package
      * @see https://docs.payline.com/display/DT/API+version+history
      */
-    const SDK_RELEASE = 'PHP SDK 4.74';
+    const SDK_RELEASE = 'PHP SDK 4.76';
 
     /**
      * development environment flag
@@ -350,7 +350,7 @@ class PaylineSDK
         'doBankTransfer'=>self::DIRECT_API,
         'isRegistered'=>self::DIRECT_API,
         'doWebPayment'=>self::WEB_API,
-        'doAuthorizationRedirect'=>self::WEB_API,
+        'doAuthorizationRedirect'=>self::DIRECT_API,
         'getWebPaymentDetails'=>self::WEB_API,
         'manageWebWallet'=>self::WEB_API,
         'createWebWallet'=>self::WEB_API,
@@ -1809,7 +1809,7 @@ class PaylineSDK
                 $WSRequest['recurring'] = $this->recurring($array['recurring']);
             }
         }
-        return $this->webServiceRequest($array, $WSRequest, self::WEB_API, 'doAuthorizationRedirect');
+        return $this->webServiceRequest($array, $WSRequest, self::DIRECT_API, 'doAuthorizationRedirect');
     }
 
     /**
@@ -2130,7 +2130,7 @@ class PaylineSDK
                     return false;
             }
         } // zero-byte body content is allowed
-          // Verifiy CRC32
+          // Verifiy CRC32Date;Type;Value;ResulCode;ResultMessage
         $crc = sprintf("%u", crc32($data));
         $crcOK = $crc == $datacrc;
         $lenOK = $isize == strlen($data);
