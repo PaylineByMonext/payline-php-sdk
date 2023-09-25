@@ -9,15 +9,13 @@
  */
 namespace Payline\Objects;
 
-class Authorization
+class Reattempt
 {
-    public $number;
+    public $indicator;
 
-    public $date;
+    public $frozenPeriod;
 
-    public $authorizedAmount;
+    public $allowedDuration;
 
-    public $authorizedCurrency;
-
-    public $reattempt;
+    public $maxAllowed;
 }
