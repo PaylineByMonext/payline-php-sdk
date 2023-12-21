@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Install Dependencies') {
-            steps {
-                // Install Composer dependencies
-                echo 'Install dependencies...'
-                sh 'php --version'
-                echo 'Path : ${WORKSPACE}'
-                sh '/usr/bin/php ${WORKSPACE}/composer.phar install'
-            }
-        }
+//        stage('Install Dependencies') {
+//            steps {
+//                // Install Composer dependencies
+//                echo 'Install dependencies...'
+//                sh 'php --version'
+//                echo 'Path : ${WORKSPACE}'
+//                sh '/usr/bin/php ${WORKSPACE}/composer.phar install'
+//            }
+//        }
         stage('Run Tests') {
             agent {
                 docker {
