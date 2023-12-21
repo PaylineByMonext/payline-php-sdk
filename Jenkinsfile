@@ -12,6 +12,7 @@ pipeline {
 //            }
 //        }
         stage('Run Tests') {
+            agent {label 'maître'}
             agent {
                 docker {
                     image 'allebb/phptestrunner-74:latest'
