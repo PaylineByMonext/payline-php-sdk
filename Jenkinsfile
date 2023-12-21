@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label 'maître'}
 
     stages {
 //        stage('Install Dependencies') {
@@ -12,7 +12,6 @@ pipeline {
 //            }
 //        }
         stage('Run Tests') {
-            agent {label 'maître'}
             agent {
                 docker {
                     image 'allebb/phptestrunner-74:latest'
