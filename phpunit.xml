@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         colors= "true"
+         beStrictAboutOutputDuringTests="true">
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="display_errors" value="On"/>
+<!--    <ini name="xdebug.mode" value="coverage" />-->
+<!--    <env name="XDEBUG_MODE" value="coverage" />-->
+  </php>
+  <testsuites>
+    <testsuite name="Tests">
+      <directory>tests/Payline</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory>src</directory>
+    </include>
+  </source>
+  <coverage>
+    <report>
+      <clover outputFile="build/coverage/clover.xml"/>
+      <xml outputDirectory="build/coverage/xml"/>
+      <html outputDirectory="build/coverage/html"/>
+    </report>
+  </coverage>
+
+<!--  <coverage>-->
+<!--    <report>-->
+<!--      <clover outputFile="clover.xml"/>-->
+<!--      <cobertura outputFile="cobertura.xml"/>-->
+<!--      <crap4j outputFile="crap4j.xml" threshold="50"/>-->
+<!--      <html outputDirectory="html-coverage" lowUpperBound="50" highLowerBound="90"/>-->
+<!--      <php outputFile="coverage.php"/>-->
+<!--      <text outputFile="coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>-->
+<!--      <xml outputDirectory="xml-coverage"/>-->
+<!--    </report>-->
+<!--  </coverage>-->
+  <logging>
+    <junit outputFile="build/logs/junit.xml"/>
+  </logging>
+</phpunit>
