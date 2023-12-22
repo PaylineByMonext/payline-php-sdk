@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'master_paya1d2'}
+    agent {label 'master || built-in || controller'}
 
     stages {
 //        stage('Install Dependencies') {
