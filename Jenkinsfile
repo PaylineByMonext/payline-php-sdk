@@ -13,6 +13,7 @@ pipeline {
 //        }
         stage('Run Tests') {
             agent {
+                label 'built-in'
                 docker {
                     image 'allebb/phptestrunner-74:latest'
                     args '-u root:sudo'
