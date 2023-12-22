@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'Jenkins'}
+//    agent {label 'built-in || master'}
 
     stages {
 //        stage('Install Dependencies') {
