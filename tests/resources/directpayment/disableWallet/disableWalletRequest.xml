@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <ns1:disableWalletRequest>
+            <ns1:contractNumber/>
+            <ns1:cardInd xsi:nil="true"/>
+            <ns1:walletIdList/>
+        </ns1:disableWalletRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -1,0 +1,31 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <doReAuthorizationResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <transaction>
+                <obj:id>1434297987545643131272</obj:id>
+                <obj:date>07/12/23 13:21:01</obj:date>
+                <obj:isDuplicated>0</obj:isDuplicated>
+                <obj:isPossibleFraud>0</obj:isPossibleFraud>
+            </transaction>
+            <card>
+                <obj:number>4XXXXXXXXXXXXXX7</obj:number>
+                <obj:type>CB</obj:type>
+                <obj:expirationDate>0420</obj:expirationDate>
+            </card>
+            <extendedCard>
+                <obj:country>FRA</obj:country>
+                <obj:isCvd/>
+                <obj:bank>30002 - CREDIT LYONNAIS</obj:bank>
+                <obj:type>CB</obj:type>
+                <obj:network>CB</obj:network>
+                <obj:product>Visa +++</obj:product>
+            </extendedCard>
+        </doReAuthorizationResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

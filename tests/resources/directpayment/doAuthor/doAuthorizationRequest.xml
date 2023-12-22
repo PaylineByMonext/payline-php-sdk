@@ -1,2 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:ns2="http://obj.ws.payline.experian.com"><SOAP-ENV:Body><ns1:doAuthorizationRequest><ns1:transient xsi:nil="true"/><ns1:version></ns1:version><ns1:payment><ns2:amount>1000</ns2:amount><ns2:currency>978</ns2:currency><ns2:action>100</ns2:action><ns2:mode>CPT</ns2:mode><ns2:contractNumber>CB</ns2:contractNumber><ns2:differedActionDate xsi:nil="true"/><ns2:method xsi:nil="true"/><ns2:softDescriptor xsi:nil="true"/><ns2:cardBrand xsi:nil="true"/><ns2:registrationToken xsi:nil="true"/><ns2:cumulatedAmount xsi:nil="true"/></ns1:payment><ns1:bankAccountData><ns2:countryCode xsi:nil="true"/><ns2:bankCode xsi:nil="true"/><ns2:accountNumber xsi:nil="true"/><ns2:key xsi:nil="true"/></ns1:bankAccountData><ns1:card><ns2:encryptionKeyId xsi:nil="true"/><ns2:encryptedData xsi:nil="true"/><ns2:number>4444333322221111</ns2:number><ns2:type>CB</ns2:type><ns2:expirationDate>1235</ns2:expirationDate><ns2:cvx>123</ns2:cvx><ns2:ownerBirthdayDate xsi:nil="true"/><ns2:password xsi:nil="true"/><ns2:cardPresent xsi:nil="true"/><ns2:cardholder>Marcel Patoulatchi</ns2:cardholder><ns2:token xsi:nil="true"/><ns2:par xsi:nil="true"/><ns2:tokenRequestorCryptogram xsi:nil="true"/><ns2:tokenRequestorId xsi:nil="true"/><ns2:last4 xsi:nil="true"/><ns2:panType xsi:nil="true"/></ns1:card><ns1:order><ns2:ref>myOrderRef_35656</ns2:ref><ns2:origin xsi:nil="true"/><ns2:country xsi:nil="true"/><ns2:taxes xsi:nil="true"/><ns2:amount>1000</ns2:amount><ns2:currency>978</ns2:currency><ns2:date/><ns2:details/><ns2:deliveryTime xsi:nil="true"/><ns2:deliveryMode xsi:nil="true"/><ns2:deliveryExpectedDate xsi:nil="true"/><ns2:deliveryExpectedDelay xsi:nil="true"/><ns2:deliveryCharge xsi:nil="true"/><ns2:discountAmount xsi:nil="true"/><ns2:otaPackageType xsi:nil="true"/><ns2:otaDestinationCountry xsi:nil="true"/><ns2:bookingReference xsi:nil="true"/><ns2:orderDetail xsi:nil="true"/><ns2:orderExtended xsi:nil="true"/><ns2:orderOTA xsi:nil="true"/></ns1:order><ns1:buyer><ns2:title xsi:nil="true"/><ns2:lastName xsi:nil="true"/><ns2:firstName xsi:nil="true"/><ns2:email xsi:nil="true"/><ns2:shippingAdress><ns2:title xsi:nil="true"/><ns2:name xsi:nil="true"/><ns2:firstName xsi:nil="true"/><ns2:lastName xsi:nil="true"/><ns2:street1 xsi:nil="true"/><ns2:street2 xsi:nil="true"/><ns2:streetNumber xsi:nil="true"/><ns2:cityName xsi:nil="true"/><ns2:zipCode xsi:nil="true"/><ns2:country xsi:nil="true"/><ns2:phone xsi:nil="true"/><ns2:state xsi:nil="true"/><ns2:county xsi:nil="true"/><ns2:phoneType xsi:nil="true"/><ns2:addressCreateDate xsi:nil="true"/><ns2:email xsi:nil="true"/></ns2:shippingAdress><ns2:billingAddress><ns2:title xsi:nil="true"/><ns2:name xsi:nil="true"/><ns2:firstName xsi:nil="true"/><ns2:lastName xsi:nil="true"/><ns2:street1 xsi:nil="true"/><ns2:street2 xsi:nil="true"/><ns2:streetNumber xsi:nil="true"/><ns2:cityName xsi:nil="true"/><ns2:zipCode xsi:nil="true"/><ns2:country xsi:nil="true"/><ns2:phone xsi:nil="true"/><ns2:state xsi:nil="true"/><ns2:county xsi:nil="true"/><ns2:phoneType xsi:nil="true"/><ns2:addressCreateDate xsi:nil="true"/><ns2:email xsi:nil="true"/></ns2:billingAddress><ns2:accountCreateDate xsi:nil="true"/><ns2:accountAverageAmount xsi:nil="true"/><ns2:accountOrderCount xsi:nil="true"/><ns2:walletId xsi:nil="true"/><ns2:walletDisplayed xsi:nil="true"/><ns2:walletSecured xsi:nil="true"/><ns2:walletCardInd xsi:nil="true"/><ns2:ip xsi:nil="true"/><ns2:mobilePhone xsi:nil="true"/><ns2:customerId xsi:nil="true"/><ns2:legalStatus xsi:nil="true"/><ns2:legalDocumentType xsi:nil="true"/><ns2:legalDocument xsi:nil="true"/><ns2:birthDate xsi:nil="true"/><ns2:fingerprintID xsi:nil="true"/><ns2:deviceFingerprint xsi:nil="true"/><ns2:isBot xsi:nil="true"/><ns2:isIncognito xsi:nil="true"/><ns2:isBehindProxy xsi:nil="true"/><ns2:isFromTor xsi:nil="true"/><ns2:isEmulator xsi:nil="true"/><ns2:isRooted xsi:nil="true"/><ns2:hasTimezoneMismatch xsi:nil="true"/><ns2:loyaltyMemberType xsi:nil="true"/><ns2:buyerExtended xsi:nil="true"/><ns2:merchantAuthentication><ns2:method xsi:nil="true"/><ns2:date xsi:nil="true"/></ns2:merchantAuthentication></ns1:buyer><ns1:owner><ns2:lastName xsi:nil="true"/><ns2:firstName xsi:nil="true"/><ns2:billingAddress xsi:type="ns2:billingAddress"><street/><cityName/><zipCode/><country/><phone/></ns2:billingAddress><ns2:issueCardDate xsi:nil="true"/></ns1:owner><ns1:privateDataList/><ns1:authentication3DSecure><ns2:md xsi:nil="true"/><ns2:pares xsi:nil="true"/><ns2:xid xsi:nil="true"/><ns2:eci xsi:nil="true"/><ns2:cavv xsi:nil="true"/><ns2:cavvAlgorithm xsi:nil="true"/><ns2:vadsResult xsi:nil="true"/><ns2:typeSecurisation xsi:nil="true"/><ns2:PaResStatus xsi:nil="true"/><ns2:VeResStatus xsi:nil="true"/><ns2:resultContainer xsi:nil="true"/><ns2:authenticationResult xsi:nil="true"/></ns1:authentication3DSecure><ns1:media></ns1:media><ns1:subMerchant><ns2:subMerchantId/><ns2:subMerchantName xsi:nil="true"/><ns2:subMerchantMCC/><ns2:subMerchantSIRET xsi:nil="true"/><ns2:subMerchantTaxCode xsi:nil="true"/><ns2:subMerchantStreet xsi:nil="true"/><ns2:subMerchantCity xsi:nil="true"/><ns2:subMerchantZipCode xsi:nil="true"/><ns2:subMerchantCountry xsi:nil="true"/><ns2:subMerchantState xsi:nil="true"/><ns2:subMerchantEmailAddress xsi:nil="true"/><ns2:subMerchantPhoneNumber xsi:nil="true"/></ns1:subMerchant><ns1:asynchronousRetryTimeout xsi:nil="true"/><ns1:linkedTransactionId xsi:nil="true"/><ns1:threeDSInfo><ns2:challengeInd xsi:nil="true"/><ns2:threeDSReqPriorAuthData xsi:nil="true"/><ns2:threeDSReqPriorAuthMethod xsi:nil="true"/><ns2:threeDSReqPriorAuthTimestamp xsi:nil="true"/><ns2:browser><ns2:acceptHeader xsi:nil="true"/><ns2:javaEnabled xsi:nil="true"/><ns2:javascriptEnabled xsi:nil="true"/><ns2:language xsi:nil="true"/><ns2:colorDepth xsi:nil="true"/><ns2:screenHeight xsi:nil="true"/><ns2:screenWidth xsi:nil="true"/><ns2:timeZoneOffset xsi:nil="true"/><ns2:userAgent xsi:nil="true"/></ns2:browser><ns2:sdk><ns2:deviceRenderingOptionsIF xsi:nil="true"/><ns2:deviceRenderOptionsUI xsi:nil="true"/><ns2:appID xsi:nil="true"/><ns2:ephemPubKey xsi:nil="true"/><ns2:maxTimeout xsi:nil="true"/><ns2:referenceNumber xsi:nil="true"/><ns2:transID xsi:nil="true"/><ns2:encData xsi:nil="true"/></ns2:sdk><ns2:threeDSMethodNotificationURL xsi:nil="true"/><ns2:threeDSMethodResult xsi:nil="true"/><ns2:challengeWindowSize xsi:nil="true"/></ns1:threeDSInfo><ns1:travelFileNumber xsi:nil="true"/><ns1:recurring><ns2:firstAmount xsi:nil="true"/><ns2:amount/><ns2:billingCycle/><ns2:billingLeft/><ns2:billingDay xsi:nil="true"/><ns2:startDate xsi:nil="true"/><ns2:endDate xsi:nil="true"/><ns2:newAmount xsi:nil="true"/><ns2:amountModificationDate xsi:nil="true"/><ns2:billingRank xsi:nil="true"/></ns1:recurring></ns1:doAuthorizationRequest></SOAP-ENV:Body></SOAP-ENV:Envelope>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:ns2="http://obj.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:doAuthorizationRequest>
+            <ns1:transient xsi:nil="true"/>
+            <ns1:version/>
+            <ns1:payment>
+                <ns2:amount>1000</ns2:amount>
+                <ns2:currency>978</ns2:currency>
+                <ns2:action>100</ns2:action>
+                <ns2:mode>CPT</ns2:mode>
+                <ns2:contractNumber>CB</ns2:contractNumber>
+                <ns2:differedActionDate>DiffActDate 11/11/2011</ns2:differedActionDate>
+                <ns2:method>Method</ns2:method>
+                <ns2:softDescriptor xsi:nil="true"/>
+                <ns2:cardBrand>VISA</ns2:cardBrand>
+                <ns2:registrationToken xsi:nil="true"/>
+                <ns2:cumulatedAmount xsi:nil="true"/>
+            </ns1:payment>
+            <ns1:bankAccountData>
+                <ns2:countryCode xsi:nil="true"/>
+                <ns2:bankCode xsi:nil="true"/>
+                <ns2:accountNumber xsi:nil="true"/>
+                <ns2:key xsi:nil="true"/>
+            </ns1:bankAccountData>
+            <ns1:card>
+                <ns2:encryptionKeyId xsi:nil="true"/>
+                <ns2:encryptedData xsi:nil="true"/>
+                <ns2:number>4444333322221111</ns2:number>
+                <ns2:type>CB</ns2:type>
+                <ns2:expirationDate>1235</ns2:expirationDate>
+                <ns2:cvx>123</ns2:cvx>
+                <ns2:ownerBirthdayDate xsi:nil="true"/>
+                <ns2:password xsi:nil="true"/>
+                <ns2:cardPresent xsi:nil="true"/>
+                <ns2:cardholder>Marcel Patoulatchi</ns2:cardholder>
+                <ns2:token xsi:nil="true"/>
+                <ns2:par xsi:nil="true"/>
+                <ns2:tokenRequestorCryptogram xsi:nil="true"/>
+                <ns2:tokenRequestorId xsi:nil="true"/>
+                <ns2:last4 xsi:nil="true"/>
+                <ns2:panType xsi:nil="true"/>
+            </ns1:card>
+            <ns1:order>
+                <ns2:ref>myOrderRef_35656</ns2:ref>
+                <ns2:origin>BIGBANG</ns2:origin>
+                <ns2:country>FRANCE</ns2:country>
+                <ns2:taxes>50%</ns2:taxes>
+                <ns2:amount>1000</ns2:amount>
+                <ns2:currency>978</ns2:currency>
+                <ns2:date>15/12/2014 12:20</ns2:date>
+                <ns2:details/>
+                <ns2:deliveryTime>entre 6h et 22h</ns2:deliveryTime>
+                <ns2:deliveryMode>Par camion</ns2:deliveryMode>
+                <ns2:deliveryExpectedDate>Demain</ns2:deliveryExpectedDate>
+                <ns2:deliveryExpectedDelay>200</ns2:deliveryExpectedDelay>
+                <ns2:deliveryCharge>DeliveryChareg 8</ns2:deliveryCharge>
+                <ns2:discountAmount xsi:nil="true"/>
+                <ns2:otaPackageType xsi:nil="true"/>
+                <ns2:otaDestinationCountry xsi:nil="true"/>
+                <ns2:bookingReference>BookingRef ppp</ns2:bookingReference>
+                <ns2:orderDetail>OrderDetails 9999</ns2:orderDetail>
+                <ns2:orderExtended xsi:nil="true"/>
+                <ns2:orderOTA>OrderOTA supp</ns2:orderOTA>
+            </ns1:order>
+            <ns1:buyer>
+                <ns2:title xsi:nil="true"/>
+                <ns2:lastName xsi:nil="true"/>
+                <ns2:firstName xsi:nil="true"/>
+                <ns2:email xsi:nil="true"/>
+                <ns2:shippingAdress>
+                    <ns2:title xsi:nil="true"/>
+                    <ns2:name xsi:nil="true"/>
+                    <ns2:firstName xsi:nil="true"/>
+                    <ns2:lastName xsi:nil="true"/>
+                    <ns2:street1 xsi:nil="true"/>
+                    <ns2:street2 xsi:nil="true"/>
+                    <ns2:streetNumber xsi:nil="true"/>
+                    <ns2:cityName xsi:nil="true"/>
+                    <ns2:zipCode xsi:nil="true"/>
+                    <ns2:country xsi:nil="true"/>
+                    <ns2:phone xsi:nil="true"/>
+                    <ns2:state xsi:nil="true"/>
+                    <ns2:county xsi:nil="true"/>
+                    <ns2:phoneType xsi:nil="true"/>
+                    <ns2:addressCreateDate xsi:nil="true"/>
+                    <ns2:email xsi:nil="true"/>
+                </ns2:shippingAdress>
+                <ns2:billingAddress>
+                    <ns2:title xsi:nil="true"/>
+                    <ns2:name xsi:nil="true"/>
+                    <ns2:firstName xsi:nil="true"/>
+                    <ns2:lastName xsi:nil="true"/>
+                    <ns2:street1 xsi:nil="true"/>
+                    <ns2:street2 xsi:nil="true"/>
+                    <ns2:streetNumber xsi:nil="true"/>
+                    <ns2:cityName xsi:nil="true"/>
+                    <ns2:zipCode xsi:nil="true"/>
+                    <ns2:country xsi:nil="true"/>
+                    <ns2:phone xsi:nil="true"/>
+                    <ns2:state xsi:nil="true"/>
+                    <ns2:county xsi:nil="true"/>
+                    <ns2:phoneType xsi:nil="true"/>
+                    <ns2:addressCreateDate xsi:nil="true"/>
+                    <ns2:email xsi:nil="true"/>
+                </ns2:billingAddress>
+                <ns2:accountCreateDate xsi:nil="true"/>
+                <ns2:accountAverageAmount xsi:nil="true"/>
+                <ns2:accountOrderCount xsi:nil="true"/>
+                <ns2:walletId xsi:nil="true"/>
+                <ns2:walletDisplayed xsi:nil="true"/>
+                <ns2:walletSecured xsi:nil="true"/>
+                <ns2:walletCardInd xsi:nil="true"/>
+                <ns2:ip xsi:nil="true"/>
+                <ns2:mobilePhone xsi:nil="true"/>
+                <ns2:customerId xsi:nil="true"/>
+                <ns2:legalStatus xsi:nil="true"/>
+                <ns2:legalDocumentType xsi:nil="true"/>
+                <ns2:legalDocument xsi:nil="true"/>
+                <ns2:birthDate xsi:nil="true"/>
+                <ns2:fingerprintID xsi:nil="true"/>
+                <ns2:deviceFingerprint xsi:nil="true"/>
+                <ns2:isBot xsi:nil="true"/>
+                <ns2:isIncognito xsi:nil="true"/>
+                <ns2:isBehindProxy xsi:nil="true"/>
+                <ns2:isFromTor xsi:nil="true"/>
+                <ns2:isEmulator xsi:nil="true"/>
+                <ns2:isRooted xsi:nil="true"/>
+                <ns2:hasTimezoneMismatch xsi:nil="true"/>
+                <ns2:loyaltyMemberType xsi:nil="true"/>
+                <ns2:buyerExtended xsi:nil="true"/>
+                <ns2:merchantAuthentication>
+                    <ns2:method xsi:nil="true"/>
+                    <ns2:date xsi:nil="true"/>
+                </ns2:merchantAuthentication>
+            </ns1:buyer>
+            <ns1:owner>
+                <ns2:lastName xsi:nil="true"/>
+                <ns2:firstName xsi:nil="true"/>
+                <ns2:billingAddress xsi:type="ns2:billingAddress">
+                    <street/>
+                    <cityName/>
+                    <zipCode/>
+                    <country/>
+                    <phone/>
+                </ns2:billingAddress>
+                <ns2:issueCardDate xsi:nil="true"/>
+            </ns1:owner>
+            <ns1:privateDataList/>
+            <ns1:authentication3DSecure>
+                <ns2:md xsi:nil="true"/>
+                <ns2:pares xsi:nil="true"/>
+                <ns2:xid xsi:nil="true"/>
+                <ns2:eci xsi:nil="true"/>
+                <ns2:cavv xsi:nil="true"/>
+                <ns2:cavvAlgorithm xsi:nil="true"/>
+                <ns2:vadsResult xsi:nil="true"/>
+                <ns2:typeSecurisation xsi:nil="true"/>
+                <ns2:PaResStatus xsi:nil="true"/>
+                <ns2:VeResStatus xsi:nil="true"/>
+                <ns2:resultContainer xsi:nil="true"/>
+                <ns2:authenticationResult xsi:nil="true"/>
+            </ns1:authentication3DSecure>
+            <ns1:media/>
+            <ns1:subMerchant>
+                <ns2:subMerchantId/>
+                <ns2:subMerchantName xsi:nil="true"/>
+                <ns2:subMerchantMCC/>
+                <ns2:subMerchantSIRET xsi:nil="true"/>
+                <ns2:subMerchantTaxCode xsi:nil="true"/>
+                <ns2:subMerchantStreet xsi:nil="true"/>
+                <ns2:subMerchantCity xsi:nil="true"/>
+                <ns2:subMerchantZipCode xsi:nil="true"/>
+                <ns2:subMerchantCountry xsi:nil="true"/>
+                <ns2:subMerchantState xsi:nil="true"/>
+                <ns2:subMerchantEmailAddress xsi:nil="true"/>
+                <ns2:subMerchantPhoneNumber xsi:nil="true"/>
+            </ns1:subMerchant>
+            <ns1:asynchronousRetryTimeout xsi:nil="true"/>
+            <ns1:linkedTransactionId xsi:nil="true"/>
+            <ns1:threeDSInfo>
+                <ns2:challengeInd xsi:nil="true"/>
+                <ns2:threeDSReqPriorAuthData xsi:nil="true"/>
+                <ns2:threeDSReqPriorAuthMethod xsi:nil="true"/>
+                <ns2:threeDSReqPriorAuthTimestamp xsi:nil="true"/>
+                <ns2:browser>
+                    <ns2:acceptHeader xsi:nil="true"/>
+                    <ns2:javaEnabled xsi:nil="true"/>
+                    <ns2:javascriptEnabled xsi:nil="true"/>
+                    <ns2:language xsi:nil="true"/>
+                    <ns2:colorDepth xsi:nil="true"/>
+                    <ns2:screenHeight xsi:nil="true"/>
+                    <ns2:screenWidth xsi:nil="true"/>
+                    <ns2:timeZoneOffset xsi:nil="true"/>
+                    <ns2:userAgent xsi:nil="true"/>
+                </ns2:browser>
+                <ns2:sdk>
+                    <ns2:deviceRenderingOptionsIF xsi:nil="true"/>
+                    <ns2:deviceRenderOptionsUI xsi:nil="true"/>
+                    <ns2:appID xsi:nil="true"/>
+                    <ns2:ephemPubKey xsi:nil="true"/>
+                    <ns2:maxTimeout xsi:nil="true"/>
+                    <ns2:referenceNumber xsi:nil="true"/>
+                    <ns2:transID xsi:nil="true"/>
+                    <ns2:encData xsi:nil="true"/>
+                </ns2:sdk>
+                <ns2:threeDSMethodNotificationURL xsi:nil="true"/>
+                <ns2:threeDSMethodResult xsi:nil="true"/>
+                <ns2:challengeWindowSize xsi:nil="true"/>
+            </ns1:threeDSInfo>
+            <ns1:travelFileNumber xsi:nil="true"/>
+            <ns1:recurring>
+                <ns2:firstAmount xsi:nil="true"/>
+                <ns2:amount/>
+                <ns2:billingCycle/>
+                <ns2:billingLeft/>
+                <ns2:billingDay xsi:nil="true"/>
+                <ns2:startDate xsi:nil="true"/>
+                <ns2:endDate xsi:nil="true"/>
+                <ns2:newAmount xsi:nil="true"/>
+                <ns2:amountModificationDate xsi:nil="true"/>
+                <ns2:billingRank xsi:nil="true"/>
+            </ns1:recurring>
+        </ns1:doAuthorizationRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

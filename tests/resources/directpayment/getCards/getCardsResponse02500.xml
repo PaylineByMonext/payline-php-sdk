@@ -1,0 +1,49 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <getCardsResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <result>
+                <obj:code>02500</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Operation Successfull</obj:longMessage>
+            </result>
+            <cardsList>
+                <obj:cards>
+                    <obj:walletId>1208052947517</obj:walletId>
+                    <obj:lastName>Jean Marie</obj:lastName>
+                    <obj:firstName>lecom</obj:firstName>
+                    <obj:email>test.auto@monext.net</obj:email>
+                    <obj:shippingAddress>
+                        <obj:name>yolande</obj:name>
+                        <obj:street1>123 rue dici</obj:street1>
+                        <obj:street2/>
+                        <obj:cityName>Aix en provence</obj:cityName>
+                        <obj:zipCode>13290</obj:zipCode>
+                        <obj:country>FR</obj:country>
+                        <obj:phone>0611223344</obj:phone>
+                    </obj:shippingAddress>
+                    <obj:card>
+                        <obj:number>4XXXXXXXXXXXXX83</obj:number>
+                        <obj:type>CB</obj:type>
+                        <obj:expirationDate>1131</obj:expirationDate>
+                        <obj:cvx/>
+                        <obj:ownerBirthdayDate/>
+                        <obj:password/>
+                    </obj:card>
+                    <obj:cardInd>1</obj:cardInd>
+                    <obj:comment/>
+                    <obj:isDisabled>0</obj:isDisabled>
+                    <obj:disableDate xsi:nil="true"/>
+                    <obj:extendedCard>
+                        <obj:country>FRA</obj:country>
+                        <obj:isCvd/>
+                        <obj:type>VISA</obj:type>
+                        <obj:network>CB</obj:network>
+                    </obj:extendedCard>
+                    <obj:default>Y</obj:default>
+                </obj:cards>
+            </cardsList>
+            <privateDataList/>
+        </getCardsResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

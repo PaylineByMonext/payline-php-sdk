@@ -1,0 +1,34 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <doDebitResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <transaction>
+                <obj:id>14341052242963</obj:id>
+                <obj:date>06/12/2023 06:22</obj:date>
+                <obj:isDuplicated>0</obj:isDuplicated>
+                <obj:isPossibleFraud>0</obj:isPossibleFraud>
+                <obj:fraudResult xsi:nil="true"/>
+                <obj:explanation xsi:nil="true"/>
+                <obj:score xsi:nil="true"/>
+            </transaction>
+            <card>
+                <obj:number>497010XXXXXXXX69</obj:number>
+                <obj:type>CB</obj:type>
+                <obj:expirationDate>1220</obj:expirationDate>
+                <obj:token>4970toarLkqb0469</obj:token>
+            </card>
+            <extendedCard>
+                <obj:country>FRA</obj:country>
+                <obj:isCvd/>
+                <obj:bank>20041 - LA POSTE</obj:bank>
+                <obj:type>CB</obj:type>
+                <obj:network>CB</obj:network>
+            </extendedCard>
+        </doDebitResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

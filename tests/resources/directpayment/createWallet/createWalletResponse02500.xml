@@ -1,0 +1,29 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <impl:createWalletResponse xmlns:impl="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <impl:result>
+                <obj:code>02500</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Operation Successfull</obj:longMessage>
+            </impl:result>
+            <impl:card>
+                <obj:number>111122XXXXXXXX44</obj:number>
+                <obj:type>CB</obj:type>
+                <obj:expirationDate>0628</obj:expirationDate>
+                <obj:cardholder>TEST</obj:cardholder>
+                <obj:token/>
+            </impl:card>
+            <impl:extendedCard>
+                <obj:country/>
+                <obj:isCvd/>
+                <obj:bank/>
+                <obj:type>CB</obj:type>
+                <obj:network xsi:nil="true"/>
+            </impl:extendedCard>
+            <impl:contractNumberWalletList>
+                <obj:contractNumberWallet>CB</obj:contractNumberWallet>
+            </impl:contractNumberWalletList>
+        </impl:createWalletResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

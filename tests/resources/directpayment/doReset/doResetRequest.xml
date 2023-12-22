@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Body><ns1:doResetRequest><ns1:version>99</ns1:version><ns1:transactionID>TrsIdyyyy</ns1:transactionID><ns1:comment>comment cccc</ns1:comment><ns1:media>media pc</ns1:media><ns1:amount>1000</ns1:amount><ns1:currency>948</ns1:currency><ns1:privateDataList/><ns1:sequenceNumber xsi:nil="true"/></ns1:doResetRequest></SOAP-ENV:Body></SOAP-ENV:Envelope>

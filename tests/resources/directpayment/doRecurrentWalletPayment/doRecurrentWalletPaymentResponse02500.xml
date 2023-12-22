@@ -1,0 +1,55 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <doRecurrentWalletPaymentResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>02500</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Operation Successfull</obj:longMessage>
+            </result>
+            <paymentRecordId>1904932999222051</paymentRecordId>
+            <billingRecordList>
+                <obj:billingRecord>
+                    <obj:date>07/12/2023</obj:date>
+                    <obj:amount>6957</obj:amount>
+                    <obj:status>1</obj:status>
+                    <obj:result>
+                        <obj:code>00000</obj:code>
+                    </obj:result>
+                    <obj:transaction>
+                        <obj:id>2445645422222474</obj:id>
+                        <obj:date>07/12/23 15:50:42</obj:date>
+                        <obj:isDuplicated>0</obj:isDuplicated>
+                        <obj:isPossibleFraud>0</obj:isPossibleFraud>
+                    </obj:transaction>
+                    <obj:authorization>
+                        <obj:number>962169</obj:number>
+                        <obj:date>07/12/23 15:50:42</obj:date>
+                    </obj:authorization>
+                    <obj:nbTry>1</obj:nbTry>
+                    <obj:rank>1</obj:rank>
+                </obj:billingRecord>
+                <obj:billingRecord>
+                    <obj:date>10/01/2024</obj:date>
+                    <obj:amount>6957</obj:amount>
+                    <obj:status>0</obj:status>
+                    <obj:result/>
+                    <obj:transaction/>
+                    <obj:authorization/>
+                    <obj:nbTry>0</obj:nbTry>
+                    <obj:rank>2</obj:rank>
+                </obj:billingRecord>
+                <obj:billingRecord>
+                    <obj:date>10/02/2024</obj:date>
+                    <obj:amount>6957</obj:amount>
+                    <obj:status>0</obj:status>
+                    <obj:result/>
+                    <obj:transaction/>
+                    <obj:authorization/>
+                    <obj:nbTry>0</obj:nbTry>
+                    <obj:rank>3</obj:rank>
+                </obj:billingRecord>
+            </billingRecordList>
+        </doRecurrentWalletPaymentResponse>
+    </soapenv:Body>
+</soapenv:Envelope>
