@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'master || built-in || controller'}
+    agent {label 'built-in'}
 
     stages {
 //        stage('Install Dependencies') {
