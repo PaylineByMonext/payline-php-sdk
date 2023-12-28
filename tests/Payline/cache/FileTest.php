@@ -1,6 +1,6 @@
 <?php
 
-namespace Cache;
+namespace test\Payline\cache;
 
 use Payline\Cache\File;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +39,6 @@ class FileTest extends TestCase
         $file->clear();
 
         // Test
-        $result = $file->saveServicesEndpoints(['http://endpoint1.fr', 'http://endpoint2.fr'], 200);
         $result = $file->saveServicesEndpoints(['http://endpoint1.fr', 'http://endpoint2.fr'], 200);
 
         // Verif

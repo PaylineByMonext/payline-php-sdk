@@ -1,9 +1,9 @@
 <?php
 
 namespace test\Payline;
+use Exception;
 use Monolog\Logger;
 use Payline\PaylineSDK;
-use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionException;
@@ -13,7 +13,7 @@ class PaylineSDKTest extends TestCase
 {
     // Given
     const DEFAULT_HOST_URL = 'localhost';
-    const DEFAULT_HOST_PORT = '8443'; // Port déclaré dans le Docker
+    const DEFAULT_HOST_PORT = '8443'; // Port dÃ©clarÃ© dans le Docker
 
     const merchant_id = '1111111';
     const access_key = 'xxxyyy222';
@@ -22,6 +22,8 @@ class PaylineSDKTest extends TestCase
     const logLvl = Logger::API;
 
     const DIRECT_PAYMENT_API = 'DirectPaymentAPI';
+    const EXTENDED_API = 'ExtendedAPI';
+    const WEB_API = 'WebPaymentAPI';
     const PHP_PROJECT_CURRENT_VERSION = '- PHP SDK 4.76';
 
     /**
@@ -32,6 +34,7 @@ class PaylineSDKTest extends TestCase
 
     /**
      * Test du constructeur  avec valeurs minimales et ENV_HOMO
+     * @throws ReflectionException
      */
     public function testNewPaylineSDKInstance()
     {
@@ -55,19 +58,20 @@ class PaylineSDKTest extends TestCase
         $this->assertEquals('https://homologation.payline.com/V4/services/', $this->getProtectedProperty($paylineSDK, 'webServicesEndpoint'));
         $this->assertEquals('https://homologation-payment.payline.com/services/servicesendpoints/SOAP/1111111', $this->getProtectedProperty($paylineSDK, 'servicesEndpoint'));
         $this->assertIsArray($soapClientOptions['stream_context_to_create']);
-        $this->assertTrue(empty($soapClientOptions['stream_context_to_create']));
+        $this->assertEmpty($soapClientOptions['stream_context_to_create']);
         $this->assertNotNull($this->getProtectedProperty($paylineSDK, 'orderDetails'));
         $this->assertNotNull($this->getProtectedProperty($paylineSDK, 'privateData'));
     }
 
     /**
      * Test du constructeur sur environnement ENV_HOMO_CC
+     * @throws ReflectionException
      */
     public function testNewPaylineSDKInstance_withENV_HOMO_CC()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, null, null, null, null,
-            PaylineSDK::ENV_HOMO_CC, $pathLog= null, self::logLvl);
+            PaylineSDK::ENV_HOMO_CC, null, self::logLvl);
 
         // Then
         $this->assertNotNull($paylineSDK);
@@ -75,17 +79,18 @@ class PaylineSDKTest extends TestCase
         $this->assertNull($this->getProtectedProperty($paylineSDK, 'servicesEndpoint'));
         $soapClientOptions = (array) $this->getProtectedProperty($paylineSDK, 'soapclientOptions');
         $this->assertIsArray($soapClientOptions['stream_context_to_create']);
-        $this->assertTrue(empty($soapClientOptions['stream_context_to_create']));
+        $this->assertEmpty($soapClientOptions['stream_context_to_create']);
     }
 
     /**
      * Test du constructeur sur environnement ENV_PROD
+     * @throws ReflectionException
      */
     public function testNewPaylineSDKInstance_withENV_PROD()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, null, null, null, null,
-            PaylineSDK::ENV_PROD, $pathLog= null, self::logLvl);
+            PaylineSDK::ENV_PROD, null, self::logLvl);
 
         // Then
         $this->assertNotNull($paylineSDK);
@@ -93,17 +98,18 @@ class PaylineSDKTest extends TestCase
         $this->assertEquals('https://payment.payline.com/services/servicesendpoints/SOAP/1111111', $this->getProtectedProperty($paylineSDK, 'servicesEndpoint'));
         $soapClientOptions = (array) $this->getProtectedProperty($paylineSDK, 'soapclientOptions');
         $this->assertIsArray($soapClientOptions['stream_context_to_create']);
-        $this->assertTrue(empty($soapClientOptions['stream_context_to_create']));
+        $this->assertEmpty($soapClientOptions['stream_context_to_create']);
     }
 
     /**
      * Test du constructeur sur environnement ENV_PROD_CC
+     * @throws ReflectionException
      */
     public function testNewPaylineSDKInstance_withENV_PROD_CC()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, null, null, null, null,
-            PaylineSDK::ENV_PROD_CC, $pathLog= null, self::logLvl);
+            PaylineSDK::ENV_PROD_CC, null, self::logLvl);
 
         // Then
         $this->assertNotNull($paylineSDK);
@@ -111,17 +117,18 @@ class PaylineSDKTest extends TestCase
         $this->assertNull($this->getProtectedProperty($paylineSDK, 'servicesEndpoint'));
         $soapClientOptions = (array) $this->getProtectedProperty($paylineSDK, 'soapclientOptions');
         $this->assertIsArray($soapClientOptions['stream_context_to_create']);
-        $this->assertTrue(empty($soapClientOptions['stream_context_to_create']));
+        $this->assertEmpty($soapClientOptions['stream_context_to_create']);
     }
 
     /**
      * Test du constructeur sur environnement ENV_DEV
+     * @throws ReflectionException
      */
     public function testNewPaylineSDKInstance_withENV_DEV()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, null, null, null, null,
-            PaylineSDK::ENV_DEV, $pathLog= null, self::logLvl);
+            PaylineSDK::ENV_DEV, null, self::logLvl);
 
         // Then
         $this->assertNotNull($paylineSDK);
@@ -129,19 +136,20 @@ class PaylineSDKTest extends TestCase
         $this->assertNull($this->getProtectedProperty($paylineSDK, 'servicesEndpoint'));
         $soapClientOptions = (array) $this->getProtectedProperty($paylineSDK, 'soapclientOptions');
         $this->assertIsArray($soapClientOptions['stream_context_to_create']);
-        $this->assertFalse(empty($soapClientOptions['stream_context_to_create']));
+        $this->assertNotEmpty($soapClientOptions['stream_context_to_create']);
         $this->assertFalse($soapClientOptions['stream_context_to_create']['ssl']['verify_peer']);
         $this->assertFalse($soapClientOptions['stream_context_to_create']['ssl']['verify_peer_name']);
     }
 
     /**
      * Test du constructeur sur environnement ENV_INT
+     * @throws ReflectionException
      */
     public function testNewPaylineSDKInstance_withENV_INT()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, null, null, null, null,
-            PaylineSDK::ENV_INT, $pathLog= null, self::logLvl);
+            PaylineSDK::ENV_INT, null, self::logLvl);
 
         // Then
         $this->assertNotNull($paylineSDK);
@@ -149,19 +157,20 @@ class PaylineSDKTest extends TestCase
         $this->assertNull($this->getProtectedProperty($paylineSDK, 'servicesEndpoint'));
         $soapClientOptions = (array) $this->getProtectedProperty($paylineSDK, 'soapclientOptions');
         $this->assertIsArray($soapClientOptions['stream_context_to_create']);
-        $this->assertFalse(empty($soapClientOptions['stream_context_to_create']));
+        $this->assertNotEmpty($soapClientOptions['stream_context_to_create']);
         $this->assertFalse($soapClientOptions['stream_context_to_create']['ssl']['verify_peer']);
         $this->assertFalse($soapClientOptions['stream_context_to_create']['ssl']['verify_peer_name']);
     }
 
     /**
-     * Test du constructeur avec paramétrage proxy
+     * Test du constructeur avec paramÃ©trage proxy
+     * @throws ReflectionException
      */
     public function testConstructWithAllParams()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
-            self::environment, $pathLog= null, self::logLvl);
+            self::environment, null, self::logLvl);
 
         // Then
         $this->assertNotNull($paylineSDK);
@@ -185,13 +194,13 @@ class PaylineSDKTest extends TestCase
 
     /**
      * Test de la fonction {@link  PaylineSDK#setSoapOptions}
-     * @throws \Exception
+     * @throws Exception
      */
     public function testSetSoapOptions()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
-            self::environment, $pathLog= null, self::logLvl);
+            self::environment, null, self::logLvl);
         $soapClientOptions = (array) $this->getProtectedProperty($paylineSDK, 'soapclientOptions');
         $this->assertNull($soapClientOptions['KeyAAA']);
 
@@ -202,24 +211,125 @@ class PaylineSDKTest extends TestCase
         // Test
         $soapClientOptions = (array) $this->getProtectedProperty($paylineSDK, 'soapclientOptions');
         $this->assertEquals('ValueBBB', $soapClientOptions['KeyAAA']);
+    }
 
+    /**
+     * Test de la fonction {@link  PaylineSDK#setSoapOptions}
+     * @throws Exception
+     */
+    public function test_SetSoapOptions_shouldReturnException()
+    {
+        // Test - Try to create an instance
+        $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
+            self::environment, null, self::logLvl);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Cannot set Soap option');
+
+        // Test
+        $paylineSDK->setSoapOptions(array());
     }
 
     /**
      * Test de la fonction {@link  PaylineSDK#setFailoverOptions}
-     * @throws \Exception
+     * @throws Exception
+     */
+    public function test_setFailoverOptions_shouldReturnException()
+    {
+        // Test - Try to create an instance
+        $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
+            self::environment, null, self::logLvl);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Cannot set Failover option');
+
+        // Test
+        $paylineSDK->setFailoverOptions(array());
+    }
+
+    /**
+     * Test de la fonction {@link  PaylineSDK#getSoapOptions}
+     * @throws Exception
+     */
+    public function test_GetSoapOptions()
+    {
+        // Test - Try to create an instance
+        $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
+            self::environment, null, self::logLvl);
+        $soapClientOptions = (array) $this->getProtectedProperty($paylineSDK, 'soapclientOptions');
+        $this->assertNull($soapClientOptions['KeyAAA']);
+
+        // ----
+        // Test - with Key = NULL
+        $soapOptions = $paylineSDK->getSoapOptions();
+        // Verif
+        $this->assertNotNull($soapOptions);
+        $this->assertIsArray($soapOptions);
+
+        // ----
+        // Test - with Key but without value
+        $soapOptions = $paylineSDK->getSoapOptions('KeyAAA');
+        // Verif
+        $this->assertNull($soapOptions);
+
+        // ----
+        // Test - with Key AND value
+        $paylineSDK = $paylineSDK->setSoapOptions('KeyAAA', 'ValueBBB');
+        $soapOptions = $paylineSDK->getSoapOptions('KeyAAA');
+        // Verif
+        $this->assertEquals('ValueBBB', $soapOptions);
+    }
+
+    /**
+     * Test de la fonction {@link  PaylineSDK#getDefaultWSRequest}
+     * @throws Exception
+     */
+    public function testGetDefaultWSRequest()
+    {
+        // Test - Try to create an instance
+        $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
+            self::environment, null, self::logLvl);
+
+        // Test - Withunknown method
+        $defaultWSRequest = $paylineSDK->getDefaultWSRequest('KeyAAA');
+        $this->assertNotNull($defaultWSRequest);
+        $this->assertEmpty($defaultWSRequest);
+
+        // Test
+        $defaultWSRequest = $paylineSDK->getDefaultWSRequest('manageWebWallet');
+        $this->assertNotNull($defaultWSRequest);
+        $this->assertNotEmpty($defaultWSRequest);
+    }
+    /**
+     * Test de la fonction {@link  PaylineSDK#getLogger}
+     * @throws Exception
+     */
+    public function testGetLogger()
+    {
+        // Test - Try to create an instance
+        $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
+            self::environment, null, self::logLvl);
+
+        // Test
+        $logger = $paylineSDK->getLogger();
+        $this->assertNotNull($logger);
+    }
+
+    /**
+     * Test de la fonction {@link  PaylineSDK#setFailoverOptions}
+     * @throws Exception
      */
     public function testSetFailoverOptionsAndReset()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
-            self::environment, $pathLog= null, self::logLvl);
+            self::environment, null, self::logLvl);
         $failoverOptions = $paylineSDK->getFailoverOptions();
         $this->assertNull($failoverOptions['KeyAAA']);
 
 
         // Test
-        $paylineSDKNew = $paylineSDK->setFailoverOptions('KeyAAA', 'ValueBBB');
+        $paylineSDK->setFailoverOptions('KeyAAA', 'ValueBBB');
 
         // Test
         $failoverOptions = $paylineSDK->getFailoverOptions();
@@ -234,12 +344,13 @@ class PaylineSDKTest extends TestCase
 
     /**
      * Test de la fonction {@link  PaylineSDK#setFailoverOptions}
+     * @throws ReflectionException
      */
     public function testReset()
     {
         // Test - Try to create an instance
         $paylineSDK = new PaylineSDK(self::merchant_id, self::access_key, 'http://localhost:9999', '55', 'proxy login', 'proxy password',
-            self::environment, $pathLog= null, self::logLvl);
+            self::environment, null, self::logLvl);
         $privateData = array();
         $privateData['privKey'] = 'privValue';
         $paylineSDK->addPrivateData($privateData);
@@ -254,9 +365,9 @@ class PaylineSDKTest extends TestCase
         // Test
         $lastSoapCallData = (array) $this->getProtectedProperty($paylineSDK, 'lastSoapCallData');
         $orderDetails = (array) $this->getProtectedProperty($paylineSDK, 'orderDetails');
-        $this->assertTrue(empty($orderDetails));
-        $this->assertTrue(empty($lastSoapCallData));
-        $this->assertTrue(empty($paylineSDK->privateDataList()));
+        $this->assertEmpty($orderDetails);
+        $this->assertEmpty($lastSoapCallData);
+        $this->assertEmpty($paylineSDK->privateDataList());
     }
 
 
@@ -289,6 +400,9 @@ class PaylineSDKTest extends TestCase
         $doAuthorizationRequest = $this->addOrderData($doAuthorizationRequest);
         // CARD
         $doAuthorizationRequest = $this->addCardData($doAuthorizationRequest);
+        $doAuthorizationRequest['paymentData']['transactionID'] = 'xxxtrsId';
+        $doAuthorizationRequest['paymentData']['network'] = 'VISA';
+        $doAuthorizationRequest['paymentData']['tokenData'] = 'txby12345ooo';
 
         // Test
         $doAuthorizationResponse = $paylineSDK->doAuthorization($doAuthorizationRequest);
@@ -973,14 +1087,730 @@ class PaylineSDKTest extends TestCase
         $billingRecordList = $response['billingRecordList'];
         $this->assertNotEmpty($billingRecordList['billingRecord']);
         $this->assertIsArray($billingRecordList['billingRecord']);
-        $this->assertEquals(3, count($billingRecordList['billingRecord']));
+        $this->assertCount(3, $billingRecordList['billingRecord']);
 
         // Verify a request
         $this->verifyCallRequest(self::DIRECT_PAYMENT_API, $xmlExpectedRequest, 'doRecurrentWalletPayment');
     }
 
     /**
-     * Fonction utilisée pour modifier la valeur d'une propriété par réfléxion
+     * Test de l'appel du {@link PaylineSDK::getPaymentRecord()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testGetPaymentRecord()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('directpayment/getPaymentRecord/getPaymentRecordResponse02500.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('directpayment/getPaymentRecord/getPaymentRecordRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::DIRECT_PAYMENT_API);
+
+        // Test
+        $request = array();
+        $request['version'] = '90';
+        $request['contractNumber'] = 'CB_2';
+        $request['paymentRecordId'] = 'paymentRecordId 5';
+
+        // Test
+        $response = $paylineSDK->getPaymentRecord($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResult02500($response['result']);
+        $this->checkResponseRecurring($response['recurring'], '4000', '4000', '40', '2', '7', '07/12/2023', '07/01/2024');
+        $this->assertEquals('2TNNN5334ukgfghgGHFF1967784072', $response['walletId']);
+        $this->assertEquals('0', $response['isDisabled']);
+        $billingRecordList = $response['billingRecordList'];
+        $this->assertNotEmpty($billingRecordList['billingRecord']);
+        $this->assertIsArray($billingRecordList['billingRecord']);
+        $this->assertCount(2, $billingRecordList['billingRecord']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::DIRECT_PAYMENT_API, $xmlExpectedRequest, 'getPaymentRecord');
+    }
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::disablePaymentRecord()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testDisablePaymentRecord()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('directpayment/disablePaymentRecord/disablePaymentRecordResponse02500.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('directpayment/disablePaymentRecord/disablePaymentRecordRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::DIRECT_PAYMENT_API);
+
+        // Test
+        $request = array();
+        $request['version'] = '90';
+        $request['contractNumber'] = 'CB_2';
+        $request['paymentRecordId'] = 'paymentRecordId 5';
+
+        // Test
+        $response = $paylineSDK->disablePaymentRecord($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResult02500($response['result']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::DIRECT_PAYMENT_API, $xmlExpectedRequest, 'disablePaymentRecord');
+    }
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::verifyEnrollment()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testVerifyEnrollment()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('directpayment/verifyEnrollment/verifyEnrollmentResponse03102.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('directpayment/verifyEnrollment/verifyEnrollmentRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::DIRECT_PAYMENT_API);
+
+        // Test
+        $request = array();
+        $request = $this->addCardData($request);
+        $request = $this->addPaymentData($request);
+        $request = $this->addOrderData($request);
+        $request = $this->addBuyerData($request);
+        $request = $this->addSubMerchantData($request);
+        $request = $this->addRecurringData($request);
+        $request = $this->addthreeDSInfoData($request);
+        $request['version'] = '90';
+        $request['transient'] = 'transientParam';
+        $request['merchantScore'] = 'merchantScore';
+        $request['orderRef'] = 'orderRef XXX';
+        $request['mdFieldValue'] = 'mdFieldValue XXX';
+        $request['userAgent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36';
+        $request['generateVirtualCvx'] = 'generateVirtualCvx XXX';
+        $request['merchantName'] = 'merchantName XXX';
+        $request['merchantURL'] = 'merchantURL XXX';
+        $request['merchantCountryCode'] = 'merchantCountryCode XXX';
+        $request['returnURL'] = 'returnURL XXX';
+
+        // Test
+        $response = $paylineSDK->verifyEnrollment($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResult($response['result'], '03102', 'ACCEPTED', 'Transaction accepted - Cardholder authenticated');
+
+        // Verify a request
+        $this->verifyCallRequest(self::DIRECT_PAYMENT_API, $xmlExpectedRequest, 'verifyEnrollment');
+    }
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::verifyAuthentication()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testVerifyAuthentication()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('directpayment/verifyAuthentication/verifyAuthenticationResponse03000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('directpayment/verifyAuthentication/verifyAuthenticationRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::DIRECT_PAYMENT_API);
+
+        // Test
+        $request = array();
+        $request = $this->addCardData($request);
+        $request['version'] = '90';
+        $request['transient'] = 'transientParam';
+        $request['merchantScore'] = 'merchantScore';
+        $request['orderRef'] = 'orderRef XXX';
+        $request['mdFieldValue'] = 'mdFieldValue XXX';
+        $request['userAgent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36';
+        $request['generateVirtualCvx'] = 'generateVirtualCvx XXX';
+        $request['merchantName'] = 'merchantName XXX';
+        $request['merchantURL'] = 'merchantURL XXX';
+        $request['merchantCountryCode'] = 'merchantCountryCode XXX';
+        $request['returnURL'] = 'returnURL XXX';
+
+        // Test
+        $response = $paylineSDK->verifyAuthentication($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResult($response['result'], '03000', 'ACCEPTED', 'Transaction accepted');
+        $this->assertEquals('Y', $response['mpiResult']);
+        $this->assertEquals('19sdfsdfsdfsdfsdfuwzzzzzzzz', $response['authentication3DSecure']['md']);
+        $this->assertEquals('resultContainer sdjfsdfhshfsqkgfsqgdf54h3d54h3gf4h35fg4h35fg4h35f4', $response['authentication3DSecure']['resultContainer']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::DIRECT_PAYMENT_API, $xmlExpectedRequest, 'verifyAuthentication');
+    }
+    /*
+     * *************************************************************************
+     * WebPaymentAPI
+     * *************************************************************************
+     */
+    /**
+     * Test de l'appel du {@link PaylineSDK::doWebPayment()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testDoWebPayment()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('webpayment/doWebPayment/doWebPaymentResponse00000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('webpayment/doWebPayment/doWebPaymentRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::WEB_API);
+
+        // Test
+        $request = array();
+        $request = $this->addPaymentData($request);
+        $request = $this->addOrderData($request);
+        $request = $this->addBuyerData($request);
+        $request = $this->addOwnerData($request);
+        $request = $this->addRecurringData($request);
+        $request = $this->addSubMerchantData($request);
+        $request = $this->addthreeDSInfoData($request);
+        $request['version'] = '90';
+        $request['cancelURL'] = 'https://Demo_Shop.com/cancelURL.php';
+        $request['returnURL'] = 'https://Demo_Shop.com/returnURL.php';
+        $request['notificationURL'] = 'https://Demo_Shop.com/notificationURL.php';
+        $request['languageCode'] = 'FR_fr';
+        $request['customPaymentPageCode'] = 'PloufXX';
+        $request['securityMode'] = 'XX';
+        $request['customPaymentTemplateURL'] = 'PloufXXUrl';
+        $request['contractNumberWalletList']['contractNumberWallet'] = 'CB';
+        $request['merchantName'] = 'Balthazar Picsou';
+        $request['miscData'] = 'miscData value';
+        $request['asynchronousRetryTimeout'] = 'async 100';
+        $request['merchantScore'] = 'merchantScore 0';
+        $request['skipSmartDisplay'] = 'true';
+
+        // Test
+        $response = $paylineSDK->doWebPayment($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResultOK($response['result']);
+        $this->assertEquals('16RjWdtpDkFVfZkGV4031701964772640', $response['token']);
+        $this->assertEquals('https://develop-staging-webpayment2.int.dev.payline.com/1mRmYi5lShI=/#16RjWdtpDkFVfZkGV4031701964772640', $response['redirectURL']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::WEB_API, $xmlExpectedRequest, 'doWebPayment');
+    }
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::getWebPaymentDetails()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testGetWebPaymentDetails()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('webpayment/getWebPaymentDetails/getWebPaymentDetailsResponse00000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('webpayment/getWebPaymentDetails/getWebPaymentDetailsRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::WEB_API);
+
+        // Test
+        $request = array();
+        $request['version'] = '90';
+        $request['token'] = 'xxxxxtokenxxxxxx';
+
+        // Test
+        $response = $paylineSDK->getWebPaymentDetails($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResultOK($response['result']);
+        $this->checkResponseTransaction($response['transaction'], 'PV4280223147576302', 'C', '0', '0', null, null, 'N','0', null, null, null);
+        $this->checkResponsePayment($response['payment'], '90000', '978', '101', 'CPT', 'CB_MULTI_4', null, 'CB', null);
+        $this->checkResponseAuthorization($response['authorization'], null, '01/03/2023 00:12:51');
+        $this->checkResponseOrder($response['order'], 'cb_a_plusieurs_20230228153137', null, null, null, '190000', '978', '26/05/2008 17:30:00', '1', '4', '31/12/2023', '66');
+        $this->checkResponseCard($response['card'], '4XXXXXXXXXXXXXXX83', 'CB', '1223', null, '49fghfghfghfgh83');
+        $this->checkResponseExtendedCard($response['extendedCard'], 'FRA', '20041 - LA POSTE', 'CB', 'CB', 'Carte nationale de paiement');
+        $this->checkResponseAuthentication3DSecure($response['authentication3DSecure'], null, null);
+
+        $this->assertNotNull($response['buyer']);
+        $this->assertNotNull($response['buyer']['shippingAdress']);
+        $this->assertNotNull($response['buyer']['billingAddress']);
+
+        $this->assertEquals('CB_MULTI_4', $response['contractNumber']);
+        $this->assertEquals('Computer', $response['media']);
+        $this->assertNull($response['linkedTransactionId']);
+
+
+        // Verify a request
+        $this->verifyCallRequest(self::WEB_API, $xmlExpectedRequest, 'getWebPaymentDetails');
+    }
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::manageWebWallet()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testManageWebWallet()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('webpayment/manageWebWallet/manageWebWalletResponse00000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('webpayment/manageWebWallet/manageWebWalletRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::WEB_API);
+
+        // Test
+        $request = array();
+        $selectedContractList = array();
+        $selectedContractList['contracts'][0] = 'CB wallet';
+        $selectedContractList['contracts'][1] = 'APPLE_PAY wallet';
+        $privateDataList = $this->addPrivateData(array());
+        $request['version'] = '90';
+        $request = $this->addBuyerData($request);
+        $request = $this->addBuyerData($request);
+        $request = $this->addthreeDSInfoData($request);
+        $request['contractNumber'] = 'contractNumber';
+        $request['selectedContractList'] = $selectedContractList;
+        $request['updatePersonalDetails'] = 'updatePersonalDetails';
+        $request['privateDataList'] = $privateDataList;
+        $request['cancelURL'] = 'https://Demo_Shop.com/cancelURL.php';
+        $request['returnURL'] = 'https://Demo_Shop.com/returnURL.php';
+        $request['notificationURL'] = 'https://Demo_Shop.com/notificationURL.php';
+        $request['languageCode'] = 'FR_fr';
+        $request['customPaymentPageCode'] = 'PloufXX';
+        $request['securityMode'] = 'XX';
+        $request['customPaymentTemplateURL'] = 'PloufXXUrl';
+        $request['contractNumberWalletList']['walletContracts'] = 'CB';
+        $request['merchantName'] = 'Balthazar Picsou';
+
+        // Test
+        $response = $paylineSDK->manageWebWallet($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResultOK($response['result']);
+        $this->assertEquals('1tYZOjJvky65IbxH0C6D1702009846955', $response['token']);
+        $this->assertEquals('https://develop-staging-webpayment2.int.dev.payline.com/1mRmYi5lShI=/#1tYZOjJvky65IbxH0C6D1702009846955', $response['redirectURL']);
+
+
+
+        // Verify a request
+        $this->verifyCallRequest(self::WEB_API, $xmlExpectedRequest, 'manageWebWallet');
+    }
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::createWebWallet()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testCreateWebWallet()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('webpayment/createWebWallet/createWebWalletResponse00000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('webpayment/createWebWallet/createWebWalletRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::WEB_API);
+
+        // Test
+        $request = array();
+        $selectedContractList = array();
+        $selectedContractList['contracts'][0] = 'CB wallet';
+        $selectedContractList['contracts'][1] = 'APPLE_PAY wallet';
+        $privateDataList = $this->addPrivateData(array());
+        $request['version'] = '90';
+        $request = $this->addBuyerData($request);
+        $request = $this->addOwnerData($request);
+        $request['contractNumber'] = 'contractNumber';
+        $request['selectedContractList'] = $selectedContractList;
+        $request['updatePersonalDetails'] = 'updatePersonalDetails';
+        $request['privateDataList'] = $privateDataList;
+        $request['cancelURL'] = 'https://Demo_Shop.com/cancelURL.php';
+        $request['returnURL'] = 'https://Demo_Shop.com/returnURL.php';
+        $request['notificationURL'] = 'https://Demo_Shop.com/notificationURL.php';
+        $request['languageCode'] = 'FR_fr';
+        $request['customPaymentPageCode'] = 'PloufXX';
+        $request['securityMode'] = 'XX';
+        $request['customPaymentTemplateURL'] = 'PloufXXUrl';
+        $request['contractNumberWalletList']['walletContracts'] = 'CB';
+        $request['merchantName'] = 'Balthazar Picsou';
+
+        // Test
+        $response = $paylineSDK->createWebWallet($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResultOK($response['result']);
+        $this->assertEquals('241JjGeRUHeYI54fgh132fgh1564fgJ4GWCIr1701970106166', $response['token']);
+        $this->assertEquals('https://develop-staging-webpayment2.int.dev.payline.com/1mRmYi5lShI=/#241JjGeRUHeYI54fgh132fgh1564fgJ4GWCIr1701970106166', $response['redirectURL']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::WEB_API, $xmlExpectedRequest, 'createWebWallet');
+    }
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::updateWebWallet()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testUpdateWebWallet()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('webpayment/updateWebWallet/updateWebWalletResponse00000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('webpayment/updateWebWallet/updateWebWalletRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::WEB_API);
+
+        // Test
+        $request = array();
+        $selectedContractList = array();
+        $selectedContractList['contracts'][0] = 'CB wallet';
+        $selectedContractList['contracts'][1] = 'APPLE_PAY wallet';
+        $privateDataList = $this->addPrivateData(array());
+        $request['version'] = '90';
+        $request = $this->addBuyerData($request);
+        $request['contractNumber'] = 'contractNumber';
+        $request['selectedContractList'] = $selectedContractList;
+        $request['privateDataList'] = $privateDataList;
+        $request['cancelURL'] = 'https://Demo_Shop.com/cancelURL.php';
+        $request['returnURL'] = 'https://Demo_Shop.com/returnURL.php';
+        $request['notificationURL'] = 'https://Demo_Shop.com/notificationURL.php';
+        $request['languageCode'] = 'FR_fr';
+        $request['customPaymentPageCode'] = 'PloufXX';
+        $request['securityMode'] = 'XX';
+        $request['customPaymentTemplateURL'] = 'PloufXXUrl';
+        $request['contractNumberWalletList']['walletContracts'] = 'CB';
+        $request['merchantName'] = 'Balthazar Picsou';
+        $request['cardInd'] = '1';
+        $request['walletId'] = '5';
+        $request['updatePersonalDetails'] = 'updatePersonalDetails 789';
+        $request['updateOwnerDetails'] = 'updateOwnerDetails 789';
+        $request['updatePaymentDetails'] = 'updatePaymentDetails 789';
+
+        // Test
+        $response = $paylineSDK->updateWebWallet($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResultOK($response['result']);
+        $this->assertEquals('2Lg7xxNi7yCX2654dfg23jjL1lNH1701fghfgh32132970349229', $response['token']);
+        $this->assertEquals('https://develop-staging-webpayment2.int.dev.payline.com/1mRmYi5lShI=/#2Lg7xxNi7yCX2654dfg23jjL1lNH1701fghfgh32132970349229', $response['redirectURL']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::WEB_API, $xmlExpectedRequest, 'updateWebWallet');
+    }
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::getWebWallet()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testGetWebWallet()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('webpayment/getWebWallet/getWebWalletResponse02500.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('webpayment/getWebWallet/getWebWalletRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::WEB_API);
+
+        // Test
+        $request = array();
+        $request['version'] = '90';
+        $request['token'] = 'xxxx-zzzz-yyyy';
+
+        // Test
+        $response = $paylineSDK->getWebWallet($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResult02500($response['result']);
+        $this->checkResponseWallet($response['wallet'], 'T55.S1_cW_20231208035804_2', 'OOOOOOOO', 'Delphine', 'testauto@monext.net', null, null, null, 'VISA');
+        $this->checkResponseCard($response['wallet']['card'], '4XXXXXXXXXXXXX36', 'CB', '1230', null, '4970tHpGDTqb1236');
+        $this->checkResponseAddress($response['wallet']['shippingAddress']);
+        $this->checkResponseExtendedCard($response['extendedCard'], 'FRA', '20041 - LA POSTE', 'VISA', 'VISA', 'Visa Gold');
+
+        // Verify a request
+        $this->verifyCallRequest(self::WEB_API, $xmlExpectedRequest, 'getWebWallet');
+
+        $soapLastContent = $paylineSDK->getSoapLastContent();
+        $this->assertNotNull($soapLastContent);
+        $this->assertNotNull($soapLastContent[1]['Request']);
+        $this->assertNotNull($soapLastContent[1]['RequestHeaders']);
+        $this->assertNotNull($soapLastContent[1]['HttpHeaders']);
+        $this->assertNotNull($soapLastContent[1]['Response']);
+        $this->assertNotNull($soapLastContent[1]['ResponseHeaders']);
+        $soapLastContent = $paylineSDK->getSoapLastContent('HttpHeaders');
+        $this->assertNotNull($soapLastContent[1]['HttpHeaders']);
+    }
+
+    /*
+     * *************************************************************************
+     * ExtendedPaymentAPI
+     * *************************************************************************
+     */
+    /**
+     * Test de l'appel du {@link PaylineSDK::getTransactionDetails()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testGetTransactionDetails()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('extended/getTransactionDetails/getTransactionDetailsResponse00000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('extended/getTransactionDetails/getTransactionDetailsRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::EXTENDED_API);
+
+        // Test
+        $request = array();
+        $request = $this->addCardData($request);
+        $request['version'] = '90';
+        $request['transactionId'] = 'TrsIdyyyy';
+        $request['orderRef'] = 'OrderRefbbbb';
+        $request['startDate'] = 'startDate XXX';
+        $request['endDate'] = 'endDate XXX';
+        $request['transactionHistory'] = 'Y';
+        $request['archiveSearch'] = 'archiveSearch';
+
+        // Test
+        $response = $paylineSDK->getTransactionDetails($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResultOK($response['result']);
+        $this->checkResponseTransaction($response['transaction'], '24342fgdgdf019422375225', '07/12/2023 16:20:17', '0', '0', null, null, 'N',null, '4', null, 'AUTHOR+CAP');
+        $this->checkResponsePayment($response['payment'], '190', '978', '129', 'CPT', '299124', null, 'CB', 'CB');
+        $this->checkResponseAuthorization($response['authorization'], '662662', '07/12/23 16:20:17');
+        $this->checkResponseOrder($response['order'], '5e0ddbf19bssssssssssssssss0538aabfef', null, null, null, '190', '978', '07/12/2023 16:20:00');
+        $this->checkResponseCard($response['card'], '5XXXXXXXXXXXXXX0', 'CB', '1111', null, '5xxxxxxxbxxx0', 'CARD PAN');
+        $this->checkResponseExtendedCard($response['extendedCard'], 'FRA', '10278 - CAISSE FEDERALE DE C', 'CB', 'CB', 'MCC - MASTERCARD CREDIT (MIXED BIN) CARD');
+        $this->checkResponseAuthentication3DSecure($response['authentication3DSecure'], '2cdc2425-ggggggggggggggg-a854d1baf3a2', 'eyJjb250YWluZXJWZXJzhjghj45654654jkjhVBdXRoVHlwZSI6IkNIIiwiYWNzT3BlcmF0b3JJRCI6IkFDUy0wMDA5UC1DTS1DSUMtRUkiLCJ0aHJlZURTUmVx88jmFuc1N0YXR1cyI6IlkiLCJ0cmFuc1kR1c1JlYyvbiI6IjAwIiwiY2hhbGxlbmdlQ2FuY2VsSW5kIjoiMDAiLCJuZXR3b3JrU2NvcmUiOiI0IiwiZHNUcmFuc0lEIjoiMDY1NjJiNTUtMDljZC00NjFiLWFmYTUtODliMGJmNjAxNzY1IiwiYWNzVHJhbnNJRCI6IjIyMDIyMDUxLWQwYjYtNDNkMC1hYmQ5LTM0MzY2M2Q1OGM3NSIsIm1lc3NhZ2VWZXJzaW9uIjoiMi4xLjAiLCJtZXJjaGFudE5hbWUiOiJNaWpvdCIsInB1cmNoYXNlRGF0ZSI6IjIwMjIwNTE2MTAxODI3IiwicHVyY2hhc2VBbW91bnQiOiIwIiwiY2FyZEJyYW5kIjoiQ0IiLCJicm93c2VySVAiOiI5Mi4xODQuOTguNjAiLCJhY3F1aXJlckJJTiI6IjQ1MzMwMDEzMTA2IiwiYWNxdWlyZXJNZXJjaGFudElEIjoiMjg3MDEyNSAgICAgICAgLTAxICAgICAgIiwidGhyZWVEU1JlcXVlc3Rvck5hbWUiOiJNaWpvdCIsInRocmVlRFNSZXF1ZXN0b3JJRCI6Ijg5ODg4MDk4NDAwMDE1IiwibWVyY2hhbnRDb3VudHJ5Q29kZSI6IjI1MCJ9');
+        $this->checkResponsePointOfSell($response['pointOfSell'], '13411111109', 'POS 89');
+
+        $this->assertNotNull($response['buyer']);
+        $this->assertNotNull($response['buyer']['shippingAdress']);
+        $this->assertNotNull($response['buyer']['billingAddress']);
+
+        $this->assertEquals('2870125', $response['contractNumber']);
+        $this->assertEquals('1I2F65B757036906', $response['linkedTransactionId']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::EXTENDED_API, $xmlExpectedRequest, 'getTransactionDetails');
+    }
+
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::transactionsSearch()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testTransactionsSearch()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('extended/transactionsSearch/transactionsSearchResponse00000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('extended/transactionsSearch/transactionsSearchRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::EXTENDED_API);
+
+        // Test
+        $request = array();
+        $request = $this->addCardData($request);
+        $request['version'] = '90';
+        $request['transactionId'] = 'TrsIdyyyy';
+        $request['merchantScore'] = 'merchantScore';
+        $request['orderRef'] = 'OrderRefbbbb';
+        $request['startDate'] = 'startDate XXX';
+        $request['endDate'] = 'endDate XXX';
+        $request['contractNumber'] = 'CB';
+        $request['authorizationNumber'] = 'authorizationNumber 123';
+        $request['returnCode'] = 'returnCode 888';
+        $request['paymentMean'] = 'paymentMean XXX';
+        $request['transactionType'] = 'transactionType XXX';
+        $request['merchantCountryCode'] = 'merchantCountryCode XXX';
+        $request['name'] = 'name 6';
+        $request['firstName'] = 'name 7';
+        $request['email'] = 'email 8';
+        $request['cardNumber'] = '4970100000000';
+        $request['currency'] = '978';
+        $request['minAmount'] = '200';
+        $request['maxAmount'] = '4000';
+        $request['walletId'] = 'walIdp';
+        $request['sequenceNumber'] = 'seqNum';
+        $request['token'] = 'token1234567890';
+        $request['pointOfSellId'] = 'pos44';
+        $request['cardNetwork'] = 'CB';
+        $request['threeDSecured'] = '3DS';
+        $request['customerMediaId'] = 'media8';
+
+        // Test
+        $response = $paylineSDK->transactionsSearch($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResultOK($response['result']);
+
+        $this->assertEquals('PV40712888923932479707', $response['transactionList']['transaction'][0]['id']);
+        $this->assertEquals('07/12/2023 09:41:59', $response['transactionList']['transaction'][0]['date']);
+        $this->assertEquals('0', $response['transactionList']['transaction'][0]['isDuplicated']);
+        $this->assertEquals('0', $response['transactionList']['transaction'][0]['isPossibleFraud']);
+
+        $this->assertEquals('1493420654738976', $response['transactionList']['transaction'][1]['id']);
+        $this->assertEquals('07/12/2023 07:54:38', $response['transactionList']['transaction'][1]['date']);
+        $this->assertEquals('0', $response['transactionList']['transaction'][1]['isDuplicated']);
+        $this->assertEquals('0', $response['transactionList']['transaction'][1]['isPossibleFraud']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::EXTENDED_API, $xmlExpectedRequest, 'transactionsSearch');
+    }
+
+
+    /**
+     * Test de l'appel du {@link PaylineSDK::getAlertDetails()}
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function testGetAlertDetails()
+    {
+        // Chargement du fichier xml Reponse
+        $xmlResponseContent = $this->loadXmlResponseFromFile('extended/getAlertDetails/getAlertDetailsResponse00000.xml');
+        // Chargement du fichier xml expected request
+        $xmlExpectedRequest = $this->loadXmlResponseFromFile('extended/getAlertDetails/getAlertDetailsRequest.xml');
+
+        // Given
+        // Create instance
+        $paylineSDK = $this->createDefaultPaylineSDK();
+        // Create mock for Wiremock (standalone running in Docker => https://wiremock.org/docs/standalone/docker/)
+        $this->createWiremock($paylineSDK, $xmlResponseContent, self::EXTENDED_API);
+
+        // Test
+        $request = array();
+        $request = $this->addCardData($request);
+        $request['version'] = '90';
+        $request['AlertId'] = 'AlertId 123';
+        $request['TransactionId'] = 'TransactionId 456';
+        $request['TransactionDate'] = '01/01/1920 23:59';
+
+        // Test
+        $response = $paylineSDK->getAlertDetails($request);
+
+        // Then
+        $this->assertNotNull($response);
+        // Should get ResultCode OK
+        $this->checkResponseResultOK($response['result']);
+        $this->assertEquals('998587002', $response['AlertId']);
+        $this->assertEquals('Forbidden_Card', $response['ExplanationCode']);
+        $this->assertEquals('La carte saisie ne peut donner lieu Ã  un rechargement', $response['ExplanationLabel']);
+        $this->assertEquals('REFUSE', $response['TransactionStatus']);
+        $this->assertEquals('FINANCIERE TRUC BIDULE', $response['MerchantLabel']);
+        $this->assertEquals('NICKEL', $response['PosLabel']);
+        $this->assertEquals('LfgdfF0gh0dsfgdfkklgdsfgjkd08', $response['TransactionId']);
+        $this->assertEquals('CVV+3DS', $response['SecurityLevel']);
+        $this->assertEquals('07/12/23 07:52', $response['TransactionDate']);
+        $this->assertEquals('1000', $response['TransactionAmount']);
+        $this->assertEquals('978', $response['TransactionCurrency']);
+        $this->assertEquals('CB', $response['PaymentType']);
+        $this->assertEquals('5XXXXXXXXXXXXXX9', $response['PaymentData']);
+        $this->assertEquals('HolderName YYY', $response['HolderName']);
+        $this->assertEquals('fee0cfc2-sdfsdfsdfsdfsdfsd-97591ee1f2', $response['ReferenceData']);
+        $this->assertEquals('40000259651', $response['CustomerId']);
+        $this->assertEquals('Raymond', $response['BuyerFirstName']);
+        $this->assertEquals('Pichon', $response['BuyerLastName']);
+
+        $this->assertEquals('0', $response['CustomerTransHist']['CustomerTrans']['IsLCLFAlerted']);
+        $this->assertEquals('LF00241808565102', $response['CustomerTransHist']['CustomerTrans']['ExternalTransactionId']);
+        $this->assertEquals('fee0cfc2-aaaaaaaaaaaaaaaaaaaaa-9e97591ee1f2', $response['CustomerTransHist']['CustomerTrans']['ReferenceOrder']);
+        $this->assertEquals('CB 529097XXXXXXXX17', $response['CustomerTransHist']['CustomerTrans']['CardCode']);
+        $this->assertEquals('07/12/23 07:52', $response['CustomerTransHist']['CustomerTrans']['TransactionDate']);
+        $this->assertEquals('20.40 EUR', $response['CustomerTransHist']['CustomerTrans']['Amount']);
+        $this->assertEquals('REFUSE', $response['CustomerTransHist']['CustomerTrans']['Status']);
+        $this->assertEquals('NICKEL', $response['CustomerTransHist']['CustomerTrans']['PosLabel']);
+
+        $this->assertEquals('0', $response['PaymentMeansTransHist']['PaymentMeansTrans'][0]['IsLCLFAlerted']);
+        $this->assertEquals('LF00241808565102', $response['PaymentMeansTransHist']['PaymentMeansTrans'][0]['ExternalTransactionId']);
+        $this->assertEquals('fee0cfc2-ssssssssssssssss-9e97591ee1f2', $response['PaymentMeansTransHist']['PaymentMeansTrans'][0]['ReferenceOrder']);
+        $this->assertEquals('Marcel Patulacci - 40000259651', $response['PaymentMeansTransHist']['PaymentMeansTrans'][0]['CustomerData']);
+        $this->assertEquals('07/12/23 07:52', $response['PaymentMeansTransHist']['PaymentMeansTrans'][0]['TransactionDate']);
+        $this->assertEquals('20.40 EUR', $response['PaymentMeansTransHist']['PaymentMeansTrans'][0]['Amount']);
+        $this->assertEquals('REFUSE', $response['PaymentMeansTransHist']['PaymentMeansTrans'][0]['Status']);
+        $this->assertEquals('NICKEL', $response['PaymentMeansTransHist']['PaymentMeansTrans'][0]['PosLabel']);
+
+        // Verify a request
+        $this->verifyCallRequest(self::EXTENDED_API, $xmlExpectedRequest, 'getAlertDetails');
+    }
+
+    /**
+     * Fonction utilisÃ©e pour modifier la valeur d'une propriÃ©tÃ© par rÃ©flÃ©xion
      * @throws ReflectionException
      */
     function setProtectedProperty($obj, $property, $value) {
@@ -991,7 +1821,7 @@ class PaylineSDKTest extends TestCase
     }
 
     /**
-     * Fonction utilisée pour récupérer la valeur d'une propriété par réfléxion
+     * Fonction utilisÃ©e pour rÃ©cupÃ©rer la valeur d'une propriÃ©tÃ© par rÃ©flÃ©xion
      * @throws ReflectionException
      */
     function getProtectedProperty($obj, $property) {
@@ -1014,11 +1844,11 @@ class PaylineSDKTest extends TestCase
         $endpointUrl = 'http://' . self::DEFAULT_HOST_URL . ':' . self::DEFAULT_HOST_PORT . '/V4/services/';
         $this->setProtectedProperty($paylineSDK, 'webServicesEndpoint', $endpointUrl);
 
-        // on check si le serveur est démarré
+        // on check si le serveur est dÃ©marrÃ©
         if (!isset(self::$wireMock)) {
             // Create Wiremock Serveur
             self::$wireMock = WireMock::create(self::DEFAULT_HOST_URL, self::DEFAULT_HOST_PORT);
-            $this->assertTrue(self::$wireMock->isAlive(5, true));
+            $this->assertTrue(self::$wireMock->isAlive(5));
 
         }
 
@@ -1033,34 +1863,37 @@ class PaylineSDKTest extends TestCase
 
 
     /**
-     * Fonction qui permet de vérifi l'appel HTTP avec tous les éléments :
+     * Fonction qui permet de vÃ©rifi l'appel HTTP avec tous les Ã©lÃ©ments :
      * - Headers
      * - Action
      * - Xml body
      * - ...
      *
-     * Si le test échoue il faut comparer manuellement les XMLs qui sont recording dans le docker : http://localhost:8443/__admin/requests
+     * Si le test Ã©choue il faut comparer manuellement les XMLs qui sont recording dans le docker : http://localhost:8443/__admin/requests
      *
+     * @param $soapApiPath
+     * @param $xmlExpectedRequest
+     * @param $soapAction
      * @return void
-     * @throws \WireMock\Client\ClientException
+     * @throws Exception
      */
     public function verifyCallRequest($soapApiPath, $xmlExpectedRequest, $soapAction): void
     {
-        // L'appel doit etre un post à la bonne URL.
+        // L'appel doit etre un post Ã  la bonne URL.
         $requestPatternBuilder = WireMock::postRequestedFor(WireMock::urlEqualTo('/V4/services/' . $soapApiPath))
             ->withHeader('User-Agent', WireMock::equalTo('PHP'))
             ->withHeader('Content-Type', WireMock::equalTo('text/xml; charset=UTF-8'))
             ->withHeader('SOAPAction', WireMock::containing($soapAction))
             ->withHeader('Authorization', WireMock::equalTo(self::encoded_authorization_header))
             ->withHeader('version', WireMock::equalTo(self::PHP_PROJECT_CURRENT_VERSION))
-            ->withRequestBody(WireMock::equalToXml($xmlExpectedRequest, false))
+            ->withRequestBody(WireMock::equalToXml($xmlExpectedRequest))
         ;
 
         try {
             self::$wireMock->verify($requestPatternBuilder);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Si on a une exception dans le verify, on fait appel a Wiremock pour avoir le stub le plus proche (https://wiremock.org/docs/verifying/#near-misses)
-            // Afin d'afficher les infos pour débugguage
+            // Afin d'afficher les infos pour dÃ©bugguage
             $findNearMissesResult = self::$wireMock->findNearMissesFor($requestPatternBuilder);
             echo $e->getMessage();
             $this->fail('Wiremock verifiy in error. Near misses : ' . serialize($findNearMissesResult->getNearMisses()[0]));
@@ -1069,9 +1902,9 @@ class PaylineSDKTest extends TestCase
 
     /**
      * @param $filePath
-     * @return false|string
+     * @return string
      */
-    public function getFullFilePath($filePath)
+    public function getFullFilePath($filePath): string
     {
         return __DIR__ . '/../resources/' . $filePath;
     }
@@ -1097,6 +1930,9 @@ class PaylineSDKTest extends TestCase
 
     /**
      * @param $result
+     * @param $resultCode
+     * @param $resultShortMessage
+     * @param $resultLongMessage
      * @return void
      */
     public function checkResponseResult($result, $resultCode, $resultShortMessage, $resultLongMessage): void
@@ -1122,12 +1958,13 @@ class PaylineSDKTest extends TestCase
      * @param $trsDate
      * @param string $idDuplicated
      * @param string $isPossibleFraud
-     * @param string $fraudResult
+     * @param null $fraudResult
      * @param null $explanation
      * @param null $threeDs
      * @param null $score
      * @param null $avsResult
      * @param null $avsResultAcq
+     * @param null $type
      * @return void
      */
     public function checkResponseTransaction($transaction,
@@ -1140,12 +1977,14 @@ class PaylineSDKTest extends TestCase
                                              $threeDs=null,
                                              $score=null,
                                              $avsResult=null,
-                                             $avsResultAcq=null): void
+                                             $avsResultAcq=null,
+                                             $type = null): void
     {
         $this->assertEquals($trsId, $transaction['id']);
         $this->assertEquals($trsDate, $transaction['date']);
         $this->assertEquals($idDuplicated, $transaction['isDuplicated']);
         $this->assertEquals($isPossibleFraud, $transaction['isPossibleFraud']);
+        $this->assertEquals($type, $transaction['type']);
 
         if (isset($fraudResult)) {
             $this->assertEquals($fraudResult, $transaction['fraudResult']);
@@ -1192,6 +2031,87 @@ class PaylineSDKTest extends TestCase
         }
     }
 
+    public function checkResponseAuthentication3DSecure($authentication,
+                                                        $md,
+                                                        $resultContainer): void
+    {
+        $this->assertEquals($md, $authentication['md']);
+        $this->assertEquals($resultContainer, $authentication['resultContainer']);
+    }
+    public function checkResponseAuthorization($authorization,
+                                               $number,
+                                               $date): void
+    {
+        $this->assertEquals($number, $authorization['number']);
+        $this->assertEquals($date, $authorization['date']);
+    }
+
+    public function checkResponsePointOfSell($pos,
+                                             $id,
+                                             $label): void
+    {
+        $this->assertEquals($id, $pos['id']);
+        $this->assertEquals($label, $pos['label']);
+    }
+
+    public function checkResponseOrder($order,
+                                       $ref,
+                                       $origin,
+                                       $country,
+                                       $taxes,
+                                       $amount,
+                                       $currency,
+                                       $date,
+                                       $deliveryTime = null,
+                                       $deliveryMode = null,
+                                       $deliveryExpectedDate = null,
+                                       $deliveryExpectedDelay = null,
+                                       $discountAmount = null,
+                                       $otaPackageType = null,
+                                       $otaDestinationCountry = null,
+                                       $bookingReference = null,
+                                       $orderExtended = null,
+                                       $orderOTA = null): void
+    {
+        $this->assertEquals($ref, $order['ref']);
+        $this->assertEquals($origin, $order['origin']);
+        $this->assertEquals($country, $order['country']);
+        $this->assertEquals($taxes, $order['taxes']);
+        $this->assertEquals($amount, $order['amount']);
+        $this->assertEquals($currency, $order['currency']);
+        $this->assertEquals($date, $order['date']);
+        $this->assertEquals($deliveryTime, $order['deliveryTime']);
+        $this->assertEquals($deliveryMode, $order['deliveryMode']);
+        $this->assertEquals($deliveryExpectedDate, $order['deliveryExpectedDate']);
+        $this->assertEquals($deliveryExpectedDelay, $order['deliveryExpectedDelay']);
+        $this->assertEquals($discountAmount, $order['discountAmount']);
+        $this->assertEquals($otaPackageType, $order['otaPackageType']);
+        $this->assertEquals($otaDestinationCountry, $order['otaDestinationCountry']);
+        $this->assertEquals($bookingReference, $order['bookingReference']);
+        $this->assertEquals($orderExtended, $order['orderExtended']);
+        $this->assertEquals($orderOTA, $order['orderOTA']);
+    }
+
+    public function checkResponsePayment($payment,
+                                         $amount,
+                                         $currency,
+                                         $action,
+                                         $mode,
+                                         $contractNumber,
+                                         $differedActionDate,
+                                         $method,
+                                         $cardBrand): void
+    {
+        $this->assertEquals($amount, $payment['amount']);
+        $this->assertEquals($currency, $payment['currency']);
+        $this->assertEquals($action, $payment['action']);
+        $this->assertEquals($mode, $payment['mode']);
+        $this->assertEquals($contractNumber, $payment['contractNumber']);
+        $this->assertEquals($differedActionDate, $payment['differedActionDate']);
+        $this->assertEquals($method, $payment['method']);
+        $this->assertEquals($cardBrand, $payment['cardBrand']);
+    }
+
     public function checkResponseExtendedCard($extendedCard,
                                               $country,
                                               $bank,
@@ -1204,6 +2124,27 @@ class PaylineSDKTest extends TestCase
         $this->assertEquals($type, $extendedCard['type']);
         $this->assertEquals($network, $extendedCard['network']);
         $this->assertEquals($product, $extendedCard['product']);
+    }
+    public function checkResponseRecurring($recurring,
+                                           $firstAmount,
+                                           $amount,
+                                           $billingCycle,
+                                           $billingLeft,
+                                           $billingDay,
+                                           $startDate,
+                                           $endDate,
+                                           $newAmount = null,
+                                           $amountModificationDate = null): void
+    {
+        $this->assertEquals($firstAmount, $recurring['firstAmount']);
+        $this->assertEquals($amount, $recurring['amount']);
+        $this->assertEquals($billingCycle, $recurring['billingCycle']);
+        $this->assertEquals($billingLeft, $recurring['billingLeft']);
+        $this->assertEquals($billingDay, $recurring['billingDay']);
+        $this->assertEquals($startDate, $recurring['startDate']);
+        $this->assertEquals($endDate, $recurring['endDate']);
+        $this->assertEquals($newAmount, $recurring['newAmount']);
+        $this->assertEquals($amountModificationDate, $recurring['amountModificationDate']);
     }
 
     public function checkResponsePrivateDataListContains($privateDataList,
@@ -1240,43 +2181,43 @@ class PaylineSDKTest extends TestCase
                                         $cardBrand = null): void
     {
 
-            $this->assertEquals($walletId, $wallet['walletId']);
-            $this->assertEquals($lastName, $wallet['lastName']);
-            $this->assertEquals($firstName, $wallet['firstName']);
-            $this->assertEquals($email, $wallet['email']);
-            $this->assertEquals($default, $wallet['default']);
-            $this->assertEquals($cardInd, $wallet['cardInd']);
-            $this->assertEquals($comment, $wallet['comment']);
-            $this->assertEquals($cardBrand, $wallet['cardBrand']);
+        $this->assertEquals($walletId, $wallet['walletId']);
+        $this->assertEquals($lastName, $wallet['lastName']);
+        $this->assertEquals($firstName, $wallet['firstName']);
+        $this->assertEquals($email, $wallet['email']);
+        $this->assertEquals($default, $wallet['default']);
+        $this->assertEquals($cardInd, $wallet['cardInd']);
+        $this->assertEquals($comment, $wallet['comment']);
+        $this->assertEquals($cardBrand, $wallet['cardBrand']);
     }
 
     public function checkResponseAddress($address,
-                                        $title = null,
-                                        $name = null,
-                                        $lastName = null,
-                                        $firstName = null,
-                                        $email = null,
-                                        $street1 = null,
-                                        $street2 = null,
-                                        $streetNumber = null,
-                                        $cityName = null,
-                                        $zipCode = null,
-                                        $country = null,
-                                        $phone = null): void
+                                         $title = null,
+                                         $name = null,
+                                         $lastName = null,
+                                         $firstName = null,
+                                         $email = null,
+                                         $street1 = null,
+                                         $street2 = null,
+                                         $streetNumber = null,
+                                         $cityName = null,
+                                         $zipCode = null,
+                                         $country = null,
+                                         $phone = null): void
     {
 
-            $this->assertEquals($title, $address['title']);
-            $this->assertEquals($name, $address['name']);
-            $this->assertEquals($lastName, $address['lastName']);
-            $this->assertEquals($firstName, $address['firstName']);
-            $this->assertEquals($email, $address['email']);
-            $this->assertEquals($street1, $address['street1']);
-            $this->assertEquals($street2, $address['street2']);
-            $this->assertEquals($streetNumber, $address['streetNumber']);
-            $this->assertEquals($cityName, $address['cityName']);
-            $this->assertEquals($zipCode, $address['zipCode']);
-            $this->assertEquals($country, $address['country']);
-            $this->assertEquals($phone, $address['phone']);
+        $this->assertEquals($title, $address['title']);
+        $this->assertEquals($name, $address['name']);
+        $this->assertEquals($lastName, $address['lastName']);
+        $this->assertEquals($firstName, $address['firstName']);
+        $this->assertEquals($email, $address['email']);
+        $this->assertEquals($street1, $address['street1']);
+        $this->assertEquals($street2, $address['street2']);
+        $this->assertEquals($streetNumber, $address['streetNumber']);
+        $this->assertEquals($cityName, $address['cityName']);
+        $this->assertEquals($zipCode, $address['zipCode']);
+        $this->assertEquals($country, $address['country']);
+        $this->assertEquals($phone, $address['phone']);
     }
 
 
@@ -1305,7 +2246,7 @@ class PaylineSDKTest extends TestCase
     public function createDefaultPaylineSDK(): PaylineSDK
     {
         return new PaylineSDK(self::merchant_id, self::access_key, null, null, null, null,
-            self::environment, $pathLog = null, self::logLvl);
+            self::environment, null, self::logLvl);
     }
 
     /**
@@ -1336,6 +2277,7 @@ class PaylineSDKTest extends TestCase
     /**
      * Add Adress info to requestElement
      * @param array $requestElement
+     * @param null $suffix
      * @return array
      */
     public function addAddressData(array $requestElement, $suffix = null): array
@@ -1519,7 +2461,7 @@ class PaylineSDKTest extends TestCase
         $request['recurring']['startDate'] = '01/01/2020 10:00';
         $request['recurring']['endDate'] = '01/01/2122 10:00';
         $request['recurring']['newAmount'] = '40000';
-        $request['recurring']['amountModificationDate'] = '02/01/2020 10:00';;
+        $request['recurring']['amountModificationDate'] = '02/01/2020 10:00';
         $request['recurring']['billingRank'] = '12';
         return $request;
     }
@@ -1556,6 +2498,19 @@ class PaylineSDKTest extends TestCase
         $request['threeDSInfo']['sdk']['transID'] = 'transID4';
         $request['threeDSInfo']['sdk']['encData'] = 'encData3';
         return $request;
+    }
+
+    /**
+     * @param array $privateDataList
+     * @return array
+     */
+    public function addPrivateData(array $privateDataList): array
+    {
+        $privateDataList['privateData'][0]['key'] = 'pvDataKey 0';
+        $privateDataList['privateData'][0]['value'] = 'pvDataValue 0';
+        $privateDataList['privateData'][1]['key'] = 'pvDataKey 1';
+        $privateDataList['privateData'][1]['value'] = 'pvDataValue 1';
+        return $privateDataList;
     }
 
 }

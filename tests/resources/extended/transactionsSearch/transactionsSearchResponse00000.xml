@@ -1,0 +1,26 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <transactionsSearchResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <transactionList>
+                <obj:transaction>
+                    <obj:id>PV40712888923932479707</obj:id>
+                    <obj:date>07/12/2023 09:41:59</obj:date>
+                    <obj:isDuplicated>0</obj:isDuplicated>
+                    <obj:isPossibleFraud>0</obj:isPossibleFraud>
+                </obj:transaction>
+                <obj:transaction>
+                    <obj:id>1493420654738976</obj:id>
+                    <obj:date>07/12/2023 07:54:38</obj:date>
+                    <obj:isDuplicated>0</obj:isDuplicated>
+                    <obj:isPossibleFraud>0</obj:isPossibleFraud>
+                </obj:transaction>
+            </transactionList>
+        </transactionsSearchResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

@@ -479,7 +479,7 @@ class WebserviceClient
                             }
                         }
                         $context = stream_context_create($opts);
-                        $jsonContent = file_get_contents($this->endpointsDirectoryLocation, false, $context);
+                        $jsonContent = $this->getFileContentWrapper($context);
                         break;
                     default:
                         break;
@@ -660,6 +660,14 @@ class WebserviceClient
         return false;
     }
 
+    /**
+     * @param $context
+     * @return false|string
+     */
+    public function getFileContentWrapper($context)
+    {
+        return file_get_contents($this->endpointsDirectoryLocation, false, $context);
+    }
 
 
     /**

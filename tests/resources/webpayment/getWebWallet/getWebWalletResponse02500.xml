@@ -1,0 +1,51 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <getWebWalletResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>02500</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Operation Successfull</obj:longMessage>
+            </result>
+            <wallet>
+                <obj:walletId>T55.S1_cW_20231208035804_2</obj:walletId>
+                <obj:lastName>OOOOOOOO</obj:lastName>
+                <obj:firstName>Delphine</obj:firstName>
+                <obj:email>testauto@monext.net</obj:email>
+                <obj:shippingAddress>
+                    <obj:name/>
+                    <obj:street1/>
+                    <obj:street2/>
+                    <obj:cityName/>
+                    <obj:zipCode/>
+                    <obj:country/>
+                    <obj:phone/>
+                </obj:shippingAddress>
+                <obj:card>
+                    <obj:number>4XXXXXXXXXXXXX36</obj:number>
+                    <obj:type>CB</obj:type>
+                    <obj:expirationDate>1230</obj:expirationDate>
+                    <obj:cvx/>
+                    <obj:ownerBirthdayDate/>
+                    <obj:password/>
+                    <obj:token>4970tHpGDTqb1236</obj:token>
+                </obj:card>
+                <obj:comment/>
+                <obj:cardBrand>VISA</obj:cardBrand>
+            </wallet>
+            <privateDataList/>
+            <extendedCard>
+                <obj:country>FRA</obj:country>
+                <obj:isCvd/>
+                <obj:bank>20041 - LA POSTE</obj:bank>
+                <obj:type>VISA</obj:type>
+                <obj:network>VISA</obj:network>
+                <obj:product>Visa Gold</obj:product>
+            </extendedCard>
+            <media>Computer</media>
+            <contractNumberWalletList>
+                <obj:contractNumberWallet>E_CB_def</obj:contractNumberWallet>
+            </contractNumberWalletList>
+        </getWebWalletResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

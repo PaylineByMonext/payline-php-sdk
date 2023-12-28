@@ -1,0 +1,76 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <getPaymentRecordResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <result>
+                <obj:code>02500</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Operation Successfull</obj:longMessage>
+            </result>
+            <recurring>
+                <obj:firstAmount>4000</obj:firstAmount>
+                <obj:amount>4000</obj:amount>
+                <obj:billingCycle>40</obj:billingCycle>
+                <obj:billingLeft>2</obj:billingLeft>
+                <obj:billingDay>7</obj:billingDay>
+                <obj:startDate>07/12/2023</obj:startDate>
+                <obj:endDate>07/01/2024</obj:endDate>
+                <obj:newAmount xsi:nil="true"/>
+                <obj:amountModificationDate/>
+            </recurring>
+            <isDisabled>0</isDisabled>
+            <disableDate xsi:nil="true"/>
+            <billingRecordList>
+                <obj:billingRecord>
+                    <obj:date>07/12/2023</obj:date>
+                    <obj:amount>4000</obj:amount>
+                    <obj:status>1</obj:status>
+                    <obj:result>
+                        <obj:code>00000</obj:code>
+                        <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                        <obj:longMessage>Transaction approved</obj:longMessage>
+                    </obj:result>
+                    <obj:transaction>
+                        <obj:id>2431632356504156623</obj:id>
+                        <obj:date>07/12/2023 17:50:41</obj:date>
+                        <obj:isDuplicated/>
+                        <obj:isPossibleFraud/>
+                    </obj:transaction>
+                    <obj:authorization>
+                        <obj:number>572559</obj:number>
+                        <obj:date>07/12/2023 17:50:41</obj:date>
+                    </obj:authorization>
+                    <obj:nbTry>1</obj:nbTry>
+                    <obj:rank>1</obj:rank>
+                </obj:billingRecord>
+                <obj:billingRecord>
+                    <obj:date>07/01/2024</obj:date>
+                    <obj:amount>4000</obj:amount>
+                    <obj:status>0</obj:status>
+                    <obj:nbTry>0</obj:nbTry>
+                    <obj:rank>2</obj:rank>
+                </obj:billingRecord>
+            </billingRecordList>
+            <privateDataList>
+                <obj:privateData>
+                    <obj:key>walletSecured</obj:key>
+                    <obj:value>CVV</obj:value>
+                </obj:privateData>
+            </privateDataList>
+            <order>
+                <obj:ref/>
+                <obj:origin/>
+                <obj:country>FR</obj:country>
+                <obj:amount>8000</obj:amount>
+                <obj:currency>978</obj:currency>
+                <obj:date>07/12/2023 17:49:00</obj:date>
+                <obj:details/>
+                <obj:deliveryTime/>
+                <obj:deliveryMode/>
+                <obj:deliveryExpectedDate xsi:nil="true"/>
+                <obj:deliveryExpectedDelay xsi:nil="true"/>
+            </order>
+            <walletId>2TNNN5334ukgfghgGHFF1967784072</walletId>
+        </getPaymentRecordResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

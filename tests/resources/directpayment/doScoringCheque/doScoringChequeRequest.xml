@@ -1,0 +1,52 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns2:doScoringChequeRequest xmlns="http://obj.ws.payline.experian.com" xmlns:ns2="http://impl.ws.payline.experian.com">
+            <ns2:version>99</ns2:version>
+            <ns2:payment>
+                <amount>100</amount>
+                <currency>978</currency>
+                <action>100</action>
+                <mode>CPT</mode>
+                <contractNumber>CB</contractNumber>
+                <differedActionDate>DiffActDate 11/11/2011</differedActionDate>
+                <method>Method</method>
+                <softDescriptor>SoftDescriptor</softDescriptor>
+                <cardBrand>VISA-CB-MC</cardBrand>
+                <registrationToken xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <cumulatedAmount>0</cumulatedAmount>
+            </ns2:payment>
+            <ns2:cheque>
+                <number>cheque4970101122334455</number>
+            </ns2:cheque>
+            <ns2:order>
+                <ref>Refxxx999</ref>
+                <origin>BIGBANG</origin>
+                <country xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <taxes>50%</taxes>
+                <amount>100</amount>
+                <currency>978</currency>
+                <date>15/12/2014 12:20</date>
+                <details xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <deliveryTime>entre 6h et 22h</deliveryTime>
+                <deliveryMode>Par camion</deliveryMode>
+                <deliveryExpectedDate>Demain</deliveryExpectedDate>
+                <deliveryExpectedDelay>200</deliveryExpectedDelay>
+                <deliveryCharge>DeliveryChareg 8</deliveryCharge>
+                <discountAmount xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <otaPackageType>Valise</otaPackageType>
+                <otaDestinationCountry>GB</otaDestinationCountry>
+                <bookingReference>BookingRef ppp</bookingReference>
+                <orderDetail>OrderDetails 9999</orderDetail>
+                <orderExtended xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                <orderOTA>OrderOTA supp</orderOTA>
+            </ns2:order>
+            <ns2:privateDataList>
+                <privateData>
+                    <key>pvDataKey</key>
+                    <value>pvDataValue</value>
+                </privateData>
+            </ns2:privateDataList>
+            <ns2:media>media pc</ns2:media>
+        </ns2:doScoringChequeRequest>
+    </S:Body>
+</S:Envelope>

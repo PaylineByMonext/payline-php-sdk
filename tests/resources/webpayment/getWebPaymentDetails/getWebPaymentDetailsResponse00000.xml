@@ -1,0 +1,129 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <impl:getWebPaymentDetailsResponse xmlns:impl="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <impl:result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </impl:result>
+            <impl:transaction>
+                <obj:id>PV4280223147576302</obj:id>
+                <obj:date>C</obj:date>
+                <obj:isDuplicated>0</obj:isDuplicated>
+                <obj:isPossibleFraud>0</obj:isPossibleFraud>
+                <obj:fraudResult/>
+                <obj:explanation/>
+                <obj:threeDSecure>N</obj:threeDSecure>
+                <obj:score>0</obj:score>
+                <obj:partnerAdditionalData xsi:nil="true"/>
+            </impl:transaction>
+            <impl:payment>
+                <obj:amount>90000</obj:amount>
+                <obj:currency>978</obj:currency>
+                <obj:action>101</obj:action>
+                <obj:mode>CPT</obj:mode>
+                <obj:contractNumber>CB_MULTI_4</obj:contractNumber>
+                <obj:differedActionDate/>
+                <obj:method>CB</obj:method>
+                <obj:cardBrand xsi:nil="true"/>
+            </impl:payment>
+            <impl:authorization>
+                <obj:number/>
+                <obj:date>01/03/2023 00:12:51</obj:date>
+            </impl:authorization>
+            <impl:privateDataList/>
+            <impl:paymentRecordId xsi:nil="true"/>
+            <impl:authentication3DSecure/>
+            <impl:card>
+                <obj:number>4XXXXXXXXXXXXXXX83</obj:number>
+                <obj:type>CB</obj:type>
+                <obj:expirationDate>1223</obj:expirationDate>
+                <obj:token>49fghfghfghfgh83</obj:token>
+            </impl:card>
+            <impl:extendedCard>
+                <obj:country>FRA</obj:country>
+                <obj:isCvd/>
+                <obj:bank>20041 - LA POSTE</obj:bank>
+                <obj:type>CB</obj:type>
+                <obj:network>CB</obj:network>
+                <obj:product>Carte nationale de paiement</obj:product>
+            </impl:extendedCard>
+            <impl:order>
+                <obj:ref>cb_a_plusieurs_20230228153137</obj:ref>
+                <obj:origin xsi:nil="true"/>
+                <obj:country xsi:nil="true"/>
+                <obj:amount>190000</obj:amount>
+                <obj:currency>978</obj:currency>
+                <obj:date>26/05/2008 17:30:00</obj:date>
+                <obj:deliveryTime>1</obj:deliveryTime>
+                <obj:deliveryMode>4</obj:deliveryMode>
+                <obj:deliveryExpectedDate>31/12/2023</obj:deliveryExpectedDate>
+                <obj:deliveryExpectedDelay>66</obj:deliveryExpectedDelay>
+            </impl:order>
+            <impl:media>Computer</impl:media>
+            <impl:numberOfAttempt xsi:nil="true"/>
+            <impl:contractNumber>CB_MULTI_4</impl:contractNumber>
+            <impl:buyer>
+                <obj:title>M</obj:title>
+                <obj:lastName>GENTY</obj:lastName>
+                <obj:firstName>Thomas</obj:firstName>
+                <obj:email>thomas.genty3@monext.net</obj:email>
+                <obj:shippingAdress>
+                    <obj:title>shippingTitre</obj:title>
+                    <obj:name>ggggggg</obj:name>
+                    <obj:firstName>tttttttttt</obj:firstName>
+                    <obj:lastName>gggggggg</obj:lastName>
+                    <obj:street1>SArue de marseille</obj:street1>
+                    <obj:street2>SAstreet2</obj:street2>
+                    <obj:streetNumber xsi:nil="true"/>
+                    <obj:cityName>Aix</obj:cityName>
+                    <obj:zipCode>13390</obj:zipCode>
+                    <obj:country>FR</obj:country>
+                    <obj:phone>0600000000</obj:phone>
+                    <obj:state>FRANCE</obj:state>
+                    <obj:county xsi:nil="true"/>
+                    <obj:phoneType xsi:nil="true"/>
+                </obj:shippingAdress>
+                <obj:billingAddress>
+                    <obj:title>TitreB</obj:title>
+                    <obj:name>MichelB</obj:name>
+                    <obj:firstName>EricB</obj:firstName>
+                    <obj:lastName>MICHELLB</obj:lastName>
+                    <obj:street1>BArue de marseille</obj:street1>
+                    <obj:street2>BAstreet2</obj:street2>
+                    <obj:streetNumber xsi:nil="true"/>
+                    <obj:cityName>Marseille</obj:cityName>
+                    <obj:zipCode>13013</obj:zipCode>
+                    <obj:country>FR</obj:country>
+                    <obj:phone>0600000000</obj:phone>
+                    <obj:state>FRANCE</obj:state>
+                    <obj:county xsi:nil="true"/>
+                    <obj:phoneType xsi:nil="true"/>
+                </obj:billingAddress>
+                <obj:accountCreateDate>10/10/01</obj:accountCreateDate>
+                <obj:accountAverageAmount>1000</obj:accountAverageAmount>
+                <obj:accountOrderCount>1</obj:accountOrderCount>
+                <obj:walletId xsi:nil="true"/>
+                <obj:walletDisplayed xsi:nil="true"/>
+                <obj:walletSecured xsi:nil="true"/>
+                <obj:walletCardInd xsi:nil="true"/>
+                <obj:ip>172.22.119.12</obj:ip>
+                <obj:mobilePhone>0600000000</obj:mobilePhone>
+                <obj:customerId>7777905</obj:customerId>
+                <obj:legalStatus xsi:nil="true"/>
+                <obj:legalDocument xsi:nil="true"/>
+                <obj:birthDate/>
+                <obj:fingerprintID xsi:nil="true"/>
+                <obj:deviceFingerprint xsi:nil="true"/>
+                <obj:isBot xsi:nil="true"/>
+                <obj:isIncognito xsi:nil="true"/>
+                <obj:isBehindProxy xsi:nil="true"/>
+                <obj:isFromTor xsi:nil="true"/>
+                <obj:isEmulator xsi:nil="true"/>
+                <obj:isRooted xsi:nil="true"/>
+                <obj:hasTimezoneMismatch xsi:nil="true"/>
+            </impl:buyer>
+        </impl:getWebPaymentDetailsResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

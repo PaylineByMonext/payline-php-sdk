@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:getWebWalletRequest>
+            <ns1:version>90</ns1:version>
+            <ns1:token>xxxx-zzzz-yyyy</ns1:token>
+        </ns1:getWebWalletRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

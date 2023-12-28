@@ -1,6 +1,6 @@
 <?php
 
-namespace Cache;
+namespace test\Payline\cache;
 
 use Payline\Cache\Apc;
 use PHPUnit\Framework\TestCase;
@@ -12,9 +12,10 @@ class ApcTest extends TestCase
     {
         $mockApc = $this->getMockBuilder(Apc::class)
             ->disableOriginalConstructor()
+            ->onlyMethods([])
             ->getMock();
 
-        $this->assertNull($mockApc->isAvailable());
+        $this->assertFalse($mockApc->isAvailable());
 
     }
 }

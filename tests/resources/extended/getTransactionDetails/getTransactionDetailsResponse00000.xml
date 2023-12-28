@@ -1,0 +1,154 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <getTransactionDetailsResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <transaction>
+                <obj:id>24342fgdgdf019422375225</obj:id>
+                <obj:date>07/12/2023 16:20:17</obj:date>
+                <obj:isDuplicated>0</obj:isDuplicated>
+                <obj:isPossibleFraud>0</obj:isPossibleFraud>
+                <obj:threeDSecure>N</obj:threeDSecure>
+                <obj:avs>
+                    <obj:result>4</obj:result>
+                    <obj:resultFromAcquirer/>
+                </obj:avs>
+                <obj:type>AUTHOR+CAP</obj:type>
+            </transaction>
+            <payment>
+                <obj:amount>190</obj:amount>
+                <obj:currency>978</obj:currency>
+                <obj:action>129</obj:action>
+                <obj:mode>CPT</obj:mode>
+                <obj:contractNumber>299124</obj:contractNumber>
+                <obj:differedActionDate/>
+                <obj:method>CB</obj:method>
+                <obj:cardBrand>CB</obj:cardBrand>
+            </payment>
+            <authorization>
+                <obj:number>662662</obj:number>
+                <obj:date>07/12/23 16:20:17</obj:date>
+            </authorization>
+            <order>
+                <obj:ref>5e0ddbf19bssssssssssssssss0538aabfef</obj:ref>
+                <obj:origin xsi:nil="true"/>
+                <obj:country xsi:nil="true"/>
+                <obj:taxes xsi:nil="true"/>
+                <obj:amount>190</obj:amount>
+                <obj:currency>978</obj:currency>
+                <obj:date>07/12/2023 16:20:00</obj:date>
+                <obj:details/>
+                <obj:deliveryTime xsi:nil="true"/>
+                <obj:deliveryMode xsi:nil="true"/>
+                <obj:deliveryExpectedDate xsi:nil="true"/>
+                <obj:deliveryExpectedDelay xsi:nil="true"/>
+                <obj:discountAmount xsi:nil="true"/>
+                <obj:otaPackageType xsi:nil="true"/>
+                <obj:otaDestinationCountry xsi:nil="true"/>
+                <obj:bookingReference xsi:nil="true"/>
+                <obj:orderExtended xsi:nil="true"/>
+                <obj:orderOTA xsi:nil="true"/>
+            </order>
+            <buyer>
+                <obj:title xsi:nil="true"/>
+                <obj:lastName>Coucou</obj:lastName>
+                <obj:firstName>Salut</obj:firstName>
+                <obj:email>dbla@gm.com</obj:email>
+                <obj:shippingAdress>
+                    <obj:title xsi:nil="true"/>
+                    <obj:name xsi:nil="true"/>
+                    <obj:firstName xsi:nil="true"/>
+                    <obj:lastName xsi:nil="true"/>
+                    <obj:street1 xsi:nil="true"/>
+                    <obj:street2 xsi:nil="true"/>
+                    <obj:streetNumber xsi:nil="true"/>
+                    <obj:cityName xsi:nil="true"/>
+                    <obj:zipCode xsi:nil="true"/>
+                    <obj:country xsi:nil="true"/>
+                    <obj:phone xsi:nil="true"/>
+                    <obj:state xsi:nil="true"/>
+                    <obj:county xsi:nil="true"/>
+                    <obj:phoneType xsi:nil="true"/>
+                    <obj:addressCreateDate xsi:nil="true"/>
+                    <obj:email xsi:nil="true"/>
+                </obj:shippingAdress>
+                <obj:billingAddress>
+                    <obj:title xsi:nil="true"/>
+                    <obj:name xsi:nil="true"/>
+                    <obj:firstName xsi:nil="true"/>
+                    <obj:lastName xsi:nil="true"/>
+                    <obj:street1 xsi:nil="true"/>
+                    <obj:street2 xsi:nil="true"/>
+                    <obj:streetNumber xsi:nil="true"/>
+                    <obj:cityName xsi:nil="true"/>
+                    <obj:zipCode xsi:nil="true"/>
+                    <obj:country xsi:nil="true"/>
+                    <obj:phone xsi:nil="true"/>
+                    <obj:state xsi:nil="true"/>
+                    <obj:county xsi:nil="true"/>
+                    <obj:phoneType xsi:nil="true"/>
+                    <obj:addressCreateDate xsi:nil="true"/>
+                    <obj:email xsi:nil="true"/>
+                </obj:billingAddress>
+                <obj:accountCreateDate/>
+                <obj:accountAverageAmount xsi:nil="true"/>
+                <obj:accountOrderCount xsi:nil="true"/>
+                <obj:walletId>d024cb74dddddddddddde3effgggggggd3</obj:walletId>
+                <obj:walletDisplayed xsi:nil="true"/>
+                <obj:walletSecured xsi:nil="true"/>
+                <obj:walletCardInd xsi:nil="true"/>
+                <obj:ip xsi:nil="true"/>
+                <obj:mobilePhone xsi:nil="true"/>
+                <obj:customerId xsi:nil="true"/>
+                <obj:legalStatus xsi:nil="true"/>
+                <obj:legalDocument xsi:nil="true"/>
+                <obj:birthDate/>
+                <obj:fingerprintID xsi:nil="true"/>
+                <obj:deviceFingerprint xsi:nil="true"/>
+                <obj:isBot xsi:nil="true"/>
+                <obj:isIncognito xsi:nil="true"/>
+                <obj:isBehindProxy xsi:nil="true"/>
+                <obj:isFromTor xsi:nil="true"/>
+                <obj:isEmulator xsi:nil="true"/>
+                <obj:isRooted xsi:nil="true"/>
+                <obj:hasTimezoneMismatch xsi:nil="true"/>
+                <obj:loyaltyMemberType xsi:nil="true"/>
+                <obj:buyerExtended xsi:nil="true"/>
+                <obj:merchantAuthentication>
+                    <obj:method xsi:nil="true"/>
+                    <obj:date xsi:nil="true"/>
+                </obj:merchantAuthentication>
+            </buyer>
+            <privateDataList/>
+            <card>
+                <obj:number>5XXXXXXXXXXXXXX0</obj:number>
+                <obj:type>CB</obj:type>
+                <obj:expirationDate>1111</obj:expirationDate>
+                <obj:token>5xxxxxxxbxxx0</obj:token>
+                <obj:panType>CARD PAN</obj:panType>
+            </card>
+            <extendedCard>
+                <obj:country>FRA</obj:country>
+                <obj:isCvd xsi:nil="true"/>
+                <obj:bank>10278 - CAISSE FEDERALE DE C</obj:bank>
+                <obj:type>CB</obj:type>
+                <obj:network>CB</obj:network>
+                <obj:product>MCC - MASTERCARD CREDIT (MIXED BIN) CARD</obj:product>
+            </extendedCard>
+            <contractNumber>2870125</contractNumber>
+            <authentication3DSecure>
+                <obj:md>2cdc2425-ggggggggggggggg-a854d1baf3a2</obj:md>
+                <obj:resultContainer>eyJjb250YWluZXJWZXJzhjghj45654654jkjhVBdXRoVHlwZSI6IkNIIiwiYWNzT3BlcmF0b3JJRCI6IkFDUy0wMDA5UC1DTS1DSUMtRUkiLCJ0aHJlZURTUmVx88jmFuc1N0YXR1cyI6IlkiLCJ0cmFuc1kR1c1JlYyvbiI6IjAwIiwiY2hhbGxlbmdlQ2FuY2VsSW5kIjoiMDAiLCJuZXR3b3JrU2NvcmUiOiI0IiwiZHNUcmFuc0lEIjoiMDY1NjJiNTUtMDljZC00NjFiLWFmYTUtODliMGJmNjAxNzY1IiwiYWNzVHJhbnNJRCI6IjIyMDIyMDUxLWQwYjYtNDNkMC1hYmQ5LTM0MzY2M2Q1OGM3NSIsIm1lc3NhZ2VWZXJzaW9uIjoiMi4xLjAiLCJtZXJjaGFudE5hbWUiOiJNaWpvdCIsInB1cmNoYXNlRGF0ZSI6IjIwMjIwNTE2MTAxODI3IiwicHVyY2hhc2VBbW91bnQiOiIwIiwiY2FyZEJyYW5kIjoiQ0IiLCJicm93c2VySVAiOiI5Mi4xODQuOTguNjAiLCJhY3F1aXJlckJJTiI6IjQ1MzMwMDEzMTA2IiwiYWNxdWlyZXJNZXJjaGFudElEIjoiMjg3MDEyNSAgICAgICAgLTAxICAgICAgIiwidGhyZWVEU1JlcXVlc3Rvck5hbWUiOiJNaWpvdCIsInRocmVlRFNSZXF1ZXN0b3JJRCI6Ijg5ODg4MDk4NDAwMDE1IiwibWVyY2hhbnRDb3VudHJ5Q29kZSI6IjI1MCJ9</obj:resultContainer>
+            </authentication3DSecure>
+            <pointOfSell>
+                <obj:id>13411111109</obj:id>
+                <obj:label>POS 89</obj:label>
+            </pointOfSell>
+            <linkedTransactionId>1I2F65B757036906</linkedTransactionId>
+        </getTransactionDetailsResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

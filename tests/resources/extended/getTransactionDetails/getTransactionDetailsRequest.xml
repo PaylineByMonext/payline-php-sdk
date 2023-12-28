@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:getTransactionDetailsRequest>
+            <ns1:version>90</ns1:version>
+            <ns1:transactionId>TrsIdyyyy</ns1:transactionId>
+            <ns1:orderRef>OrderRefbbbb</ns1:orderRef>
+            <ns1:startDate>startDate XXX</ns1:startDate>
+            <ns1:endDate>endDate XXX</ns1:endDate>
+            <ns1:transactionHistory>Y</ns1:transactionHistory>
+            <ns1:archiveSearch>archiveSearch</ns1:archiveSearch>
+        </ns1:getTransactionDetailsRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

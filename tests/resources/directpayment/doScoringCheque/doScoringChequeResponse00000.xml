@@ -1,0 +1,25 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ns2:doScoringChequeResponse xmlns="http://obj.ws.payline.experian.com" xmlns:ns2="http://impl.ws.payline.experian.com">
+            <ns2:result>
+                <code>00000</code>
+                <shortMessage>ACCEPTED</shortMessage>
+                <longMessage>Transaction approved</longMessage>
+            </ns2:result>
+            <ns2:transaction>
+                <id>14340105742592</id>
+                <date>05/12/23 20:27:42</date>
+                <isDuplicated>0</isDuplicated>
+                <isPossibleFraud>0</isPossibleFraud>
+                <fraudResult></fraudResult>
+                <explanation></explanation>
+                <threeDSecure>N</threeDSecure>
+                <avs>
+                    <result>4</result>
+                    <resultFromAcquirer></resultFromAcquirer>
+                </avs>
+            </ns2:transaction>
+        </ns2:doScoringChequeResponse>
+    </soapenv:Body>
+</soapenv:Envelope>
