@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:prepareSessionRequest>
+            <ns1:version>99</ns1:version>
+            <ns1:contractNumber>contractNumber</ns1:contractNumber>
+            <ns1:orderRef>orderRefbbbbbb</ns1:orderRef>
+            <ns1:miscData>miscData value</ns1:miscData>
+        </ns1:prepareSessionRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

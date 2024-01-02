@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:getTokenRequest>
+            <ns1:cardNumber>4970101122334455</ns1:cardNumber>
+            <ns1:expirationDate>1255</ns1:expirationDate>
+            <ns1:contractNumber>contractNumber bbb</ns1:contractNumber>
+        </ns1:getTokenRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

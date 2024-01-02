@@ -1,52 +1,48 @@
-<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
-    <S:Body>
-        <ns2:doScoringChequeRequest xmlns="http://obj.ws.payline.experian.com" xmlns:ns2="http://impl.ws.payline.experian.com">
-            <ns2:version>99</ns2:version>
-            <ns2:payment>
-                <amount>100</amount>
-                <currency>978</currency>
-                <action>100</action>
-                <mode>CPT</mode>
-                <contractNumber>CB</contractNumber>
-                <differedActionDate>DiffActDate 11/11/2011</differedActionDate>
-                <method>Method</method>
-                <softDescriptor>SoftDescriptor</softDescriptor>
-                <cardBrand>VISA-CB-MC</cardBrand>
-                <registrationToken xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
-                <cumulatedAmount>0</cumulatedAmount>
-            </ns2:payment>
-            <ns2:cheque>
-                <number>cheque4970101122334455</number>
-            </ns2:cheque>
-            <ns2:order>
-                <ref>Refxxx999</ref>
-                <origin>BIGBANG</origin>
-                <country xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
-                <taxes>50%</taxes>
-                <amount>100</amount>
-                <currency>978</currency>
-                <date>15/12/2014 12:20</date>
-                <details xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
-                <deliveryTime>entre 6h et 22h</deliveryTime>
-                <deliveryMode>Par camion</deliveryMode>
-                <deliveryExpectedDate>Demain</deliveryExpectedDate>
-                <deliveryExpectedDelay>200</deliveryExpectedDelay>
-                <deliveryCharge>DeliveryChareg 8</deliveryCharge>
-                <discountAmount xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
-                <otaPackageType>Valise</otaPackageType>
-                <otaDestinationCountry>GB</otaDestinationCountry>
-                <bookingReference>BookingRef ppp</bookingReference>
-                <orderDetail>OrderDetails 9999</orderDetail>
-                <orderExtended xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
-                <orderOTA>OrderOTA supp</orderOTA>
-            </ns2:order>
-            <ns2:privateDataList>
-                <privateData>
-                    <key>pvDataKey</key>
-                    <value>pvDataValue</value>
-                </privateData>
-            </ns2:privateDataList>
-            <ns2:media>media pc</ns2:media>
-        </ns2:doScoringChequeRequest>
-    </S:Body>
-</S:Envelope>
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:ns2="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <ns1:doScoringChequeRequest>
+            <ns1:version>90</ns1:version>
+            <ns1:payment>
+                <ns2:amount>1000</ns2:amount>
+                <ns2:currency>978</ns2:currency>
+                <ns2:action>100</ns2:action>
+                <ns2:mode>CPT</ns2:mode>
+                <ns2:contractNumber>CB</ns2:contractNumber>
+                <ns2:differedActionDate>DiffActDate 11/11/2011</ns2:differedActionDate>
+                <ns2:method>Method</ns2:method>
+                <ns2:softDescriptor xsi:nil="true"/>
+                <ns2:cardBrand>VISA</ns2:cardBrand>
+                <ns2:registrationToken xsi:nil="true"/>
+                <ns2:cumulatedAmount xsi:nil="true"/>
+            </ns1:payment>
+            <ns1:cheque>
+                <ns2:number>cheque4970101122334455</ns2:number>
+            </ns1:cheque>
+            <ns1:order>
+                <ns2:ref>myOrderRef_35656</ns2:ref>
+                <ns2:origin>BIGBANG</ns2:origin>
+                <ns2:country>FRANCE</ns2:country>
+                <ns2:taxes>50%</ns2:taxes>
+                <ns2:amount>1000</ns2:amount>
+                <ns2:currency>978</ns2:currency>
+                <ns2:date>15/12/2014 12:20</ns2:date>
+                <ns2:details/>
+                <ns2:deliveryTime>entre 6h et 22h</ns2:deliveryTime>
+                <ns2:deliveryMode>Par camion</ns2:deliveryMode>
+                <ns2:deliveryExpectedDate>Demain</ns2:deliveryExpectedDate>
+                <ns2:deliveryExpectedDelay>200</ns2:deliveryExpectedDelay>
+                <ns2:deliveryCharge>DeliveryChareg 8</ns2:deliveryCharge>
+                <ns2:discountAmount xsi:nil="true"/>
+                <ns2:otaPackageType xsi:nil="true"/>
+                <ns2:otaDestinationCountry xsi:nil="true"/>
+                <ns2:bookingReference>BookingRef ppp</ns2:bookingReference>
+                <ns2:orderDetail>OrderDetails 9999</ns2:orderDetail>
+                <ns2:orderExtended xsi:nil="true"/>
+                <ns2:orderOTA>OrderOTA supp</ns2:orderOTA>
+            </ns1:order>
+            <ns1:privateDataList/>
+            <ns1:media/>
+        </ns1:doScoringChequeRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

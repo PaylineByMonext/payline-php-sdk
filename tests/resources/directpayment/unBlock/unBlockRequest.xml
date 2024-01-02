@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:unBlockRequest>
+            <ns1:transactionID>TrsIdyyyy</ns1:transactionID>
+            <ns1:transactionDate>15/01/2020 10:00</ns1:transactionDate>
+            <ns1:version>99</ns1:version>
+        </ns1:unBlockRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

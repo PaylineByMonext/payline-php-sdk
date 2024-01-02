@@ -12,6 +12,7 @@ namespace Payline;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Payline\Objects\Address;
 use SoapClient;
 use SoapVar;
 

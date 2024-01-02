@@ -1,0 +1,22 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ns2:getEncryptionKeyResponse xmlns="http://obj.ws.payline.experian.com" xmlns:ns2="http://impl.ws.payline.experian.com">
+            <ns2:result>
+                <code>00000</code>
+                <shortMessage>ACCEPTED</shortMessage>
+                <longMessage>Transaction approved</longMessage>
+            </ns2:result>
+            <ns2:key>
+                <keyId>122</keyId>
+                <modulus>5</modulus>
+                <merchantKeyName>merchantKey name</merchantKeyName>
+                <publicExponent>exponent 12</publicExponent>
+                <expirationDate>12/12/2023</expirationDate>
+                <cipher>cipher xx</cipher>
+                <algo>algo yy</algo>
+                <size>120</size>
+            </ns2:key>
+        </ns2:getEncryptionKeyResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

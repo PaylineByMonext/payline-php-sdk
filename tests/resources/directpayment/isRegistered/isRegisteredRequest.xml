@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:ns2="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <SOAP-ENV:Body>
-        <ns1:createWalletRequest>
-            <ns1:version/>
-            <ns1:contractNumber/>
-            <ns1:wallet>
-                <ns2:walletId>2</ns2:walletId>
-                <ns2:lastName>lastname</ns2:lastName>
-                <ns2:firstName>firstname </ns2:firstName>
-                <ns2:email>toto@fait.dubateau </ns2:email>
-                <ns2:shippingAddress xsi:nil="true"/>
-                <ns2:card>
-                    <ns2:encryptionKeyId xsi:nil="true"/>
-                    <ns2:encryptedData xsi:nil="true"/>
-                    <ns2:number>4444333322221111</ns2:number>
-                    <ns2:type>CB</ns2:type>
-                    <ns2:expirationDate>1235</ns2:expirationDate>
-                    <ns2:cvx>123</ns2:cvx>
-                    <ns2:ownerBirthdayDate xsi:nil="true"/>
-                    <ns2:password xsi:nil="true"/>
-                    <ns2:cardPresent xsi:nil="true"/>
-                    <ns2:cardholder>Marcel Patoulatchi</ns2:cardholder>
-                    <ns2:token xsi:nil="true"/>
-                    <ns2:paymentData>
-                        <ns2:transactionID>TrsId cc</ns2:transactionID>
-                        <ns2:network>CB</ns2:network>
-                        <ns2:tokenData>tokenData ooo</ns2:tokenData>
-                    </ns2:paymentData>
-                    <ns2:par xsi:nil="true"/>
-                    <ns2:tokenRequestorCryptogram xsi:nil="true"/>
-                    <ns2:tokenRequestorId xsi:nil="true"/>
-                    <ns2:last4 xsi:nil="true"/>
-                    <ns2:panType xsi:nil="true"/>
-                </ns2:card>
-                <ns2:comment xsi:nil="true"/>
-                <ns2:default xsi:nil="true"/>
-                <ns2:cardStatus xsi:nil="true"/>
-                <ns2:cardBrand xsi:nil="true"/>
-            </ns1:wallet>
+        <ns1:isRegisteredRequest>
+            <ns1:version>99</ns1:version>
+            <ns1:payment>
+                <ns2:amount>1000</ns2:amount>
+                <ns2:currency>978</ns2:currency>
+                <ns2:action>100</ns2:action>
+                <ns2:mode>CPT</ns2:mode>
+                <ns2:contractNumber>CB</ns2:contractNumber>
+                <ns2:differedActionDate>DiffActDate 11/11/2011</ns2:differedActionDate>
+                <ns2:method>Method</ns2:method>
+                <ns2:softDescriptor xsi:nil="true"/>
+                <ns2:cardBrand>VISA</ns2:cardBrand>
+                <ns2:registrationToken xsi:nil="true"/>
+                <ns2:cumulatedAmount xsi:nil="true"/>
+            </ns1:payment>
+            <ns1:order>
+                <ns2:ref>myOrderRef_35656</ns2:ref>
+                <ns2:origin>BIGBANG</ns2:origin>
+                <ns2:country>FRANCE</ns2:country>
+                <ns2:taxes>50%</ns2:taxes>
+                <ns2:amount>1000</ns2:amount>
+                <ns2:currency>978</ns2:currency>
+                <ns2:date>15/12/2014 12:20</ns2:date>
+                <ns2:details/>
+                <ns2:deliveryTime>entre 6h et 22h</ns2:deliveryTime>
+                <ns2:deliveryMode>Par camion</ns2:deliveryMode>
+                <ns2:deliveryExpectedDate>Demain</ns2:deliveryExpectedDate>
+                <ns2:deliveryExpectedDelay>200</ns2:deliveryExpectedDelay>
+                <ns2:deliveryCharge>DeliveryChareg 8</ns2:deliveryCharge>
+                <ns2:discountAmount xsi:nil="true"/>
+                <ns2:otaPackageType xsi:nil="true"/>
+                <ns2:otaDestinationCountry xsi:nil="true"/>
+                <ns2:bookingReference>BookingRef ppp</ns2:bookingReference>
+                <ns2:orderDetail>OrderDetails 9999</ns2:orderDetail>
+                <ns2:orderExtended xsi:nil="true"/>
+                <ns2:orderOTA>OrderOTA supp</ns2:orderOTA>
+            </ns1:order>
+            <ns1:privateDataList/>
             <ns1:buyer>
                 <ns2:title>Maitre de lunivers</ns2:title>
                 <ns2:lastName>lastname</ns2:lastName>
@@ -109,36 +110,7 @@
                     <ns2:date xsi:nil="true"/>
                 </ns2:merchantAuthentication>
             </ns1:buyer>
-            <ns1:owner>
-                <ns2:lastName>lastname owner</ns2:lastName>
-                <ns2:firstName>firstname owner</ns2:firstName>
-                <ns2:billingAddress xsi:type="ns2:billingAddress">
-                    <street/>
-                    <cityName>city billing</cityName>
-                    <zipCode>11000</zipCode>
-                    <country>FR</country>
-                    <phone>000000000</phone>
-                </ns2:billingAddress>
-                <ns2:issueCardDate>15/12/2020 10:00</ns2:issueCardDate>
-            </ns1:owner>
-            <ns1:privateDataList/>
-            <ns1:authentication3DSecure>
-                <ns2:md>Md2123454657897</ns2:md>
-                <ns2:pares>pares</ns2:pares>
-                <ns2:xid>xidzzzzz</ns2:xid>
-                <ns2:eci>05</ns2:eci>
-                <ns2:cavv>aaaaaaaaaaaaaaa</ns2:cavv>
-                <ns2:cavvAlgorithm>cavvAlgorithm2222</ns2:cavvAlgorithm>
-                <ns2:vadsResult>vadsResult3333</ns2:vadsResult>
-                <ns2:typeSecurisation>very secure</ns2:typeSecurisation>
-                <ns2:PaResStatus>ParesStatus9</ns2:PaResStatus>
-                <ns2:VeResStatus>VeResStatus8</ns2:VeResStatus>
-                <ns2:resultContainer>resultContainer xxxxxxxxxxxx</ns2:resultContainer>
-                <ns2:authenticationResult>Failed</ns2:authenticationResult>
-            </ns1:authentication3DSecure>
-            <ns1:media>media pc</ns1:media>
-            <ns1:contractNumberWalletList/>
-            <ns1:transactionID xsi:nil="true"/>
-        </ns1:createWalletRequest>
+            <ns1:miscData xsi:nil="true"/>
+        </ns1:isRegisteredRequest>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>

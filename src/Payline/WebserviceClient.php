@@ -460,7 +460,7 @@ class WebserviceClient
                             }
                         }
 
-                        $jsonContent = curl_exec($ch);
+                        $jsonContent = $this->curlExecWrapper($ch);
                         curl_close($ch);
                         break;
                     case self::CALL_WITH_FILE_CONTENT:
@@ -588,8 +588,6 @@ class WebserviceClient
             }
 
             throw $fault;
-        } catch ( \Exception $e) {
-            throw $e;
         }
     }
 
@@ -667,6 +665,15 @@ class WebserviceClient
     public function getFileContentWrapper($context)
     {
         return file_get_contents($this->endpointsDirectoryLocation, false, $context);
+    }
+
+    /**
+     * @param bool $ch
+     * @return bool|string
+     */
+    public function curlExecWrapper($ch)
+    {
+        return curl_exec($ch);
     }
 
 
