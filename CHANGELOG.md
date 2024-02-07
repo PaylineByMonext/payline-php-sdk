@@ -1,4 +1,10 @@
 
+* 4.77 (2024-02-06)
+  * Update WSDL from 4.76 to 4.77
+
+
+----------------------------------------
+
 * 4.76 (2023-09-25)
   * Update WSDL from 4.75 to 4.76
   * Add reattempt to authorization
