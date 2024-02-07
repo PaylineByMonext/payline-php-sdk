@@ -572,9 +572,14 @@ class WebserviceClient
             }
             return $response;
         } catch ( \SoapFault $fault) {
-            $this->saveCallData($sdkClient);
             $identifiedSoapError = false;
-            $lastResponseHeader = $sdkClient->__getLastResponseHeaders();
+            $lastResponseHeader = '';
+
+            if($sdkClient instanceof SoapClient) {
+                $this->saveCallData($sdkClient);
+                $lastResponseHeader = $sdkClient->__getLastResponseHeaders();
+            }
+
             if(empty($lastResponseHeader)
                 && in_array($fault->faultstring, $this->timeoutErrorList)
             ) {
@@ -594,7 +599,15 @@ class WebserviceClient
     }
 
 
+    /**
+     * @param SoapClient $sdkClient
+     * @return void
+     */
     protected function saveCallData($sdkClient) {
+        if(!$sdkClient instanceof SoapClient) {
+            return;
+        }
+
         $this->lastCallData[$this->tryNum] = array(
             'Request' => $sdkClient->__getLastRequest(),
             'RequestHeaders' => $sdkClient->__getLastRequestHeaders(),
