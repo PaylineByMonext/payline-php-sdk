@@ -21,8 +21,8 @@ pipeline {
                 echo 'Install dependencies...'
                 sh 'cd $WORKSPACE'
                 echo 'Installing project composer dependencies...'
-                sh "chmod +x -R composer.phar"
-                sh './composer.phar install --no-progress'
+                sh "chmod +x -R $WORKSPACE/composer.phar"
+                sh '$WORKSPACE/composer.phar install --no-progress'
             }
         }
         stage('Run Tests') {
