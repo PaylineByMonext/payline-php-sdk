@@ -5,11 +5,7 @@ pipeline {
 
         stage('Checkout code') {
             steps {
-                script {
-                    git branch: 'pipeline',
-                            credentialsId: 'tgenty',
-                            url: 'https://github.com/PaylineByMonext/payline-php-sdk.git'
-                }
+                checkout scm
             }
         }
 
@@ -21,6 +17,7 @@ pipeline {
                 echo 'Install dependencies...'
                 sh 'cd $WORKSPACE'
                 echo 'Installing project composer dependencies...'
+                sh "chmod +x -R composer.phar"
                 sh './composer.phar install --no-progress'
             }
         }
