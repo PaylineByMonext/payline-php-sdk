@@ -22,7 +22,7 @@ pipeline {
                 sh 'cd $WORKSPACE'
                 echo 'Installing project composer dependencies...'
                 sh "chmod +x -R $WORKSPACE/composer.phar"
-                sh '$WORKSPACE/composer.phar install --no-progress'
+                sh 'php82 $WORKSPACE/composer.phar install --no-progress'
             }
         }
         stage('Run Tests') {
