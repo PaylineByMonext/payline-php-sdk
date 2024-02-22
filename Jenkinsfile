@@ -18,6 +18,9 @@ pipeline {
                 // Install Composer dependencies
                 echo 'Running PHP tests...'
                 sh 'php82 -v'
+                echo 'Configure Proxy'
+                sh "export https_proxy='proxy-prod.aixlan.local:8080'"
+                sh "export http_proxy='proxy-prod.aixlan.local:8080'"
                 echo 'Install dependencies...'
                 sh 'cd $WORKSPACE'
                 echo 'Installing project composer dependencies...'
