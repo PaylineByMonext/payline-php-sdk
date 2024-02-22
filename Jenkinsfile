@@ -5,7 +5,6 @@ pipeline {
 
         stage('Checkout code') {
             steps {
-                echo "BRANCH_NAME is " + ${env.BRANCH_NAME}
                 script {
                     git branch: 'pipeline',
                             credentialsId: 'tgenty',
