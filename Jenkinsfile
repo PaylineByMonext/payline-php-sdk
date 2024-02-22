@@ -14,13 +14,10 @@ pipeline {
                 echo 'Running PHP tests...'
                 sh 'php82 -v'
                 echo 'Install dependencies...'
-                echo "Path : ${WORKSPACE}"
-//                sh '/usr/bin/php ${WORKSPACE}/composer.phar install'
-//                echo 'Installing Composer'
-//                sh 'curl -sS https://getcomposer.org/installer | php82 -- --install-dir=${WORKSPACE} --filename=composer'
+                echo 'Installing Composer'
+                sh 'curl -sS https://getcomposer.org/installer | php82 -- --install-dir=${WORKSPACE} --filename=composer'
                 echo 'Installing project composer dependencies...'
-                sh 'composer install --no-progress'
-//                sh 'cd $WORKSPACE && composer install --no-progress'
+                sh 'cd $WORKSPACE && composer install --no-progress'
             }
         }
         stage('Run Tests') {
