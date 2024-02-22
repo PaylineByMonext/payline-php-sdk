@@ -5,7 +5,12 @@ pipeline {
 
         stage('Checkout code') {
             steps {
-                checkout scm
+                echo "BRANCH_NAME is " + ${env.BRANCH_NAME}
+                script {
+                    git branch: 'pipeline',
+                            credentialsId: 'tgenty',
+                            url: 'https://github.com/PaylineByMonext/payline-php-sdk.git'
+                }
             }
         }
 
