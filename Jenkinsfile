@@ -9,10 +9,10 @@ pipeline {
                 echo 'Running PHP tests...'
                 sh 'php82 -v'
                 echo 'Install dependencies...'
-                echo 'Installing Composer'
-                sh 'curl -sS https://getcomposer.org/installer | php82 -- --install-dir=${WORKSPACE} --filename=composer'
+                sh 'cd $WORKSPACE'
+                checkout scm
                 echo 'Installing project composer dependencies...'
-                sh 'cd $WORKSPACE && composer install --no-progress'
+                sh './composer.phar install --no-progress'
             }
         }
         stage('Run Tests') {
