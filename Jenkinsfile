@@ -1,19 +1,26 @@
 pipeline {
-    agent any
+    agent 'Jenkins'
 
     stages {
+//        stage('Checkout') {
+//            steps {
+//                // Checkout source code from repository
+//                checkout scm
+//            }
+//        }
         stage('Install Dependencies') {
             steps {
                 // Install Composer dependencies
                 echo 'Running PHP tests...'
                 sh 'php82 -v'
                 echo 'Install dependencies...'
-                echo 'Path : ${WORKSPACE}'
+                echo "Path : ${WORKSPACE}"
 //                sh '/usr/bin/php ${WORKSPACE}/composer.phar install'
-                echo 'Installing Composer'
-                sh 'curl -sS https://getcomposer.org/installer | php82 -- --install-dir=${WORKSPACE}/composer/bin --filename=composer'
+//                echo 'Installing Composer'
+//                sh 'curl -sS https://getcomposer.org/installer | php82 -- --install-dir=${WORKSPACE} --filename=composer'
                 echo 'Installing project composer dependencies...'
-                sh 'cd $WORKSPACE/composer/bin && composer install --no-progress'
+                sh 'composer install --no-progress'
+//                sh 'cd $WORKSPACE && composer install --no-progress'
             }
         }
         stage('Run Tests') {
