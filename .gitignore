@@ -1,4 +1,4 @@
-phpunit.xml
+/build/
 /vendor/
 /logs/
 /composer.phar

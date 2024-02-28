@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:getAlertDetailsRequest>
+            <ns1:version>90</ns1:version>
+            <ns1:AlertId>AlertId 123</ns1:AlertId>
+            <ns1:TransactionId>TransactionId 456</ns1:TransactionId>
+            <ns1:TransactionDate>01/01/1920 23:59</ns1:TransactionDate>
+        </ns1:getAlertDetailsRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

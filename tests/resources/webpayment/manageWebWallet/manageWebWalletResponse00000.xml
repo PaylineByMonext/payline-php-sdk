@@ -1,0 +1,14 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <manageWebWalletResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <token>1tYZOjJvky65IbxH0C6D1702009846955</token>
+            <redirectURL>https://develop-staging-webpayment2.int.dev.payline.com/1mRmYi5lShI=/#1tYZOjJvky65IbxH0C6D1702009846955</redirectURL>
+        </manageWebWalletResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,14 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ns2:prepareSessionResponse xmlns="http://obj.ws.payline.experian.com" xmlns:ns2="http://impl.ws.payline.experian.com">
+            <ns2:result>
+                <code>00000</code>
+                <shortMessage>ACCEPTED</shortMessage>
+                <longMessage>Transaction approved</longMessage>
+            </ns2:result>
+            <ns2:data>data xxxx</ns2:data>
+        </ns2:prepareSessionResponse>
+
+    </soapenv:Body>
+</soapenv:Envelope>

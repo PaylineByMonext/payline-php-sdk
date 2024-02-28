@@ -1,0 +1,31 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <doCreditResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <transaction>
+                <obj:id>14341172113059</obj:id>
+                <obj:date>06/12/2023 18:21</obj:date>
+                <obj:isDuplicated>0</obj:isDuplicated>
+                <obj:isPossibleFraud>0</obj:isPossibleFraud>
+            </transaction>
+            <card>
+                <obj:number>472686XXXXXXXX50</obj:number>
+                <obj:type>CB</obj:type>
+                <obj:expirationDate>1230</obj:expirationDate>
+                <obj:token>472686NRXkjN0150</obj:token>
+            </card>
+            <extendedCard>
+                <obj:country>FRA</obj:country>
+                <obj:isCvd/>
+                <obj:bank>18029 - BNP Paribas Personal Finance</obj:bank>
+                <obj:type>CB</obj:type>
+                <obj:network>CB</obj:network>
+            </extendedCard>
+        </doCreditResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

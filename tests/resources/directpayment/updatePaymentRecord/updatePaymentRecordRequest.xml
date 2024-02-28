@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:ns2="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <ns1:updatePaymentRecordRequest>
+            <ns1:version>99</ns1:version>
+            <ns1:contractNumber>contractNumber 2</ns1:contractNumber>
+            <ns1:paymentRecordId>paymentRecordId 5</ns1:paymentRecordId>
+            <ns1:recurring xsi:type="ns2:recurring">
+                <ns2:firstAmount>30</ns2:firstAmount>
+                <ns2:amount>100</ns2:amount>
+                <ns2:billingCycle>12</ns2:billingCycle>
+                <ns2:billingLeft>20</ns2:billingLeft>
+                <ns2:billingDay>5</ns2:billingDay>
+                <ns2:startDate>01/01/2020 10:00</ns2:startDate>
+                <ns2:endDate>01/01/2122 10:00</ns2:endDate>
+                <ns2:newAmount>40000</ns2:newAmount>
+                <ns2:amountModificationDate>02/01/2020 10:00</ns2:amountModificationDate>
+                <ns2:billingRank>12</ns2:billingRank>
+            </ns1:recurring>
+        </ns1:updatePaymentRecordRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

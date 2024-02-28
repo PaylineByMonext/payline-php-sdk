@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:ns2="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <ns1:createWalletRequest>
+            <ns1:version/>
+            <ns1:contractNumber/>
+            <ns1:wallet>
+                <ns2:walletId>2</ns2:walletId>
+                <ns2:lastName>lastname</ns2:lastName>
+                <ns2:firstName>firstname </ns2:firstName>
+                <ns2:email>toto@fait.dubateau </ns2:email>
+                <ns2:shippingAddress xsi:nil="true"/>
+                <ns2:card>
+                    <ns2:encryptionKeyId xsi:nil="true"/>
+                    <ns2:encryptedData xsi:nil="true"/>
+                    <ns2:number>4444333322221111</ns2:number>
+                    <ns2:type>CB</ns2:type>
+                    <ns2:expirationDate>1235</ns2:expirationDate>
+                    <ns2:cvx>123</ns2:cvx>
+                    <ns2:ownerBirthdayDate xsi:nil="true"/>
+                    <ns2:password xsi:nil="true"/>
+                    <ns2:cardPresent xsi:nil="true"/>
+                    <ns2:cardholder>Marcel Patoulatchi</ns2:cardholder>
+                    <ns2:token xsi:nil="true"/>
+                    <ns2:paymentData>
+                        <ns2:transactionID>TrsId cc</ns2:transactionID>
+                        <ns2:network>CB</ns2:network>
+                        <ns2:tokenData>tokenData ooo</ns2:tokenData>
+                    </ns2:paymentData>
+                    <ns2:par xsi:nil="true"/>
+                    <ns2:tokenRequestorCryptogram xsi:nil="true"/>
+                    <ns2:tokenRequestorId xsi:nil="true"/>
+                    <ns2:last4 xsi:nil="true"/>
+                    <ns2:panType xsi:nil="true"/>
+                </ns2:card>
+                <ns2:comment xsi:nil="true"/>
+                <ns2:default xsi:nil="true"/>
+                <ns2:cardStatus xsi:nil="true"/>
+                <ns2:cardBrand xsi:nil="true"/>
+            </ns1:wallet>
+            <ns1:buyer>
+                <ns2:title>Maitre de lunivers</ns2:title>
+                <ns2:lastName>lastname</ns2:lastName>
+                <ns2:firstName>firstname </ns2:firstName>
+                <ns2:email>toto@fait.dubateau </ns2:email>
+                <ns2:shippingAdress>
+                    <ns2:title>Maitre de lunivers</ns2:title>
+                    <ns2:name>name shipping</ns2:name>
+                    <ns2:firstName>firstname shipping</ns2:firstName>
+                    <ns2:lastName>lastnameshipping</ns2:lastName>
+                    <ns2:street1>123 rue de nowhere</ns2:street1>
+                    <ns2:street2>Street 2 nowhere</ns2:street2>
+                    <ns2:streetNumber>999</ns2:streetNumber>
+                    <ns2:cityName>city shipping</ns2:cityName>
+                    <ns2:zipCode>11000</ns2:zipCode>
+                    <ns2:country>FR</ns2:country>
+                    <ns2:phone>000000000</ns2:phone>
+                    <ns2:state>LA</ns2:state>
+                    <ns2:county>FR</ns2:county>
+                    <ns2:phoneType>Nokia3310 shipping</ns2:phoneType>
+                    <ns2:addressCreateDate>00/00/0000</ns2:addressCreateDate>
+                    <ns2:email>toto@fait.dubateau shipping</ns2:email>
+                </ns2:shippingAdress>
+                <ns2:billingAddress>
+                    <ns2:title>Maitre de lunivers</ns2:title>
+                    <ns2:name>name billing</ns2:name>
+                    <ns2:firstName>firstname billing</ns2:firstName>
+                    <ns2:lastName>lastnamebilling</ns2:lastName>
+                    <ns2:street1>123 rue de nowhere</ns2:street1>
+                    <ns2:street2>Street 2 nowhere</ns2:street2>
+                    <ns2:streetNumber>999</ns2:streetNumber>
+                    <ns2:cityName>city billing</ns2:cityName>
+                    <ns2:zipCode>11000</ns2:zipCode>
+                    <ns2:country>FR</ns2:country>
+                    <ns2:phone>000000000</ns2:phone>
+                    <ns2:state>LA</ns2:state>
+                    <ns2:county>FR</ns2:county>
+                    <ns2:phoneType>Nokia3310 billing</ns2:phoneType>
+                    <ns2:addressCreateDate>00/00/0000</ns2:addressCreateDate>
+                    <ns2:email>toto@fait.dubateau billing</ns2:email>
+                </ns2:billingAddress>
+                <ns2:accountCreateDate xsi:nil="true"/>
+                <ns2:accountAverageAmount xsi:nil="true"/>
+                <ns2:accountOrderCount xsi:nil="true"/>
+                <ns2:walletId>xxx222</ns2:walletId>
+                <ns2:walletDisplayed>Wallet XX</ns2:walletDisplayed>
+                <ns2:walletSecured xsi:nil="true"/>
+                <ns2:walletCardInd>2</ns2:walletCardInd>
+                <ns2:ip>127.0.0.69</ns2:ip>
+                <ns2:mobilePhone>060000000</ns2:mobilePhone>
+                <ns2:customerId>customerId</ns2:customerId>
+                <ns2:legalStatus>pacs</ns2:legalStatus>
+                <ns2:legalDocumentType>papier</ns2:legalDocumentType>
+                <ns2:legalDocument>le papier</ns2:legalDocument>
+                <ns2:birthDate>01/01/1900</ns2:birthDate>
+                <ns2:fingerprintID>aaa-aaa-aaa</ns2:fingerprintID>
+                <ns2:deviceFingerprint>deviceFingerprint</ns2:deviceFingerprint>
+                <ns2:isBot>true</ns2:isBot>
+                <ns2:isIncognito>true</ns2:isIncognito>
+                <ns2:isBehindProxy>true</ns2:isBehindProxy>
+                <ns2:isFromTor>true</ns2:isFromTor>
+                <ns2:isEmulator>true</ns2:isEmulator>
+                <ns2:isRooted>true</ns2:isRooted>
+                <ns2:hasTimezoneMismatch>jesaispas</ns2:hasTimezoneMismatch>
+                <ns2:loyaltyMemberType>true</ns2:loyaltyMemberType>
+                <ns2:buyerExtended>buyerExt</ns2:buyerExtended>
+                <ns2:merchantAuthentication>
+                    <ns2:method xsi:nil="true"/>
+                    <ns2:date xsi:nil="true"/>
+                </ns2:merchantAuthentication>
+            </ns1:buyer>
+            <ns1:owner>
+                <ns2:lastName>lastname owner</ns2:lastName>
+                <ns2:firstName>firstname owner</ns2:firstName>
+                <ns2:billingAddress xsi:type="ns2:billingAddress">
+                    <street/>
+                    <cityName>city billing</cityName>
+                    <zipCode>11000</zipCode>
+                    <country>FR</country>
+                    <phone>000000000</phone>
+                </ns2:billingAddress>
+                <ns2:issueCardDate>15/12/2020 10:00</ns2:issueCardDate>
+            </ns1:owner>
+            <ns1:privateDataList/>
+            <ns1:authentication3DSecure>
+                <ns2:md>Md2123454657897</ns2:md>
+                <ns2:pares>pares</ns2:pares>
+                <ns2:xid>xidzzzzz</ns2:xid>
+                <ns2:eci>05</ns2:eci>
+                <ns2:cavv>aaaaaaaaaaaaaaa</ns2:cavv>
+                <ns2:cavvAlgorithm>cavvAlgorithm2222</ns2:cavvAlgorithm>
+                <ns2:vadsResult>vadsResult3333</ns2:vadsResult>
+                <ns2:typeSecurisation>very secure</ns2:typeSecurisation>
+                <ns2:PaResStatus>ParesStatus9</ns2:PaResStatus>
+                <ns2:VeResStatus>VeResStatus8</ns2:VeResStatus>
+                <ns2:resultContainer>resultContainer xxxxxxxxxxxx</ns2:resultContainer>
+                <ns2:authenticationResult>Failed</ns2:authenticationResult>
+            </ns1:authentication3DSecure>
+            <ns1:media>media pc</ns1:media>
+            <ns1:contractNumberWalletList/>
+            <ns1:transactionID xsi:nil="true"/>
+        </ns1:createWalletRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

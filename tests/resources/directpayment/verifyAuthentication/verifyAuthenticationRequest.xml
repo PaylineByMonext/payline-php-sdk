@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://obj.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:verifyAuthenticationRequest>
+            <ns1:transient>transientParam</ns1:transient>
+            <ns1:version>90</ns1:version>
+            <ns1:contractNumber/>
+            <ns1:pares/>
+            <ns1:md xsi:nil="true"/>
+            <ns1:card>
+                <ns2:encryptionKeyId xsi:nil="true"/>
+                <ns2:encryptedData xsi:nil="true"/>
+                <ns2:number>4444333322221111</ns2:number>
+                <ns2:type>CB</ns2:type>
+                <ns2:expirationDate>1235</ns2:expirationDate>
+                <ns2:cvx>123</ns2:cvx>
+                <ns2:ownerBirthdayDate xsi:nil="true"/>
+                <ns2:password xsi:nil="true"/>
+                <ns2:cardPresent xsi:nil="true"/>
+                <ns2:cardholder>Marcel Patoulatchi</ns2:cardholder>
+                <ns2:token xsi:nil="true"/>
+                <ns2:par xsi:nil="true"/>
+                <ns2:tokenRequestorCryptogram xsi:nil="true"/>
+                <ns2:tokenRequestorId xsi:nil="true"/>
+                <ns2:last4 xsi:nil="true"/>
+                <ns2:panType xsi:nil="true"/>
+            </ns1:card>
+            <ns1:privateDataList/>
+        </ns1:verifyAuthenticationRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

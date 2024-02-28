@@ -1,0 +1,29 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ns2:updatePaymentRecordResponse xmlns="http://obj.ws.payline.experian.com" xmlns:ns2="http://impl.ws.payline.experian.com">
+            <ns2:result>
+                <code>02500</code>
+                <shortMessage>ACCEPTED</shortMessage>
+                <longMessage>Operation Successfull</longMessage>
+                <partnerCode xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <partnerCodeLabel xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </ns2:result>
+            <ns2:recurring>
+                <firstAmount>990</firstAmount>
+                <amount>990</amount>
+                <billingCycle>40</billingCycle>
+                <billingDay>4</billingDay>
+                <startDate>04/11/2023</startDate>
+                <newAmount>2970</newAmount>
+                <amountModificationDate>20/11/2023</amountModificationDate>
+                <billingRank xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </ns2:recurring>
+            <ns2:isDisabled>0</ns2:isDisabled>
+            <ns2:disableDate></ns2:disableDate>
+            <ns2:privateDataList/>
+            <ns2:order></ns2:order>
+            <ns2:walletId>1euq5kFghfghfhfghfc1Hk2354168565hjxx99099733334</ns2:walletId>
+        </ns2:updatePaymentRecordResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

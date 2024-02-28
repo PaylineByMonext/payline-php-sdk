@@ -1,0 +1,48 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <ns2:getBillingRecordResponse xmlns="http://obj.ws.payline.experian.com" xmlns:ns2="http://impl.ws.payline.experian.com">
+            <ns2:result>
+                <code>02500</code>
+                <shortMessage>ACCEPTED</shortMessage>
+                <longMessage>Operation Successfull</longMessage>
+                <partnerCode xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                <partnerCodeLabel xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            </ns2:result>
+            <ns2:recurring>
+                <firstAmount>858</firstAmount>
+                <amount>858</amount>
+                <billingCycle>40</billingCycle>
+                <billingDay>5</billingDay>
+                <startDate>05/09/2023</startDate>
+            </ns2:recurring>
+            <ns2:isDisabled>0</ns2:isDisabled>
+            <ns2:disableDate xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+            <ns2:billingRecord>
+                <date>05/12/2023</date>
+                <amount>858</amount>
+                <status>3</status>
+                <result>
+                    <code>01100</code>
+                    <shortMessage>REFUSED</shortMessage>
+                    <longMessage>Do not honor</longMessage>
+                </result>
+                <transaction>
+                    <id>14340000250543</id>
+                    <date>05/12/2023 01:02:50</date>
+                    <isDuplicated>0</isDuplicated>
+                    <isPossibleFraud>0</isPossibleFraud>
+                </transaction>
+                <authorization>
+                    <number></number>
+                    <date>05/12/2023 01:02:50</date>
+                </authorization>
+                <nbTry>1</nbTry>
+                <rank>4</rank>
+            </ns2:billingRecord>
+            <ns2:order></ns2:order>
+            <ns2:privateDataList/>
+            <ns2:walletId>112</ns2:walletId>
+        </ns2:getBillingRecordResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

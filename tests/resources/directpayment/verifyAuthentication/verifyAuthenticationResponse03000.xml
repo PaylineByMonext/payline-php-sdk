@@ -1,0 +1,19 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <verifyAuthenticationResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <transient>eyJQQVlfgdfg99999999999999RT0ifQ==</transient>
+            <result>
+                <obj:code>03000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction accepted</obj:longMessage>
+            </result>
+            <authentication3DSecure>
+                <obj:md>19sdfsdfsdfsdfsdfuwzzzzzzzz</obj:md>
+                <obj:resultContainer>resultContainer sdjfsdfhshfsqkgfsqgdf54h3d54h3gf4h35fg4h35fg4h35f4</obj:resultContainer>
+            </authentication3DSecure>
+            <mpiResult>Y</mpiResult>
+            <privateDataList xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns2="http://obj.ws.payline.experian.com" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"/>
+        </verifyAuthenticationResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

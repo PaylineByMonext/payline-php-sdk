@@ -1,0 +1,19 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <getBalanceResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <balance>
+                <amount>12200</amount>
+                <currency>978</currency>
+            </balance>
+            <crdproduct>SD11</crdproduct>
+            <crdprogram>SDFB1</crdprogram>
+            <crddesign>SDFK</crddesign>
+        </getBalanceResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

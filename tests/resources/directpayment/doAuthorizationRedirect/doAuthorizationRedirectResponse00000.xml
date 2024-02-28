@@ -1,0 +1,49 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <impl:doAuthorizationRedirectResponse xmlns:impl="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <impl:result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </impl:result>
+            <impl:transaction>
+                <obj:id>14340105742592</obj:id>
+                <obj:date>05/12/23 20:27:42</obj:date>
+                <obj:isDuplicated>0</obj:isDuplicated>
+                <obj:isPossibleFraud>0</obj:isPossibleFraud>
+                <obj:fraudResult/>
+                <obj:explanation/>
+                <obj:threeDSecure>N</obj:threeDSecure>
+                <obj:score xsi:nil="true"/>
+                <obj:avs>
+                    <obj:result>4</obj:result>
+                    <obj:resultFromAcquirer/>
+                </obj:avs>
+            </impl:transaction>
+            <impl:authorization>
+                <obj:number>A55A</obj:number>
+                <obj:date>05/12/23 20:27:42</obj:date>
+                <obj:authorizedAmount>10000</obj:authorizedAmount>
+                <obj:authorizedCurrency>978</obj:authorizedCurrency>
+            </impl:authorization>
+            <impl:card>
+                <obj:number>444433XXXXXXXX11</obj:number>
+                <obj:type>CB</obj:type>
+                <obj:expirationDate>1224</obj:expirationDate>
+                <obj:cardholder>JEAN CLAUDE</obj:cardholder>
+                <obj:token>444433LfGjXu1111</obj:token>
+                <obj:panType xsi:nil="true"/>
+            </impl:card>
+            <impl:extendedCard>
+                <obj:country>FRA</obj:country>
+                <obj:isCvd/>
+                <obj:bank>20041 - LA POSTE</obj:bank>
+                <obj:type>CB</obj:type>
+                <obj:network>CB</obj:network>
+            </impl:extendedCard>
+            <impl:contractNumber>CB</impl:contractNumber>
+            <impl:linkedTransactionId>000001387237050</impl:linkedTransactionId>
+        </impl:doAuthorizationRedirectResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

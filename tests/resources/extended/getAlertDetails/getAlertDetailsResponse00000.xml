@@ -1,0 +1,74 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <getAlertDetailsResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <AlertId>998587002</AlertId>
+            <ExplanationCode>Forbidden_Card</ExplanationCode>
+            <ExplanationLabel>La carte saisie ne peut donner lieu à un rechargement</ExplanationLabel>
+            <TransactionStatus>REFUSE</TransactionStatus>
+            <MerchantLabel>FINANCIERE TRUC BIDULE</MerchantLabel>
+            <PosLabel>NICKEL</PosLabel>
+            <TransactionId>LfgdfF0gh0dsfgdfkklgdsfgjkd08</TransactionId>
+            <SecurityLevel>CVV+3DS</SecurityLevel>
+            <TransactionDate>07/12/23 07:52</TransactionDate>
+            <TransactionAmount>1000</TransactionAmount>
+            <TransactionCurrency>978</TransactionCurrency>
+            <PaymentType>CB</PaymentType>
+            <PaymentData>5XXXXXXXXXXXXXX9</PaymentData>
+            <HolderName>HolderName YYY</HolderName>
+            <ReferenceData>fee0cfc2-sdfsdfsdfsdfsdfsd-97591ee1f2</ReferenceData>
+            <CustomerId>40000259651</CustomerId>
+            <BuyerFirstName>Raymond</BuyerFirstName>
+            <BuyerLastName>Pichon</BuyerLastName>
+            <CustomerTransHist>
+                <obj:CustomerTrans>
+                    <obj:IsLCLFAlerted>0</obj:IsLCLFAlerted>
+                    <obj:ExternalTransactionId>LF00241808565102</obj:ExternalTransactionId>
+                    <obj:ReferenceOrder>fee0cfc2-aaaaaaaaaaaaaaaaaaaaa-9e97591ee1f2</obj:ReferenceOrder>
+                    <obj:CardCode>CB 529097XXXXXXXX17</obj:CardCode>
+                    <obj:TransactionDate>07/12/23 07:52</obj:TransactionDate>
+                    <obj:Amount>20.40 EUR</obj:Amount>
+                    <obj:Status>REFUSE</obj:Status>
+                    <obj:PosLabel>NICKEL</obj:PosLabel>
+                </obj:CustomerTrans>
+            </CustomerTransHist>
+            <PaymentMeansTransHist>
+                <obj:PaymentMeansTrans>
+                    <obj:IsLCLFAlerted>0</obj:IsLCLFAlerted>
+                    <obj:ExternalTransactionId>LF00241808565102</obj:ExternalTransactionId>
+                    <obj:ReferenceOrder>fee0cfc2-ssssssssssssssss-9e97591ee1f2</obj:ReferenceOrder>
+                    <obj:CustomerData>Marcel Patulacci - 40000259651</obj:CustomerData>
+                    <obj:TransactionDate>07/12/23 07:52</obj:TransactionDate>
+                    <obj:Amount>20.40 EUR</obj:Amount>
+                    <obj:Status>REFUSE</obj:Status>
+                    <obj:PosLabel>NICKEL</obj:PosLabel>
+                </obj:PaymentMeansTrans>
+                <obj:PaymentMeansTrans>
+                    <obj:IsLCLFAlerted>0</obj:IsLCLFAlerted>
+                    <obj:ExternalTransactionId>LF00241808138911</obj:ExternalTransactionId>
+                    <obj:ReferenceOrder>e292339b-qqqqqqqqqqqqqqqqq-44a5dd739025</obj:ReferenceOrder>
+                    <obj:CustomerData>Marcel Patulacci - 40000259651</obj:CustomerData>
+                    <obj:TransactionDate>07/12/23 07:45</obj:TransactionDate>
+                    <obj:Amount>20.40 EUR</obj:Amount>
+                    <obj:Status>REFUSE</obj:Status>
+                    <obj:PosLabel>NICKEL</obj:PosLabel>
+                </obj:PaymentMeansTrans>
+            </PaymentMeansTransHist>
+            <AlertsTransHist>
+                <obj:AlertsTrans>
+                    <obj:AlertId>998587002</obj:AlertId>
+                    <obj:ExplanationLabel>La carte saisie ne peut donner lieu à un rechargement</obj:ExplanationLabel>
+                    <obj:ExplanationCode>Forbidden_Card</obj:ExplanationCode>
+                    <obj:RuleName>BlackList</obj:RuleName>
+                    <obj:RuleAction>BLOCK</obj:RuleAction>
+                    <obj:RuleCriteria>ListBinCard element is in black List</obj:RuleCriteria>
+                </obj:AlertsTrans>
+            </AlertsTransHist>
+        </getAlertDetailsResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

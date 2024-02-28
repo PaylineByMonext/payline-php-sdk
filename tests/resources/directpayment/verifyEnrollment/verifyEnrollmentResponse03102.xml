@@ -1,0 +1,20 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <verifyEnrollmentResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>03102</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction accepted - Cardholder authenticated</obj:longMessage>
+            </result>
+            <mdFieldName>MD</mdFieldName>
+            <mdFieldValue>c1ba1320-20bb-4541-b33e-f05d2212e4b4</mdFieldValue>
+            <mpiResult>Y</mpiResult>
+            <authentication3DSecure>
+                <obj:resultContainer>eyJjb250YWluZXJWZXJzaW9uIjoiMiIsImVjaSI6IjA1IiwiYXV0aGVudGljYXRpb25WYWx1ZSI6IkFBQUJYWFhYWFhYWFhYWFhYWFhYWFhYWFhYQT0iLCJlZmZlY3RpdmVBdXRoVHlwZSI6IkZSIiwiYWNzT3BlcmF0b3JJRCI6IjNEU19MT0FfQUNTX01PTURfMDIwMTAwXzAwMDYxIiwidGhyZWVEU1JlcXVlc3RvckNoYWxsZW5nZUluZCI6IjA0IiwidHJhbnNTdGF0dXMiOiJZIiwidHJhbnNTdGF0dXNSZWFzb24iOiIwMCIsImNoYWxsZW5nZUNhbmNlbEluZCI6IjAwIiwiZHNUcmFuc0lEIjoiZmI1ZGYzZGItZWQ2Yi00ZDk1LWI2YzYtYzc0MDYzYzk4ZmI5IiwiYWNzVHJhbnNJRCI6IjEyY2VmOWQ1LTg0MzEtNDk0Yi1iODMzLThkNzU0ZDA2MGY3OCIsIm1lc3NhZ2VWZXJzaW9uIjoiMi4yLjAiLCJ1c2VDYXNlIjoiMDEiLCJtZXJjaGFudE5hbWUiOiJQT1NfTlJfR1RNIiwicHVyY2hhc2VEYXRlIjoiMjAwODA1MjYxMDAwMDAiLCJwdXJjaGFzZUFtb3VudCI6IjcwMCIsImNhcmRCcmFuZCI6IlZJU0EiLCJicm93c2VySVAiOiIxMjcuMC4wLjIiLCJhY3F1aXJlckJJTiI6IjQ5Nzc2NyIsImFjcXVpcmVyTWVyY2hhbnRJRCI6Ijk3MDAwMSIsInRocmVlRFNSZXF1ZXN0b3JOYW1lIjoiUE9TX05SX0dUTSIsInRocmVlRFNSZXF1ZXN0b3JJRCI6Ijk3MDAwMSIsIm1lcmNoYW50Q291bnRyeUNvZGUiOiIyNTAifQ==</obj:resultContainer>
+            </authentication3DSecure>
+            <token>497010TySnYE5544</token>
+            <privateDataList xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:impl="http://impl.ws.payline.experian.com" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"/>
+        </verifyEnrollmentResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

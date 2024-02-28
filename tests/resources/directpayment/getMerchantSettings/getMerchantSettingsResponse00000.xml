@@ -1,0 +1,40 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <getMerchantSettingsResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>00000</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Transaction approved</obj:longMessage>
+            </result>
+            <listPointOfSell>
+                <pointOfSell>
+                    <obj:siret>77562739100755344</obj:siret>
+                    <obj:codeMcc>6300</obj:codeMcc>
+                    <obj:label>mutuelle</obj:label>
+                    <obj:webmasterEmail>comptabilite@nowhere.fr</obj:webmasterEmail>
+                    <obj:comments/>
+                    <obj:webstoreURL>https://adherent.fr</obj:webstoreURL>
+                    <obj:notificationURL/>
+                    <obj:endOfPaymentRedirection>false</obj:endOfPaymentRedirection>
+                    <obj:ticketSend>
+                        <obj:toBuyer>false</obj:toBuyer>
+                        <obj:toMerchant>false</obj:toMerchant>
+                    </obj:ticketSend>
+                    <obj:contracts>
+                        <obj:contract>
+                            <obj:cardType>CB</obj:cardType>
+                            <obj:label>VADS V2</obj:label>
+                            <obj:contractNumber>0417088</obj:contractNumber>
+                            <obj:currency>978</obj:currency>
+                            <obj:logoEnable>false</obj:logoEnable>
+                            <obj:contribution>
+                                <obj:enable>false</obj:enable>
+                            </obj:contribution>
+                        </obj:contract>
+                    </obj:contracts>
+                </pointOfSell>
+            </listPointOfSell>
+        </getMerchantSettingsResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

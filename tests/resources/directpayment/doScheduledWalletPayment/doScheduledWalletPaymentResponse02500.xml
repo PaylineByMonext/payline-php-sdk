@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <doScheduledWalletPaymentResponse xmlns="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com">
+            <result>
+                <obj:code>02500</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Operation Successfull</obj:longMessage>
+            </result>
+            <paymentRecordId>190946158</paymentRecordId>
+        </doScheduledWalletPaymentResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

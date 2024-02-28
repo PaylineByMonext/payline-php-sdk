@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:getMerchantSettingsRequest>
+            <ns1:version>99</ns1:version>
+        </ns1:getMerchantSettingsRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

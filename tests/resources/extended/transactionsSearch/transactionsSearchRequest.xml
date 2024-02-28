@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://impl.ws.payline.experian.com">
+    <SOAP-ENV:Body>
+        <ns1:transactionsSearchRequest>
+            <ns1:version>90</ns1:version>
+            <ns1:transactionId>TrsIdyyyy</ns1:transactionId>
+            <ns1:orderRef>OrderRefbbbb</ns1:orderRef>
+            <ns1:startDate>startDate XXX</ns1:startDate>
+            <ns1:endDate>endDate XXX</ns1:endDate>
+            <ns1:contractNumber>CB</ns1:contractNumber>
+            <ns1:authorizationNumber>authorizationNumber 123</ns1:authorizationNumber>
+            <ns1:returnCode>returnCode 888</ns1:returnCode>
+            <ns1:paymentMean>paymentMean XXX</ns1:paymentMean>
+            <ns1:transactionType>transactionType XXX</ns1:transactionType>
+            <ns1:name>name 6</ns1:name>
+            <ns1:firstName>name 7</ns1:firstName>
+            <ns1:email>email 8</ns1:email>
+            <ns1:cardNumber>4970100000000</ns1:cardNumber>
+            <ns1:currency>978</ns1:currency>
+            <ns1:minAmount>200</ns1:minAmount>
+            <ns1:maxAmount>4000</ns1:maxAmount>
+            <ns1:walletId>walIdp</ns1:walletId>
+            <ns1:sequenceNumber>seqNum</ns1:sequenceNumber>
+            <ns1:token>token1234567890</ns1:token>
+            <ns1:pointOfSellId>pos44</ns1:pointOfSellId>
+            <ns1:cardNetwork>CB</ns1:cardNetwork>
+            <ns1:threeDSecured>3DS</ns1:threeDSecured>
+            <ns1:customerMediaId>media8</ns1:customerMediaId>
+        </ns1:transactionsSearchRequest>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

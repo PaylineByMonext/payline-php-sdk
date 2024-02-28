@@ -1,0 +1,50 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <impl:getWalletResponse xmlns:impl="http://impl.ws.payline.experian.com" xmlns:obj="http://obj.ws.payline.experian.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <impl:result>
+                <obj:code>02500</obj:code>
+                <obj:shortMessage>ACCEPTED</obj:shortMessage>
+                <obj:longMessage>Operation Successfull</obj:longMessage>
+            </impl:result>
+            <impl:wallet>
+                <obj:walletId>NR_RDC_WALLET_059095650</obj:walletId>
+                <obj:lastName>butet</obj:lastName>
+                <obj:firstName>mickael</obj:firstName>
+                <obj:email/>
+                <obj:shippingAddress>
+                    <obj:name/>
+                    <obj:street1/>
+                    <obj:street2/>
+                    <obj:cityName/>
+                    <obj:zipCode/>
+                    <obj:country/>
+                    <obj:phone/>
+                </obj:shippingAddress>
+                <obj:card>
+                    <obj:number>1XXXXXXXXXXXX4444</obj:number>
+                    <obj:type>CB</obj:type>
+                    <obj:expirationDate>0628</obj:expirationDate>
+                    <obj:cvx/>
+                    <obj:ownerBirthdayDate>091080</obj:ownerBirthdayDate>
+                    <obj:password/>
+                    <obj:cardholder>TEST</obj:cardholder>
+                    <obj:token>11sdfsdfggghgfh44</obj:token>
+                </obj:card>
+                <obj:comment/>
+                <obj:default>Y</obj:default>
+                <obj:cardBrand xsi:nil="true"/>
+            </impl:wallet>
+            <impl:isDisabled>0</impl:isDisabled>
+            <impl:disableDate xsi:nil="true"/>
+            <impl:privateDataList/>
+            <impl:extendedCard>
+                <obj:type>CB</obj:type>
+                <obj:network>CB</obj:network>
+            </impl:extendedCard>
+            <impl:contractNumberWalletList>
+                <obj:contractNumberWallet>CB</obj:contractNumberWallet>
+            </impl:contractNumberWalletList>
+        </impl:getWalletResponse>
+    </soapenv:Body>
+</soapenv:Envelope>
