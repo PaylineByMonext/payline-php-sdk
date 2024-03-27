@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Payline\Cache;
 
 interface CacheInterface
 {
-    const CACHE_KEY = 'payline_sdk_services_urls';
+    public const CACHE_KEY = 'payline_sdk_services_urls';
 
     /**
      * @return bool
      */
-    public function isAvailable();
+    public function isAvailable(): bool;
 
 
     /**
      * @return bool
      */
-    public function hasServicesEndpoints();
+    public function hasServicesEndpoints(): bool;
 
 
     /**
@@ -28,5 +30,5 @@ interface CacheInterface
      * @param int $ttl
      * @return bool
      */
-    public function saveServicesEndpoints(array $endpoints, $ttl);
+    public function saveServicesEndpoints(array $endpoints, $ttl): bool;
 }
