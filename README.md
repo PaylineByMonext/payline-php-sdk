@@ -5,51 +5,10 @@
 PaylineSDK - Payline library for PHP
 ====================================
 
-Installation
------
+We are excited to announce that our GitHub repository has been rebranded from Payline to Monext. This change reflects the broader range of payment solutions and services we now offer under the Monext name.
 
-Use composer to install the monext package
-```shell
-composer require monext/payline-sdk
-````
+Monext continues to provide innovative and secure payment solutions for businesses of all sizes. Through this repository, you'll find our latest tools, plugins, and API documentation, enabling seamless integration with our platforms.
 
-To update the package
-```shell
-composer require monext/payline-sdk
-````
+Feel free to explore, contribute, and stay updated on our latest developments. Thank you for being part of the journey!
 
-In order to install a specific version x.xx you can execute
-```shell
-composer require monext/payline-sdk:x.xx
-````
-
-Usage
------
-
-See sample code [here](doc/usage.md)
-
-Docs
------
-
-More information available on
-- https://docs.payline.com/display/DT/PHP+SDK
-- http://support.payline.com
-
-Prerequisites
------
-
-Compliant with PHP 5.6, 7.0, 7.1, 7.2, 7.3, 7.4, 8.0, 8.1, 8.2
-
-Requires monolog/monolog and symfony/cache, just let Composer do the job
-
-In order to make http call for failover, ext-curl is mark has required, it can be commented if you disable failover or set allow_url_fopen to true in php.ini (in order to use file_get_contents)
-
-Author
-------
-
-Payline support - <support@payline.com>
-
-License
--------
-
-Payline is licensed under the LGPL-3.0+ License - see the LICENSE file for details
+Follow : https://github.com/Monext/monext-php-sdk
